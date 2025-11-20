@@ -8,6 +8,7 @@ import com.arch.micro_service.auth_server.shared.domain.exception.BaseException;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Abstract class for all crud service for entites to reduce
@@ -63,8 +64,28 @@ public abstract class AbstractCrudService<ENTITY extends SoftDelete, EXCEPTION e
   /**
    * Save all the entity
    */
+  @Transactional
   public List<ENTITY> saveAll(List<ENTITY> entities) {
     return repository.saveAll(entities);
+  }
+
+  /**
+   * Soft delete the entity
+   */
+  public ENTITY delete(ENTITY entity) {
+    entity.softDelete();
+    return save(entity);
+  }
+
+  /**
+   * Soft delete the All entity
+   */
+  @Transactional
+  public List<ENTITY> deleteAll(List<ENTITY> entities) {
+    for (ENTITY entity : entities) {
+      entity.softDelete();
+    }
+    return saveAll(entities);
   }
 
   /**

@@ -2,10 +2,8 @@ package com.arch.micro_service.auth_server.user.domain.entity;
 
 import com.arch.micro_service.auth_server.shared.domain.constant.Gender;
 import com.arch.micro_service.auth_server.shared.domain.entity.BasedEntity;
-import com.arch.micro_service.auth_server.shared.domain.entity.NamedEntity;
 import com.arch.micro_service.auth_server.user.domain.vo.Email;
 import com.arch.micro_service.auth_server.user.domain.vo.Password;
-import com.arch.micro_service.auth_server.user.domain.vo.PhoneNumber;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -54,29 +52,34 @@ public class User extends BasedEntity {
   private Email email;
 
   /**
-   * Phone Number value object
-   */
-  @Embedded
-  private PhoneNumber phoneNumber;
-
-  /**
    * User gender
    */
   @Column(name = "gender", nullable = false, unique = false)
   @Enumerated(EnumType.STRING)
   private Gender gender;
+  /**
+   * User role
+   */
+  @Column(name = "role", nullable = false)
+  private String role;
 
   /**
-   * Is account enabled
+   * Is account not Expired
    */
-  @Column(name = "enabled")
-  private boolean enabled;
+  @Column(name = "account_non_expired")
+  private boolean accountNonExpired;
 
   /**
    * Is account not locked
    */
   @Column(name = "account_non_locked")
   private boolean accountNonLocked;
+
+  /**
+   * Is account enabled
+   */
+  @Column(name = "enabled")
+  private boolean enabled;
 
   /**
    * do user have password

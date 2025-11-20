@@ -1,4 +1,4 @@
-package com.arch.micro_service.auth_server.shared.infrastructure.dto;
+package com.arch.micro_service.auth_server.shared.infrastructure.dto.api;
 
 import java.time.LocalDateTime;
 
