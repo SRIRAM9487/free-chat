@@ -62,11 +62,6 @@ public class User extends BasedEntity {
   @Column(name = "gender", nullable = false, unique = false)
   @Enumerated(EnumType.STRING)
   private Gender gender;
-  /**
-   * User role
-   */
-  @Column(name = "role", nullable = false)
-  private String role;
 
   /**
    * Is account not Expired
