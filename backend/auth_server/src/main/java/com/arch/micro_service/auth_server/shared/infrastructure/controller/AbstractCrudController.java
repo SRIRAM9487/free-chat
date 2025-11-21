@@ -6,16 +6,18 @@ import com.arch.micro_service.auth_server.shared.infrastructure.dto.api.ApiRespo
 import com.arch.micro_service.auth_server.shared.infrastructure.dto.request.AbstractCreateRequest;
 import com.arch.micro_service.auth_server.shared.infrastructure.dto.response.AbstractDetailResponse;
 
-public interface AbstractCrudController<REQUEST extends AbstractCreateRequest> {
+import org.springframework.http.ResponseEntity;
 
-  ApiResponse<List<AbstractDetailResponse>> getAll();
+public interface AbstractCrudController<REQUEST extends AbstractCreateRequest, RESPONSE extends AbstractDetailResponse> {
 
-  ApiResponse<AbstractDetailResponse> get(String id);
+  ResponseEntity<ApiResponse<List<RESPONSE>>> getAll();
 
-  ApiResponse<String> create(REQUEST request);
+  ResponseEntity<ApiResponse<RESPONSE>> get(String id);
 
-  ApiResponse<String> update(String id, REQUEST request);
+  ResponseEntity<ApiResponse<String>> create(REQUEST request);
 
-  ApiResponse<String> create(String id);
+  ResponseEntity<ApiResponse<String>> update(String id, REQUEST request);
+
+  ResponseEntity<ApiResponse<String>> delete(String id);
 
 }

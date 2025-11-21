@@ -38,6 +38,22 @@ public abstract class AbstractCrudService<ENTITY extends SoftDelete, EXCEPTION e
   };
 
   /**
+   * find All entity By Id
+   */
+  public List<ENTITY> findAllById(List<UUID> ids) {
+
+    List<ENTITY> entities = repository
+        .findAllById(ids)
+        .stream()
+        .filter(e -> !e.isDeleted())
+        .toList();
+
+    if (entities == null)
+      throw notFound();
+    return entities;
+  };
+
+  /**
    * find by UUID id
    */
   public ENTITY findById(UUID id) {

@@ -6,6 +6,6 @@ public class CorsConstant {
 
   public static String[] ALLOWED_HEADERS = { "*" };
 
-  public static String[] ALLOWED_ORIGINS = { "*" };
+  public static String[] ALLOWED_ORIGINS = { "http://localhost:3000", "http://localhost:5173" };
 
 }

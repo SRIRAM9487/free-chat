@@ -4,17 +4,15 @@ import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
 
 /**
  * For spring securiy User principal
  * 
  * @author SRIRAM
  */
-@Service
 public class UserImpl implements UserDetails {
 
-  private final User user;
+  private User user;
 
   public UserImpl(User user) {
     this.user = user;
@@ -22,8 +20,7 @@ public class UserImpl implements UserDetails {
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getAuthorities'");
+    return null;
   }
 
   @Override

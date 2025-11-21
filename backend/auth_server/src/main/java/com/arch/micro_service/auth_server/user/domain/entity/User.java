@@ -1,5 +1,9 @@
 package com.arch.micro_service.auth_server.user.domain.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import com.arch.micro_service.auth_server.role.domain.etntiy.Role;
 import com.arch.micro_service.auth_server.shared.domain.constant.Gender;
 import com.arch.micro_service.auth_server.shared.domain.entity.BasedEntity;
 import com.arch.micro_service.auth_server.user.domain.vo.Email;
@@ -10,6 +14,7 @@ import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -80,6 +85,10 @@ public class User extends BasedEntity {
    */
   @Column(name = "enabled")
   private boolean enabled;
+
+  @ManyToMany(mappedBy = "users")
+  @Builder.Default
+  private Set<Role> roles = new HashSet<>();
 
   /**
    * do user have password

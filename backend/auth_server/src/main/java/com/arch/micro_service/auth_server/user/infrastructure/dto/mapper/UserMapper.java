@@ -4,6 +4,9 @@ import com.arch.micro_service.auth_server.user.domain.entity.User;
 import com.arch.micro_service.auth_server.user.infrastructure.dto.request.UserCreateRequest;
 import com.arch.micro_service.auth_server.user.infrastructure.dto.response.UserDetailResponse;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class UserMapper {
 
   public UserDetailResponse fromUser(User user) {
