@@ -1,18 +1,19 @@
 package com.arch.micro_service.auth_server.user.infrastructure.dto.response;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.arch.micro_service.auth_server.shared.infrastructure.dto.response.AbstractDetailResponse;
 
 public record UserDetailResponse(
-    String id,
+    UUID id,
     String name,
     String userName,
     String email,
-    String emailVerified,
+    boolean emailVerified,
     String gender,
-    List<String> roles,
-    String isAccountLocked,
-    String isAccountExpired,
-    String isEnabled) implements AbstractDetailResponse {
+    boolean accountNonExpired,
+    boolean accountNonLocked,
+    boolean enabled,
+    List<String> roles) implements AbstractDetailResponse {
 }

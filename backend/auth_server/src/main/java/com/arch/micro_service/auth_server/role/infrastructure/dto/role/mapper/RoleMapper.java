@@ -17,6 +17,7 @@ public class RoleMapper {
   private RolePermissionDetailResponse fromRolePermission(RolePermission permission) {
     return new RolePermissionDetailResponse(
         permission.getId(),
+        permission.getPermission().getId().toString(),
         permission.getPermission().getTitle(),
         permission.isActive(),
         permission.isActiveStatus());

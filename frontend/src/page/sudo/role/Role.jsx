@@ -1,68 +1,90 @@
 import { useContext, useEffect, useState } from "react";
 import { Button, Space } from "antd";
+import EditBtn from "../../../component/btns/EditBtn";
+import Viewbtn from "../../../component/btns/Viewbtn";
+import Deletebtn from "../../../component/btns/Deletebtn";
+import CreateRole from "./CreateRole";
 import CustomTable from "../../../component/CustomTable";
-import InputField from "../../../component/InputField";
+import CustomDialogBox from "../../../component/CustomDialogBox";
 import CustomToggleBtn from "../../../component/CustomToggleBtn";
 import { NotificationContext } from "../../../context/NotificationContext";
 import { getService } from "../../../script/getService";
-import { postService } from "../../../script/postService";
 import { patchService } from "../../../script/patchService";
-import CustomToggleBox from "../../../component/CustomToggleBox";
+import { deleteService } from "../../../script/deleteService";
 
 function Role() {
   const { showError, showSuccess } = useContext(NotificationContext);
-  const [permissionList, setPermissionList] = useState([]);
-  const [title, setTitle] = useState("");
+  const [roleList, setRoleList] = useState([]);
+  const [editRecord, setEditRecord] = useState(false);
+  const [view, setView] = useState(false);
+  const [isModelOpen, setIsModelOpen] = useState(false);
+  const [isDeleteBoxOpen, setIsDeleteBoxOpen] = useState(false);
 
-  const fetchPermisison = async () => {
+  const fetchRole = async () => {
     try {
       const response = await getService("v1/role");
-      // console.log(response);
-      setPermissionList(response.data);
+      setRoleList(response.data);
     } catch (error) {
       showError("Network error");
     }
   };
 
   useEffect(() => {
-    fetchPermisison();
+    fetchRole();
   }, []);
 
   const handleToggleBtn = async (record) => {
     try {
-      const payload = {
-        title: record.title,
-        active: !record.active,
-      };
-      // console.log("UPDATE: ", payload);
-      const response = await patchService(
-        `v1/permission/update/${record.id}`,
-        payload,
-      );
-      // console.log("SUCCESS: ", response);
+      const response = await patchService(`v1/role/toggle/${record.id}`);
       showSuccess(response.data, 800);
-      setTitle("");
-      fetchPermisison();
+      fetchRole();
     } catch (error) {
       showError("Toggle failed");
     }
   };
+  const handleEditBtn = (record) => {
+    setEditRecord(record);
+    setIsModelOpen(true);
+  };
 
-  const handleCreateBtn = async () => {
+  const handleViewBtn = (record) => {
+    setEditRecord(record);
+    setIsModelOpen(true);
+    setView(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModelOpen(false);
+    fetchRole();
+    setEditRecord(null);
+    setView(false);
+  };
+
+  const handlDeleteBtn = (record) => {
+    setIsDeleteBoxOpen(true);
+    setEditRecord(record);
+  };
+
+  const handleDeleteBoxClose = () => {
+    setEditRecord(null);
+    setIsDeleteBoxOpen(false);
+  };
+
+  const handleDeleteBoxConfirm = async () => {
     try {
-      //const response = await postService("v1/permission/create", payload);
-      //showSuccess(response.data);
-      setTitle("");
-      fetchPermisison();
+      const response = await deleteService(`v1/role/${editRecord.id}`);
+      showSuccess(response.data);
+      fetchRole();
     } catch (error) {
-      showError("Creation failed");
+      showError("Failed");
+    } finally {
+      handleDeleteBoxClose();
     }
   };
 
-  const handlCancelBtn = () => {
-    setTitle("");
+  const handleCreateBtn = async () => {
+    setIsModelOpen(true);
   };
-
   const columns = [
     {
       title: "S.No",
@@ -75,13 +97,26 @@ function Role() {
       dataIndex: "title",
       key: "title",
       align: "center",
-      sorter: (a, b) => a.title.localeCompare(b.title), // <- FIX
+      sorter: (a, b) => a.title.localeCompare(b.title),
     },
     {
-      title: "Actions",
-      key: "actions",
+      title: "Action",
+      key: "action",
       width: 120,
-      align: "right",
+      align: "center",
+      render: (_, record) => (
+        <div className="flex justify-around ">
+          <Deletebtn onClick={() => handlDeleteBtn(record)} />
+          <EditBtn onClick={() => handleEditBtn(record)} />
+          <Viewbtn onClick={() => handleViewBtn(record)} />
+        </div>
+      ),
+    },
+    {
+      title: "Active",
+      key: "active",
+      width: 120,
+      align: "center",
       render: (_, record) => (
         <Space>
           <CustomToggleBtn
@@ -96,37 +131,34 @@ function Role() {
   return (
     <div>
       <div className="flex justify-end mb-2 border border-gray-100 p-1">
-        <Space>
-          <InputField
-            placeholder="Permission"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            size="mid"
-          />
+        <CreateRole
+          isModelOpen={isModelOpen}
+          editRecord={editRecord}
+          handleModalClose={handleModalClose}
+          view={view}
+        />
 
+        <CustomDialogBox
+          open={isDeleteBoxOpen}
+          onCancel={handleDeleteBoxClose}
+          onConfirm={handleDeleteBoxConfirm}
+        />
+
+        <Space>
           <Button
             type="button"
             color="primary"
-            variant="outlined"
+            variant="solid"
             onClick={handleCreateBtn}
+            className="!rounded !px-6 !py-2.5"
           >
             Create
           </Button>
-
-          <Button
-            type="button"
-            color="red"
-            variant="outlined"
-            onClick={handlCancelBtn}
-          >
-            Cancel
-          </Button>
-          <CustomToggleBox />
         </Space>
       </div>
 
       <div className="flex justify-end mb-4 p-1">
-        <CustomTable data={permissionList} columns={columns} />
+        <CustomTable data={roleList} columns={columns} />
       </div>
     </div>
   );

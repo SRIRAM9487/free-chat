@@ -16,13 +16,9 @@ public class PermissionDeleteUseCase {
   private final PermissionService permissionService;
 
   public String delete(String id) {
-
     log.trace("Deleting permission");
-
     permissionService.deleteById(id);
-
     log.trace("Permission Deleted");
-
     return PermissionConstant.DELETE;
   }
 }

@@ -4,6 +4,9 @@ import com.arch.micro_service.auth_server.role.domain.exception.type.PermissionE
 import com.arch.micro_service.auth_server.shared.domain.exception.BaseException;
 import com.arch.micro_service.auth_server.shared.domain.exception.BaseExceptionType;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class PermissionException extends BaseException {
 
   public PermissionException(BaseExceptionType type) {
@@ -11,6 +14,7 @@ public class PermissionException extends BaseException {
   }
 
   public static PermissionException notFound() {
+    log.trace("Permission  not found");
     return new PermissionException(PermissionExceptionType.PERMISSION_NOT_FOUND);
   }
 

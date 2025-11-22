@@ -7,7 +7,10 @@ import com.arch.micro_service.auth_server.shared.application.service.AbstractCru
 
 import org.springframework.stereotype.Service;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class PermissionService extends AbstractCrudService<Permission, PermissionException> {
 
   private final PermissionRepository permissionRepository;

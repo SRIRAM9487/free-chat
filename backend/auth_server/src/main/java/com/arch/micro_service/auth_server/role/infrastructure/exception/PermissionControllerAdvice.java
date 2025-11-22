@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestControllerAdvice
-public class PermissionController {
+public class PermissionControllerAdvice {
 
   @ExceptionHandler(PermissionException.class)
   public ResponseEntity<ApiException> handlePermissionException(PermissionException exception,

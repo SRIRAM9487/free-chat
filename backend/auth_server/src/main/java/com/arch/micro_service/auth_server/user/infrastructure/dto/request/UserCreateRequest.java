@@ -11,5 +11,8 @@ public record UserCreateRequest(
     String password,
     String email,
     String gender,
+    boolean accountNonExpired,
+    boolean accountNonLocked,
+    boolean enabled,
     List<UUID> roles) implements AbstractCreateRequest {
 }

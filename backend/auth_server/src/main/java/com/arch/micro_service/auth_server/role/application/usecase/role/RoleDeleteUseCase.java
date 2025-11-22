@@ -16,9 +16,9 @@ public class RoleDeleteUseCase {
   private final RoleService roleService;
 
   public String delete(String id) {
-
+    log.trace("Attempting to delete role with id: {}", id);
     roleService.deleteById(id);
-
+    log.info("Successfully deleted role with id: {}", id);
     return RoleConstant.DELETE;
   }
 }

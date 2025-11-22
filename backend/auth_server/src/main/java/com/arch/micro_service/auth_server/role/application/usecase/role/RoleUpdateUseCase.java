@@ -29,24 +29,32 @@ public class RoleUpdateUseCase {
   private final PermissionService permissionService;
 
   public String update(String id, RoleCreateRequest createRequest) {
-
     Role role = roleService.findById(id);
-
     roleMapper.updateRole(role, createRequest);
 
     List<RolePermission> rolePermissions = new ArrayList<>();
-
     for (RolePermissionCreateRequest createPermission : createRequest.rolePermissions()) {
       Permission permission = permissionService.findById(createPermission.permissionId());
-      RolePermission newPermisison = roleMapper.toRolePermission(createPermission);
-      newPermisison.setPermission(permission);
-      rolePermissions.add(newPermisison);
+      RolePermission newPermission = roleMapper.toRolePermission(createPermission);
+      newPermission.setPermission(permission);
+      newPermission.setRole(role);
+
+      rolePermissions.add(newPermission);
     }
-    role.setRolePermissions(rolePermissions);
+
+    role.getRolePermissions().clear();
+    role.getRolePermissions().addAll(rolePermissions);
 
     roleService.save(role);
-
+    log.info("Updated role {} with {} permissions", id, rolePermissions.size());
     return RoleConstant.UPDATE;
   }
 
+  public String toggleActive(String id) {
+    Role role = roleService.findById(id);
+    role.toggleActive();
+    roleService.save(role);
+    return role.getTitle() + " Role " + (role.isActive() ? " UnLocked" : "Lock");
+
+  }
 }

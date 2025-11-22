@@ -32,6 +32,7 @@ import lombok.ToString;
 @Setter
 @Table(name = "roles")
 @ToString
+
 public class Role extends IdEntity {
 
   @Column(name = "title", nullable = false, unique = true)
@@ -40,7 +41,7 @@ public class Role extends IdEntity {
   @Column(name = "active", nullable = false)
   private boolean active;
 
-  @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
   @Builder.Default
   @ToString.Exclude
   private List<RolePermission> rolePermissions = new ArrayList<>();
@@ -51,4 +52,7 @@ public class Role extends IdEntity {
   @ToString.Exclude
   private Set<User> users = new HashSet<>();
 
+  public void toggleActive() {
+    this.active = !this.active;
+  }
 }

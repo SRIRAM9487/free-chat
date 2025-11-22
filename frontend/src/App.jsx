@@ -5,6 +5,7 @@ import AuthenticatedLayout from "./layout/auth/AuthenticatedLayout";
 import Dashboard from "./page/common/Dashboard";
 import Permission from "./page/sudo/permisison/Permission";
 import Role from "./page/sudo/role/Role";
+import User from "./page/sudo/user/User";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/role" element={<Role />} />
           <Route path="/permission" element={<Permission />} />
+          <Route path="/user" element={<User />} />
         </Route>
       </Routes>
     </Router>

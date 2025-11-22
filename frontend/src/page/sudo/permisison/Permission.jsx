@@ -78,7 +78,7 @@ function Permission() {
       dataIndex: "title",
       key: "title",
       align: "center",
-      sorter: (a, b) => a.title.localeCompare(b.title), // <- FIX
+      sorter: (a, b) => a.title.localeCompare(b.title),
     },
     {
       title: "Actions",

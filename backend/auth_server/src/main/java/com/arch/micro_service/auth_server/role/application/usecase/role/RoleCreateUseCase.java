@@ -27,18 +27,12 @@ public class RoleCreateUseCase {
   private final PermissionService permissionService;
 
   public String create(RoleCreateRequest createRequest) {
-
     log.info("Creating role: {}", createRequest.title());
-
     Role role = roleMapper.toRole(createRequest);
     log.trace("Mapped Role entity: {}", role);
-
     List<RolePermission> rolePermissions = new ArrayList<>();
-
     for (var rolePermissionRequest : createRequest.rolePermissions()) {
-
       Permission permission = permissionService.findById(rolePermissionRequest.permissionId());
-
       RolePermission rolePermission = RolePermission
           .builder()
           .active(rolePermissionRequest.active())
@@ -46,17 +40,12 @@ public class RoleCreateUseCase {
           .role(role)
           .permission(permission)
           .build();
-
       rolePermissions.add(rolePermission);
     }
-
     role.setRolePermissions(rolePermissions);
-
     log.trace("Final role entity before save: {}", role);
     roleService.save(role);
-
     log.info("Role created successfully: {}", createRequest.title());
-
     return RoleConstant.CREATE;
   }
 

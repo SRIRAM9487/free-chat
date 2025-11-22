@@ -1,6 +1,12 @@
 package com.arch.micro_service.auth_server.user.infrastructure.dto.mapper;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.arch.micro_service.auth_server.role.domain.etntiy.Role;
+import com.arch.micro_service.auth_server.shared.domain.constant.Gender;
 import com.arch.micro_service.auth_server.user.domain.entity.User;
+import com.arch.micro_service.auth_server.user.domain.vo.Email;
 import com.arch.micro_service.auth_server.user.infrastructure.dto.request.UserCreateRequest;
 import com.arch.micro_service.auth_server.user.infrastructure.dto.response.UserDetailResponse;
 
@@ -10,13 +16,60 @@ import org.springframework.stereotype.Component;
 public class UserMapper {
 
   public UserDetailResponse fromUser(User user) {
-    return new UserDetailResponse();
+    List<String> roles = new ArrayList<>();
+    for (Role role : user.getRoles()) {
+      roles.add(role.getTitle());
+    }
+    return new UserDetailResponse(
+        user.getId(),
+        user.getName(),
+        user.getUserName(),
+        user.getEmail().value(),
+        user.getEmail().emailVerified(),
+        user.getGender().name(),
+        user.isAccountNonExpired(),
+        user.isAccountNonLocked(),
+        user.isEnabled(),
+        roles);
   }
 
   public void update(User user, UserCreateRequest requestDto) {
+
+    if (requestDto.name() != null) {
+      user.setName(requestDto.name());
+    }
+
+    if (requestDto.userName() != null) {
+      user.setUserName(requestDto.userName());
+    }
+
+    if (requestDto.email() != null) {
+      user.setEmail(Email.create(requestDto.email()));
+    }
+
+    if (requestDto.gender() != null) {
+      user.setGender(Gender.valueOf(requestDto.gender()));
+    }
+
+    user.setAccountNonExpired(requestDto.accountNonExpired());
+
+    user.setAccountNonLocked(requestDto.accountNonLocked());
+
+    user.setEnabled(requestDto.enabled());
   }
 
   public User toUser(UserCreateRequest requestDto) {
-    return new User();
+    User user = User
+        .builder()
+        .userName(requestDto.userName())
+        .email(Email.create(requestDto.email()))
+        .gender(Gender.valueOf(requestDto.gender()))
+        .accountNonExpired(requestDto.accountNonExpired())
+        .accountNonLocked(requestDto.accountNonLocked())
+        .enabled(requestDto.enabled())
+        .build();
+    user.setName(requestDto.name());
+    return user;
   }
+
 }
