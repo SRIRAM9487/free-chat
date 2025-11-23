@@ -3,17 +3,17 @@ package com.arch.micro_service.auth_server.shared.application.init;
 import java.util.List;
 import java.util.UUID;
 
-import com.arch.micro_service.auth_server.role.application.service.PermissionService;
-import com.arch.micro_service.auth_server.role.application.service.RoleService;
-import com.arch.micro_service.auth_server.role.application.usecase.permission.PermissionCreateUseCase;
-import com.arch.micro_service.auth_server.role.application.usecase.role.RoleCreateUseCase;
+import com.arch.micro_service.auth_server.role.application.service.permission.PermissionCrudService;
+import com.arch.micro_service.auth_server.role.application.service.role.RoleCrudService;
 import com.arch.micro_service.auth_server.role.domain.etntiy.Permission;
 import com.arch.micro_service.auth_server.role.infrastructure.dto.permission.request.PermissionCreateRequest;
 import com.arch.micro_service.auth_server.role.infrastructure.dto.role.request.RoleCreateRequest;
 import com.arch.micro_service.auth_server.role.infrastructure.dto.role.request.RolePermissionCreateRequest;
-import com.arch.micro_service.auth_server.user.application.service.UserService;
-import com.arch.micro_service.auth_server.user.application.usecase.UserCreateUseCase;
+import com.arch.micro_service.auth_server.role.infrastructure.persistence.PermissionRepository;
+import com.arch.micro_service.auth_server.role.infrastructure.persistence.RoleRepository;
+import com.arch.micro_service.auth_server.user.application.service.UserCrudService;
 import com.arch.micro_service.auth_server.user.infrastructure.dto.request.UserCreateRequest;
+import com.arch.micro_service.auth_server.user.infrastructure.persistence.UserRepository;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -26,25 +26,25 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DataInitializer implements CommandLineRunner {
 
-  private final PermissionService permissionService;
-  private final PermissionCreateUseCase permissionCreateUseCase;
+  private final PermissionRepository permissionRepository;
+  private final PermissionCrudService permissionCrudService;
 
-  private final RoleService roleService;
-  private final RoleCreateUseCase roleCreateUseCase;
+  private final RoleRepository roleRepository;
+  private final RoleCrudService roleCrudService;
 
-  private final UserService userService;
-  private final UserCreateUseCase userCreateUseCase;
+  private final UserRepository userRepository;
+  private final UserCrudService userCrudService;
 
   @Override
   public void run(String... args) throws Exception {
 
-    if (permissionService.count() == 0)
+    if (permissionRepository.count() == 0)
       createPermission();
 
-    if (roleService.count() == 0)
+    if (roleRepository.count() == 0)
       createRole();
 
-    if (userService.count() == 0)
+    if (userRepository.count() == 0)
       createUser();
   }
 
@@ -56,7 +56,7 @@ public class DataInitializer implements CommandLineRunner {
         PermissionCreateRequest.testPermission("User"));
 
     for (var permissionCreateRequest : permissionCreateRequests) {
-      permissionCreateUseCase.create(permissionCreateRequest);
+      permissionCrudService.create(permissionCreateRequest);
     }
     System.out.println("Permission created");
 
@@ -64,7 +64,7 @@ public class DataInitializer implements CommandLineRunner {
 
   public void createRole() {
 
-    List<Permission> permissions = permissionService.findAll();
+    List<Permission> permissions = permissionRepository.findAll();
 
     List<RolePermissionCreateRequest> admin = permissions
         .stream()
@@ -87,7 +87,7 @@ public class DataInitializer implements CommandLineRunner {
         new RoleCreateRequest("Customer", true, customer));
 
     for (var roleCreateRequest : roleCreateRequests) {
-      roleCreateUseCase.create(roleCreateRequest);
+      roleCrudService.create(roleCreateRequest);
     }
 
     System.out.println("Role created");
@@ -97,7 +97,7 @@ public class DataInitializer implements CommandLineRunner {
   public void createUser() {
     log.trace("Starting default test user creation...");
 
-    var roles = roleService.findAll();
+    var roles = roleRepository.findAll();
     var adminRole = roles.stream().filter(r -> r.getTitle().equalsIgnoreCase("Admin")).findFirst().orElse(null);
     var managerRole = roles.stream().filter(r -> r.getTitle().equalsIgnoreCase("Manager")).findFirst().orElse(null);
     var customerRole = roles.stream().filter(r -> r.getTitle().equalsIgnoreCase("Customer")).findFirst().orElse(null);
@@ -131,7 +131,7 @@ public class DataInitializer implements CommandLineRunner {
           true,
           roleIds);
 
-      userCreateUseCase.create(userRequest);
+      userCrudService.create(userRequest);
       log.info("Created test user '{}'", username);
     }
 

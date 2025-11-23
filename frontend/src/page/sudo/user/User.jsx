@@ -71,7 +71,7 @@ function User() {
   return (
     <div>
       <div className="flex justify-end mb-2 border border-gray-100 p-2">
-        <CreateUser isModelOpen={true} />
+        <CreateUser isModelOpen={false} />
 
         <div>
           <Space>

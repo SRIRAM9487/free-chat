@@ -2,6 +2,8 @@ package com.arch.micro_service.auth_server.shared.domain.exception;
 
 import java.time.LocalDateTime;
 
+import org.springframework.http.HttpStatus;
+
 import lombok.Getter;
 
 /*
@@ -21,16 +23,22 @@ public abstract class BaseException extends RuntimeException {
    */
   private final String code;
 
+  /*
+   * HttpStatus code
+   */
+  private final HttpStatus httpStatus;
+
   /**
    * Base constructor
    * 
    * @param message exception detail
    * @param code    exception code
    */
-  public BaseException(String message, String code) {
+  public BaseException(String message, String code, HttpStatus httpStatus) {
     super(message);
     this.code = code;
     this.exceptionTime = LocalDateTime.now();
+    this.httpStatus = httpStatus;
   }
 
   /**
@@ -43,6 +51,7 @@ public abstract class BaseException extends RuntimeException {
     super(type.getMessage());
     this.code = type.name();
     this.exceptionTime = LocalDateTime.now();
+    this.httpStatus = type.getHttpStatus();
   }
 
 }

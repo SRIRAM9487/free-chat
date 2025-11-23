@@ -11,7 +11,7 @@ import com.arch.micro_service.auth_server.user.domain.exception.type.PhoneNumber
 public class PhoneNumberException extends BaseException {
 
   public PhoneNumberException(PhoneNumberExceptionType type) {
-    super(type.getMessage(), type.name());
+    super(type);
   }
 
   public static PhoneNumberException empty() {

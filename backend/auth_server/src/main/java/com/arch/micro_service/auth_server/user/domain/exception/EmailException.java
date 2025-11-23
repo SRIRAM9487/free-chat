@@ -11,7 +11,7 @@ import com.arch.micro_service.auth_server.user.domain.exception.type.EmailExcept
 public class EmailException extends BaseException {
 
   public EmailException(EmailExceptionType type) {
-    super(type.getMessage(), type.name());
+    super(type);
   }
 
   public static EmailException empty() {

@@ -12,7 +12,7 @@ import com.arch.micro_service.auth_server.user.domain.exception.type.UserExcepti
 public class UserException extends BaseException {
 
   public UserException(UserExceptionType type) {
-    super(type.getMessage(), type.name());
+    super(type);
   }
 
   public static UserException notFound() {

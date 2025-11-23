@@ -11,7 +11,7 @@ import com.arch.micro_service.auth_server.user.domain.exception.type.PasswordExc
 public class PasswordException extends BaseException {
 
   public PasswordException(PasswordExceptionType type) {
-    super(type.getMessage(), type.name());
+    super(type);
   }
 
   public static PasswordException empty() {

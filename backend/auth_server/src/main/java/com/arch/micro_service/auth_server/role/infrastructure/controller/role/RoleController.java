@@ -1,6 +1,6 @@
 package com.arch.micro_service.auth_server.role.infrastructure.controller.role;
 
-import com.arch.micro_service.auth_server.role.application.usecase.role.RoleUpdateUseCase;
+import com.arch.micro_service.auth_server.role.application.service.role.RoleService;
 import com.arch.micro_service.auth_server.shared.infrastructure.dto.api.ApiResponse;
 
 import org.springframework.http.ResponseEntity;
@@ -16,11 +16,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class RoleController {
 
-  private final RoleUpdateUseCase updateUseCase;
+  private final RoleService service;
 
   @PatchMapping("/toggle/{id}")
   public ResponseEntity<ApiResponse<String>> toggleStatus(@PathVariable("id") String id) {
-    var response = ApiResponse.create(updateUseCase.toggleActive(id));
+    var response = ApiResponse.create(service.toggleActive(id));
     return ResponseEntity.ok(response);
   }
 }

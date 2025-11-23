@@ -13,7 +13,7 @@ public class PermissionException extends BaseException {
     super(type);
   }
 
-  public static PermissionException notFound() {
+  public static PermissionException notFound(String id) {
     log.trace("Permission  not found");
     return new PermissionException(PermissionExceptionType.PERMISSION_NOT_FOUND);
   }
