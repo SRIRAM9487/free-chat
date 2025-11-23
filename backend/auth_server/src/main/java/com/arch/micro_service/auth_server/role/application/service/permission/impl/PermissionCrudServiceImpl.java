@@ -12,6 +12,7 @@ import com.arch.micro_service.auth_server.role.infrastructure.dto.permission.res
 import com.arch.micro_service.auth_server.role.infrastructure.persistence.PermissionRepository;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class PermissionCrudServiceImpl implements PermissionCrudService {
 
   private final PermissionRepository permissionRepository;
@@ -30,7 +32,7 @@ public class PermissionCrudServiceImpl implements PermissionCrudService {
     var permissions = permissionRepository
         .findAll()
         .stream()
-        .filter(p -> p.getDeletedAt() != null)
+        .filter(p -> !p.isDeleted())
         .map(permissionMapper::fromPermission)
         .toList();
     return permissions;

@@ -17,6 +17,7 @@ import com.arch.micro_service.auth_server.role.infrastructure.dto.role.response.
 import com.arch.micro_service.auth_server.role.infrastructure.persistence.RoleRepository;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class RoleCrudServiceImpl implements RoleCrudService {
 
   private final RoleRepository roleRepository;
@@ -36,7 +38,7 @@ public class RoleCrudServiceImpl implements RoleCrudService {
     var roles = roleRepository
         .findAll()
         .stream()
-        .filter(p -> p.getDeletedAt() != null)
+        .filter(p -> !p.isDeleted())
         .map(roleMapper::fromRole)
         .toList();
     return roles;

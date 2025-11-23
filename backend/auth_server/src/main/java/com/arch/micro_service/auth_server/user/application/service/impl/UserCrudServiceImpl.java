@@ -18,11 +18,13 @@ import com.arch.micro_service.auth_server.user.infrastructure.persistence.UserRe
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UserCrudServiceImpl implements UserCrudService {
 
   private final UserRepository userRepository;
@@ -36,7 +38,7 @@ public class UserCrudServiceImpl implements UserCrudService {
     var users = userRepository
         .findAll()
         .stream()
-        .filter(p -> p.getDeletedAt() != null)
+        .filter(p -> !p.isDeleted())
         .map(userMapper::fromUser)
         .toList();
 
