@@ -1,5 +1,6 @@
 package com.arch.micro_service.auth_server.role.application.usecase.role;
 
+import java.util.List;
 import java.util.UUID;
 
 import com.arch.micro_service.auth_server.role.domain.etntiy.Role;
@@ -23,6 +24,24 @@ public class RoleFindUseCase {
       throw RoleException.notFound(id);
     }
     return role;
+  }
+
+  public List<Role> findAllById(List<UUID> ids) {
+
+    var roles = roleRepository.findAllById(ids);
+
+    return roles.stream().filter(role -> !role.isDeleted()).toList();
+
+  }
+
+  public List<Role> findAllByListId(List<String> id) {
+
+    List<UUID> ids = id.stream().map(i -> UUID.fromString(i)).toList();
+
+    var roles = roleRepository.findAllById(ids);
+
+    return roles.stream().filter(role -> !role.isDeleted()).toList();
+
   }
 
 }

@@ -15,7 +15,7 @@ public class UserException extends BaseException {
     super(type);
   }
 
-  public static UserException notFound() {
+  public static UserException notFound(String id) {
     return new UserException(UserExceptionType.USER_NOT_FOUND);
   }
 
