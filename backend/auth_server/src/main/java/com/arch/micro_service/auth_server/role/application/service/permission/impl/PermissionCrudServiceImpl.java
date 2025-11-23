@@ -19,8 +19,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 @Transactional
+@Slf4j
 public class PermissionCrudServiceImpl implements PermissionCrudService {
 
   private final PermissionRepository permissionRepository;

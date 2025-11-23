@@ -5,6 +5,9 @@ import java.util.List;
 import com.arch.micro_service.auth_server.role.infrastructure.dto.permission.request.PermissionCreateRequest;
 import com.arch.micro_service.auth_server.role.infrastructure.dto.permission.response.PermissionDetailResponse;
 
+/**
+ * Permission CRUD
+ */
 public interface PermissionCrudService {
 
   List<PermissionDetailResponse> getAll();
