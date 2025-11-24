@@ -3,8 +3,6 @@ package com.arch.micro_service.auth_server.user.infrastructure.dto.request;
 import java.util.List;
 import java.util.UUID;
 
-import com.arch.micro_service.auth_server.shared.infrastructure.dto.request.AbstractCreateRequest;
-
 public record UserCreateRequest(
     String name,
     String userName,
@@ -14,5 +12,5 @@ public record UserCreateRequest(
     boolean accountNonExpired,
     boolean accountNonLocked,
     boolean enabled,
-    List<UUID> roles) implements AbstractCreateRequest {
+    List<UUID> roles) {
 }

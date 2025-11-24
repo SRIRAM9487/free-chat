@@ -3,6 +3,7 @@ package com.arch.micro_service.auth_server.user.infrastructure.dto.response;
 import java.util.List;
 import java.util.UUID;
 
+import com.arch.micro_service.auth_server.role.infrastructure.dto.role.response.RoleUserMetaDataResponse;
 import com.arch.micro_service.auth_server.shared.infrastructure.dto.response.AbstractDetailResponse;
 
 public record UserDetailResponse(
@@ -15,5 +16,5 @@ public record UserDetailResponse(
     boolean accountNonExpired,
     boolean accountNonLocked,
     boolean enabled,
-    List<String> roles) implements AbstractDetailResponse {
+    List<RoleUserMetaDataResponse> roles) implements AbstractDetailResponse {
 }

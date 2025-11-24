@@ -8,6 +8,7 @@ import com.arch.micro_service.auth_server.role.infrastructure.dto.role.request.R
 import com.arch.micro_service.auth_server.role.infrastructure.dto.role.request.RolePermissionCreateRequest;
 import com.arch.micro_service.auth_server.role.infrastructure.dto.role.response.RoleDetailResponse;
 import com.arch.micro_service.auth_server.role.infrastructure.dto.role.response.RolePermissionDetailResponse;
+import com.arch.micro_service.auth_server.role.infrastructure.dto.role.response.RoleUserMetaDataResponse;
 
 import org.springframework.stereotype.Component;
 
@@ -62,5 +63,9 @@ public class RoleMapper {
   public void updateRole(Role role, RoleCreateRequest requestDto) {
     role.setTitle(requestDto.title());
     role.setActive(requestDto.active());
+  }
+
+  public RoleUserMetaDataResponse toRoleUserMetaData(Role role) {
+    return new RoleUserMetaDataResponse(role.getId().toString(), role.getTitle());
   }
 }

@@ -26,6 +26,14 @@ public class RoleFindUseCase {
     return role;
   }
 
+  public List<Role> findAll() {
+
+    var roles = roleRepository.findAll();
+
+    return roles.stream().filter(role -> !role.isDeleted()).toList();
+
+  }
+
   public List<Role> findAllById(List<UUID> ids) {
 
     var roles = roleRepository.findAllById(ids);

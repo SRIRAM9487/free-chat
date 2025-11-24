@@ -4,21 +4,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.arch.micro_service.auth_server.role.domain.etntiy.Role;
+import com.arch.micro_service.auth_server.role.infrastructure.dto.role.mapper.RoleMapper;
+import com.arch.micro_service.auth_server.role.infrastructure.dto.role.response.RoleUserMetaDataResponse;
 import com.arch.micro_service.auth_server.shared.domain.constant.Gender;
 import com.arch.micro_service.auth_server.user.domain.entity.User;
 import com.arch.micro_service.auth_server.user.domain.vo.Email;
 import com.arch.micro_service.auth_server.user.infrastructure.dto.request.UserCreateRequest;
 import com.arch.micro_service.auth_server.user.infrastructure.dto.response.UserDetailResponse;
+import com.arch.micro_service.auth_server.user.infrastructure.dto.response.UserLoginResponse;
+import com.arch.micro_service.auth_server.user.infrastructure.dto.response.UserPasswordVerificationResponse;
 
 import org.springframework.stereotype.Component;
 
+import lombok.RequiredArgsConstructor;
+
 @Component
+@RequiredArgsConstructor
 public class UserMapper {
 
+  private final RoleMapper roleMapper;
+
   public UserDetailResponse fromUser(User user) {
-    List<String> roles = new ArrayList<>();
+    List<RoleUserMetaDataResponse> roles = new ArrayList<>();
     for (Role role : user.getRoles()) {
-      roles.add(role.getTitle());
+      roles.add(roleMapper.toRoleUserMetaData(role));
     }
     return new UserDetailResponse(
         user.getId(),
@@ -72,4 +81,15 @@ public class UserMapper {
     return user;
   }
 
+  public UserPasswordVerificationResponse toUserPasswordVerificationResponse(boolean status, String message) {
+    return new UserPasswordVerificationResponse(status, message);
+  }
+
+  public UserLoginResponse toUserLoginResponse(User user, String token) {
+    List<String> roles = new ArrayList<>();
+    for (Role role : user.getRoles()) {
+      roles.add(role.getTitle());
+    }
+    return new UserLoginResponse(user.getId().toString(), user.getUserName(), roles, token);
+  }
 }

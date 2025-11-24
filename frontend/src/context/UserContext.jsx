@@ -8,9 +8,21 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     const savedUser = localStorage.getItem("user");
+
     if (savedUser) {
-      setUser(JSON.parse(savedUser));
+      try {
+        const parsed = JSON.parse(savedUser);
+        if (parsed && typeof parsed === "object") {
+          setUser(parsed);
+        } else {
+          console.warn("Ignoring invalid user data in localStorage");
+        }
+      } catch (err) {
+        console.error("Invalid user JSON in localStorage:", err);
+        localStorage.removeItem("user");
+      }
     }
+
     setLoading(false);
   }, []);
 

@@ -1,0 +1,19 @@
+.sharp-select .ant-select-selector {
+  border-radius: 0 !important;
+}
+
+.sharp-select .ant-select-selector:hover {
+  border-color: #1f2937 !important; /* gray-800 */
+}
+
+.sharp-select.ant-select-focused .ant-select-selector,
+.sharp-select .ant-select-selector:focus,
+.sharp-select .ant-select-selector:active {
+  border-color: #2563eb !important; /* blue-600 */
+  box-shadow: none !important;
+  outline: 2px solid #2563eb55 !important;
+}
+
+.sharp-select .ant-select-selection-placeholder {
+  color: #6b7280 !important; /* gray-500 */
+}

@@ -1,23 +1,52 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import CustomTable from "../../../component/CustomTable";
 import { Button, Space } from "antd";
 import CreateUser from "./CreateUser";
+import { getService } from "../../../script/getService";
+import { NotificationContext } from "../../../context/NotificationContext";
+import Deletebtn from "../../../component/btns/Deletebtn";
+import EditBtn from "../../../component/btns/EditBtn";
+import Viewbtn from "../../../component/btns/Viewbtn";
 
 function User() {
-  const [userData, setUserData] = useState(
-    Array.from({ length: 10 }, (_, i) => ({
-      id: `user-${i + 1}`,
-      name: `Test${i + 1}`,
-      userName: `test${i + 1}`,
-      email: `test${i + 1}@example.com`,
-      emailVerified: false,
-      gender: i % 2 === 0 ? "MALE" : "FEMALE",
-      accountNonExpired: true,
-      accountNonLocked: true,
-      enabled: true,
-      roles: i % 3 === 0 ? ["Admin"] : ["Manager"],
-    })),
-  );
+  const [userData, setUserData] = useState([]);
+
+  const { showError, showSuccess } = useContext(NotificationContext);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [view, setView] = useState(false);
+  const [editRecord, setEditRecord] = useState(null);
+
+  const fetchUsers = async () => {
+    try {
+      const response = await getService("v1/user");
+      setUserData(response.data);
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const handleCreateBtn = () => {
+    setIsCreateModalOpen(true);
+  };
+
+  const handleCreateUserClose = () => {
+    setIsCreateModalOpen(false);
+  };
+
+  const handleEditBtn = (record) => {
+    setEditRecord(record);
+    setIsCreateModalOpen(true);
+  };
+
+  const handleDeleteBtn = (record) => {
+    setEditRecord(record);
+  };
+
+  const handleViewBtn = (record) => {
+    setEditRecord(record);
+  };
 
   const columns = [
     {
@@ -48,21 +77,15 @@ function User() {
       sorter: (a, b) => a.email.localeCompare(b.email),
     },
     {
-      title: "Roles",
-      dataIndex: "roles",
-      key: "roles",
-      align: "center",
-      render: (roles) => roles.join(", "),
-    },
-    {
       title: "Action",
       key: "action",
       width: 120,
       align: "center",
       render: (_, record) => (
-        <div className="flex justify-around">
-          <button className="text-blue-500 hover:underline">Edit</button>
-          <button className="text-red-500 hover:underline">Delete</button>
+        <div className="flex justify-around ">
+          <Deletebtn onClick={() => handleDeleteBtn(record)} />
+          <EditBtn onClick={() => handleEditBtn(record)} />
+          <Viewbtn onClick={() => handleViewBtn(record)} />
         </div>
       ),
     },
@@ -71,7 +94,12 @@ function User() {
   return (
     <div>
       <div className="flex justify-end mb-2 border border-gray-100 p-2">
-        <CreateUser isModelOpen={false} />
+        <CreateUser
+          isModelOpen={isCreateModalOpen}
+          handleModalClose={handleCreateUserClose}
+          editRecord={editRecord}
+          view={view}
+        />
 
         <div>
           <Space>
@@ -80,6 +108,7 @@ function User() {
               color="primary"
               variant="solid"
               className="!rounded !px-6 !py-2.5"
+              onClick={handleCreateBtn}
             >
               Create
             </Button>

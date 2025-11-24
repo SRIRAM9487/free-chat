@@ -50,6 +50,7 @@ function CreateRole({ isModelOpen, handleModalClose, view, editRecord }) {
       active: perm.active,
       title: perm.title,
     }));
+
     const formData = {
       title: editRecord.title,
       active: editRecord.active,
