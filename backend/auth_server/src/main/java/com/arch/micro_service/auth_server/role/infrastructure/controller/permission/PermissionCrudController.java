@@ -2,6 +2,7 @@ package com.arch.micro_service.auth_server.role.infrastructure.controller.permis
 
 import java.util.List;
 
+import com.arch.micro_service.auth_server.role.application.constant.PermissionConstant;
 import com.arch.micro_service.auth_server.role.application.service.permission.PermissionCrudService;
 import com.arch.micro_service.auth_server.role.infrastructure.dto.permission.mapper.PermissionMapper;
 import com.arch.micro_service.auth_server.role.infrastructure.dto.permission.request.PermissionCreateRequest;
@@ -44,20 +45,23 @@ public class PermissionCrudController {
 
   @PostMapping("/create")
   public ResponseEntity<ApiResponse<String>> create(@RequestBody PermissionCreateRequest request) {
-    var response = ApiResponse.create(crudService.create(request));
+    crudService.create(request);
+    var response = ApiResponse.create(PermissionConstant.CREATE);
     return ResponseEntity.ok(response);
   }
 
   @PatchMapping("/update/{id}")
   public ResponseEntity<ApiResponse<String>> update(@PathVariable("id") String id,
       @RequestBody PermissionCreateRequest request) {
-    var response = ApiResponse.create(crudService.update(id, request));
+    crudService.update(id, request);
+    var response = ApiResponse.create(PermissionConstant.UPDATE);
     return ResponseEntity.ok(response);
   }
 
   @DeleteMapping("/{id}")
   public ResponseEntity<ApiResponse<String>> delete(@PathVariable("id") String id) {
-    var response = ApiResponse.create(crudService.delete(id));
+    crudService.delete(id);
+    var response = ApiResponse.create(PermissionConstant.DELETE);
     return ResponseEntity.ok(response);
   }
 

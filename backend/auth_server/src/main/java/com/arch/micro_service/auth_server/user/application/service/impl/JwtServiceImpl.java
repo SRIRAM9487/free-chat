@@ -55,7 +55,7 @@ public class JwtServiceImpl implements JwtService {
   }
 
   @Override
-  public String generate(UUID userId) {
+  public String generate(Long userId) {
 
     Map<String, Object> claims = new HashMap<>();
     LocalDateTime now = LocalDateTime.now();
@@ -76,7 +76,7 @@ public class JwtServiceImpl implements JwtService {
   }
 
   @Override
-  public boolean validate(String token, UUID userId) {
+  public boolean validate(String token, Long userId) {
     String tokenUserId = extractUserId(token);
     return (tokenUserId.equals(userId.toString()) && !isTokenExpired(token));
   }

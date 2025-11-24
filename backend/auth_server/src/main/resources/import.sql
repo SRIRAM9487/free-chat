@@ -1,77 +1,66 @@
--- Enable UUID generation (if not already enabled)
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
--- PERMISSIONS (unchanged - these succeed)
-INSERT INTO permissions (id, title, active, created_by, updated_by) VALUES ('11111111-1111-1111-1111-111111111111', 'ROLE_CREATE', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
-INSERT INTO permissions (id, title, active, created_by, updated_by) VALUES ('11111111-1111-1111-1111-111111111112', 'ROLE_READ', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
-INSERT INTO permissions (id, title, active, created_by, updated_by) VALUES ('11111111-1111-1111-1111-111111111113', 'ROLE_DELETE', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
-INSERT INTO permissions (id, title, active, created_by, updated_by) VALUES ('11111111-1111-1111-1111-111111111114', 'ROLE_UPDATE', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
-
-INSERT INTO permissions (id, title, active, created_by, updated_by) VALUES ('11111111-1111-1111-1111-111111111115', 'PERMISSION_CREATE', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
-INSERT INTO permissions (id, title, active, created_by, updated_by) VALUES ('11111111-1111-1111-1111-111111111116', 'PERMISSION_READ', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
-INSERT INTO permissions (id, title, active, created_by, updated_by) VALUES ('11111111-1111-1111-1111-111111111117', 'PERMISSION_DELETE', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
-INSERT INTO permissions (id, title, active, created_by, updated_by) VALUES ('11111111-1111-1111-1111-111111111118', 'PERMISSION_UPDATE', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
-
-INSERT INTO permissions (id, title, active, created_by, updated_by) VALUES ('11111111-1111-1111-1111-111111111119', 'USER_CREATE', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
-INSERT INTO permissions (id, title, active, created_by, updated_by) VALUES ('11111111-1111-1111-1111-111111111120', 'USER_READ', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
-INSERT INTO permissions (id, title, active, created_by, updated_by) VALUES ('11111111-1111-1111-1111-111111111121', 'USER_DELETE', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
-INSERT INTO permissions (id, title, active, created_by, updated_by) VALUES ('11111111-1111-1111-1111-111111111122', 'USER_UPDATE', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
+-- PERMISSIONS
+INSERT INTO permissions ( title, active, created_by, updated_by) VALUES ('ROLE_CREATE', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
+INSERT INTO permissions ( title, active, created_by, updated_by) VALUES ('ROLE_READ', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
+INSERT INTO permissions ( title, active, created_by, updated_by) VALUES ('ROLE_DELETE', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
+INSERT INTO permissions ( title, active, created_by, updated_by) VALUES ('ROLE_UPDATE', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
+INSERT INTO permissions ( title, active, created_by, updated_by) VALUES ('PERMISSION_CREATE', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
+INSERT INTO permissions ( title, active, created_by, updated_by) VALUES ('PERMISSION_READ', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
+INSERT INTO permissions ( title, active, created_by, updated_by) VALUES ('PERMISSION_DELETE', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
+INSERT INTO permissions ( title, active, created_by, updated_by) VALUES ('PERMISSION_UPDATE', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
+INSERT INTO permissions ( title, active, created_by, updated_by) VALUES ('USER_CREATE', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
+INSERT INTO permissions ( title, active, created_by, updated_by) VALUES ( 'USER_READ', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
+INSERT INTO permissions ( title, active, created_by, updated_by) VALUES ( 'USER_DELETE', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
+INSERT INTO permissions ( title, active, created_by, updated_by) VALUES ( 'USER_UPDATE', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
 
 -- ROLES (unchanged - these succeed)
-INSERT INTO roles (id, title, active, created_by, updated_by) VALUES ('21111111-1111-1111-1111-111111111111', 'ADMIN', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
-INSERT INTO roles (id, title, active, created_by, updated_by) VALUES ('21111111-1111-1111-1111-111111111112', 'MANAGER', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
-INSERT INTO roles (id, title, active, created_by, updated_by) VALUES ('21111111-1111-1111-1111-111111111113', 'CUSTOMER', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
-INSERT INTO roles (id, title, active, created_by, updated_by) VALUES ('21111111-1111-1111-1111-111111111114', 'CHATTER', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
-INSERT INTO roles (id, title, active, created_by, updated_by) VALUES ('21111111-1111-1111-1111-111111111115', 'SUDO', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
-
+INSERT INTO roles (title, active, created_by, updated_by) VALUES ('ADMIN', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
+INSERT INTO roles (title, active, created_by, updated_by) VALUES ('MANAGER', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
+INSERT INTO roles (title, active, created_by, updated_by) VALUES ('CUSTOMER', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
+INSERT INTO roles (title, active, created_by, updated_by) VALUES ('CHATTER', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
+INSERT INTO roles (title, active, created_by, updated_by) VALUES ('SUDO', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
 -- ROLE PERMISSIONS (expanded: Full RBAC setup)
 -- ADMIN gets ALL permissions (12 entries)
-INSERT INTO role_permission (id, active, active_status, role_id, permission_id, created_by, updated_by) VALUES ('31111111-1111-1111-1111-111111111111', TRUE, TRUE, '21111111-1111-1111-1111-111111111111', '11111111-1111-1111-1111-111111111111', 'system', 'system') ON CONFLICT DO NOTHING;  -- ROLE_CREATE
-INSERT INTO role_permission (id, active, active_status, role_id, permission_id, created_by, updated_by) VALUES ('31111111-1111-1111-1111-111111111112', TRUE, TRUE, '21111111-1111-1111-1111-111111111111', '11111111-1111-1111-1111-111111111112', 'system', 'system') ON CONFLICT DO NOTHING;  -- ROLE_READ
-INSERT INTO role_permission (id, active, active_status, role_id, permission_id, created_by, updated_by) VALUES ('31111111-1111-1111-1111-111111111113', TRUE, TRUE, '21111111-1111-1111-1111-111111111111', '11111111-1111-1111-1111-111111111113', 'system', 'system') ON CONFLICT DO NOTHING;  -- ROLE_DELETE
-INSERT INTO role_permission (id, active, active_status, role_id, permission_id, created_by, updated_by) VALUES ('31111111-1111-1111-1111-111111111114', TRUE, TRUE, '21111111-1111-1111-1111-111111111111', '11111111-1111-1111-1111-111111111114', 'system', 'system') ON CONFLICT DO NOTHING;  -- ROLE_UPDATE
-INSERT INTO role_permission (id, active, active_status, role_id, permission_id, created_by, updated_by) VALUES ('31111111-1111-1111-1111-111111111115', TRUE, TRUE, '21111111-1111-1111-1111-111111111111', '11111111-1111-1111-1111-111111111115', 'system', 'system') ON CONFLICT DO NOTHING;  -- PERMISSION_CREATE
-INSERT INTO role_permission (id, active, active_status, role_id, permission_id, created_by, updated_by) VALUES ('31111111-1111-1111-1111-111111111116', TRUE, TRUE, '21111111-1111-1111-1111-111111111111', '11111111-1111-1111-1111-111111111116', 'system', 'system') ON CONFLICT DO NOTHING;  -- PERMISSION_READ
-INSERT INTO role_permission (id, active, active_status, role_id, permission_id, created_by, updated_by) VALUES ('31111111-1111-1111-1111-111111111117', TRUE, TRUE, '21111111-1111-1111-1111-111111111111', '11111111-1111-1111-1111-111111111117', 'system', 'system') ON CONFLICT DO NOTHING;  -- PERMISSION_DELETE
-INSERT INTO role_permission (id, active, active_status, role_id, permission_id, created_by, updated_by) VALUES ('31111111-1111-1111-1111-111111111118', TRUE, TRUE, '21111111-1111-1111-1111-111111111111', '11111111-1111-1111-1111-111111111118', 'system', 'system') ON CONFLICT DO NOTHING;  -- PERMISSION_UPDATE
-INSERT INTO role_permission (id, active, active_status, role_id, permission_id, created_by, updated_by) VALUES ('31111111-1111-1111-1111-111111111119', TRUE, TRUE, '21111111-1111-1111-1111-111111111111', '11111111-1111-1111-1111-111111111119', 'system', 'system') ON CONFLICT DO NOTHING;  -- USER_CREATE
-INSERT INTO role_permission (id, active, active_status, role_id, permission_id, created_by, updated_by) VALUES ('31111111-1111-1111-1111-111111111120', TRUE, TRUE, '21111111-1111-1111-1111-111111111111', '11111111-1111-1111-1111-111111111120', 'system', 'system') ON CONFLICT DO NOTHING;  -- USER_READ
-INSERT INTO role_permission (id, active, active_status, role_id, permission_id, created_by, updated_by) VALUES ('31111111-1111-1111-1111-111111111121', TRUE, TRUE, '21111111-1111-1111-1111-111111111111', '11111111-1111-1111-1111-111111111121', 'system', 'system') ON CONFLICT DO NOTHING;  -- USER_DELETE
-INSERT INTO role_permission (id, active, active_status, role_id, permission_id, created_by, updated_by) VALUES ('31111111-1111-1111-1111-111111111122', TRUE, TRUE, '21111111-1111-1111-1111-111111111111', '11111111-1111-1111-1111-111111111122', 'system', 'system') ON CONFLICT DO NOTHING;  -- USER_UPDATE
+INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES (TRUE, TRUE, 1, 1, 'system', 'system') ON CONFLICT DO NOTHING; -- ROLE_CREATE
+INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES (TRUE, TRUE, 1, 2, 'system', 'system') ON CONFLICT DO NOTHING; -- ROLE_READ
+INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES (TRUE, TRUE, 1, 3, 'system', 'system') ON CONFLICT DO NOTHING; -- ROLE_DELETE
+INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES (TRUE, TRUE, 1, 4, 'system', 'system') ON CONFLICT DO NOTHING; -- ROLE_UPDATE
+INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES (TRUE, TRUE, 1, 5, 'system', 'system') ON CONFLICT DO NOTHING; -- PERMISSION_CREATE
+INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES (TRUE, TRUE, 1, 6, 'system', 'system') ON CONFLICT DO NOTHING; -- PERMISSION_READ
+INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES (TRUE, TRUE, 1, 7, 'system', 'system') ON CONFLICT DO NOTHING; -- PERMISSION_DELETE
+INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES (TRUE, TRUE, 1, 8, 'system', 'system') ON CONFLICT DO NOTHING; -- PERMISSION_UPDATE
+INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES (TRUE, TRUE, 1, 9, 'system', 'system') ON CONFLICT DO NOTHING; -- USER_CREATE
+INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES ( TRUE, TRUE, 1, 10, 'system', 'system') ON CONFLICT DO NOTHING; -- USER_READ
+INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES ( TRUE, TRUE, 1, 11, 'system', 'system') ON CONFLICT DO NOTHING; -- USER_DELETE
+INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES ( TRUE, TRUE, 1, 12, 'system', 'system') ON CONFLICT DO NOTHING; -- USER_UPDATE
+-- MANAGER gets role/permissimanagement + full user ops (8 entries)
+INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES ( TRUE, TRUE, 2, 1, 'system', 'system') ON CONFLICT DO NOTHING; -- ROLE_CREATE
+INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES ( TRUE, TRUE, 2, 2, 'system', 'system') ON CONFLICT DO NOTHING; -- ROLE_READ
+INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES ( TRUE, TRUE, 2, 5, 'system', 'system') ON CONFLICT DO NOTHING; -- PERMISSION_CREATE
+INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES ( TRUE, TRUE, 2, 6, 'system', 'system') ON CONFLICT DO NOTHING; -- PERMISSION_READ
+INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES ( TRUE, TRUE, 2, 9, 'system', 'system') ON CONFLICT DO NOTHING; -- USER_CREATE
+INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES ( TRUE, TRUE, 2, 10, 'system', 'system') ON CONFLICT DO NOTHING; -- USER_READ
+INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES ( TRUE, TRUE, 2, 11, 'system', 'system') ON CONFLICT DO NOTHING; -- USER_DELETE
+INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES ( TRUE, TRUE, 2, 12, 'system', 'system') ON CONFLICT DO NOTHING; -- USER_UPDATE
+-- CUSTOMER gets basic user r (1 entry)
+INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES ( TRUE, TRUE, 3, 10, 'system', 'system') ON CONFLICT DO NOTHING; -- USER_READ
+-- CHATTER gets basic user re(1 entry)
+INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES ( TRUE, TRUE, 4, 10, 'system', 'system') ON CONFLICT DO NOTHING; -- USER_READ
+INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES ( TRUE, TRUE, 5, 1, 'system', 'system') ON CONFLICT DO NOTHING; -- ROLE_CREATE
+INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES ( TRUE, TRUE, 5, 2, 'system', 'system') ON CONFLICT DO NOTHING; -- ROLE_READ
+INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES ( TRUE, TRUE, 5, 3, 'system', 'system') ON CONFLICT DO NOTHING; -- ROLE_DELETE
+INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES ( TRUE, TRUE, 5, 4, 'system', 'system') ON CONFLICT DO NOTHING; -- ROLE_UPDATE
+INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES ( TRUE, TRUE, 5, 5, 'system', 'system') ON CONFLICT DO NOTHING; -- PERMISSION_CREATE
+INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES ( TRUE, TRUE, 5, 6, 'system', 'system') ON CONFLICT DO NOTHING; -- PERMISSION_READ
+INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES ( TRUE, TRUE, 5, 7, 'system', 'system') ON CONFLICT DO NOTHING; -- PERMISSION_DELETE
+INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES ( TRUE, TRUE, 5, 8, 'system', 'system') ON CONFLICT DO NOTHING; -- PERMISSION_UPDATE
+INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES ( TRUE, TRUE, 5, 9, 'system', 'system') ON CONFLICT DO NOTHING; -- USER_CREATE
+INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES ( TRUE, TRUE, 5, 10, 'system', 'system') ON CONFLICT DO NOTHING; -- USER_READ
+INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES ( TRUE, TRUE, 5, 11, 'system', 'system') ON CONFLICT DO NOTHING; -- USER_DELETE
+INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES ( TRUE, TRUE, 5, 12, 'system', 'system') ON CONFLICT DO NOTHING; -- USER_UPDATE
 
--- MANAGER gets role/permission management + full user ops (8 entries)
-INSERT INTO role_permission (id, active, active_status, role_id, permission_id, created_by, updated_by) VALUES ('31111111-1111-1111-1111-111111111123', TRUE, TRUE, '21111111-1111-1111-1111-111111111112', '11111111-1111-1111-1111-111111111111', 'system', 'system') ON CONFLICT DO NOTHING;  -- ROLE_CREATE
-INSERT INTO role_permission (id, active, active_status, role_id, permission_id, created_by, updated_by) VALUES ('31111111-1111-1111-1111-111111111124', TRUE, TRUE, '21111111-1111-1111-1111-111111111112', '11111111-1111-1111-1111-111111111112', 'system', 'system') ON CONFLICT DO NOTHING;  -- ROLE_READ
-INSERT INTO role_permission (id, active, active_status, role_id, permission_id, created_by, updated_by) VALUES ('31111111-1111-1111-1111-111111111125', TRUE, TRUE, '21111111-1111-1111-1111-111111111112', '11111111-1111-1111-1111-111111111115', 'system', 'system') ON CONFLICT DO NOTHING;  -- PERMISSION_CREATE
-INSERT INTO role_permission (id, active, active_status, role_id, permission_id, created_by, updated_by) VALUES ('31111111-1111-1111-1111-111111111126', TRUE, TRUE, '21111111-1111-1111-1111-111111111112', '11111111-1111-1111-1111-111111111116', 'system', 'system') ON CONFLICT DO NOTHING;  -- PERMISSION_READ
-INSERT INTO role_permission (id, active, active_status, role_id, permission_id, created_by, updated_by) VALUES ('31111111-1111-1111-1111-111111111127', TRUE, TRUE, '21111111-1111-1111-1111-111111111112', '11111111-1111-1111-1111-111111111119', 'system', 'system') ON CONFLICT DO NOTHING;  -- USER_CREATE
-INSERT INTO role_permission (id, active, active_status, role_id, permission_id, created_by, updated_by) VALUES ('31111111-1111-1111-1111-111111111128', TRUE, TRUE, '21111111-1111-1111-1111-111111111112', '11111111-1111-1111-1111-111111111120', 'system', 'system') ON CONFLICT DO NOTHING;  -- USER_READ
-INSERT INTO role_permission (id, active, active_status, role_id, permission_id, created_by, updated_by) VALUES ('31111111-1111-1111-1111-111111111129', TRUE, TRUE, '21111111-1111-1111-1111-111111111112', '11111111-1111-1111-1111-111111111121', 'system', 'system') ON CONFLICT DO NOTHING;  -- USER_DELETE
-INSERT INTO role_permission (id, active, active_status, role_id, permission_id, created_by, updated_by) VALUES ('31111111-1111-1111-1111-111111111130', TRUE, TRUE, '21111111-1111-1111-1111-111111111112', '11111111-1111-1111-1111-111111111122', 'system', 'system') ON CONFLICT DO NOTHING;  -- USER_UPDATE
-
--- CUSTOMER gets basic user read (1 entry)
-INSERT INTO role_permission (id, active, active_status, role_id, permission_id, created_by, updated_by) VALUES ('31111111-1111-1111-1111-111111111131', TRUE, TRUE, '21111111-1111-1111-1111-111111111113', '11111111-1111-1111-1111-111111111120', 'system', 'system') ON CONFLICT DO NOTHING;  -- USER_READ
-
--- CHATTER gets basic user read (1 entry)
-INSERT INTO role_permission (id, active, active_status, role_id, permission_id, created_by, updated_by) VALUES ('31111111-1111-1111-1111-111111111132', TRUE, TRUE, '21111111-1111-1111-1111-111111111114', '11111111-1111-1111-1111-111111111120', 'system', 'system') ON CONFLICT DO NOTHING;  -- USER_READ
-
-INSERT INTO role_permission (id, active, active_status, role_id, permission_id, created_by, updated_by) VALUES ('31111111-1111-1111-1111-111111111133', TRUE, TRUE, '21111111-1111-1111-1111-111111111115', '11111111-1111-1111-1111-111111111111', 'system', 'system') ON CONFLICT DO NOTHING;  -- ROLE_CREATE
-INSERT INTO role_permission (id, active, active_status, role_id, permission_id, created_by, updated_by) VALUES ('31111111-1111-1111-1111-111111111134', TRUE, TRUE, '21111111-1111-1111-1111-111111111115', '11111111-1111-1111-1111-111111111112', 'system', 'system') ON CONFLICT DO NOTHING;  -- ROLE_READ
-INSERT INTO role_permission (id, active, active_status, role_id, permission_id, created_by, updated_by) VALUES ('31111111-1111-1111-1111-111111111135', TRUE, TRUE, '21111111-1111-1111-1111-111111111115', '11111111-1111-1111-1111-111111111113', 'system', 'system') ON CONFLICT DO NOTHING;  -- ROLE_DELETE
-INSERT INTO role_permission (id, active, active_status, role_id, permission_id, created_by, updated_by) VALUES ('31111111-1111-1111-1111-111111111136', TRUE, TRUE, '21111111-1111-1111-1111-111111111115', '11111111-1111-1111-1111-111111111114', 'system', 'system') ON CONFLICT DO NOTHING;  -- ROLE_UPDATE
-INSERT INTO role_permission (id, active, active_status, role_id, permission_id, created_by, updated_by) VALUES ('31111111-1111-1111-1111-111111111137', TRUE, TRUE, '21111111-1111-1111-1111-111111111115', '11111111-1111-1111-1111-111111111115', 'system', 'system') ON CONFLICT DO NOTHING;  -- PERMISSION_CREATE
-INSERT INTO role_permission (id, active, active_status, role_id, permission_id, created_by, updated_by) VALUES ('31111111-1111-1111-1111-111111111138', TRUE, TRUE, '21111111-1111-1111-1111-111111111115', '11111111-1111-1111-1111-111111111116', 'system', 'system') ON CONFLICT DO NOTHING;  -- PERMISSION_READ
-INSERT INTO role_permission (id, active, active_status, role_id, permission_id, created_by, updated_by) VALUES ('31111111-1111-1111-1111-111111111139', TRUE, TRUE, '21111111-1111-1111-1111-111111111115', '11111111-1111-1111-1111-111111111117', 'system', 'system') ON CONFLICT DO NOTHING;  -- PERMISSION_DELETE
-INSERT INTO role_permission (id, active, active_status, role_id, permission_id, created_by, updated_by) VALUES ('31111111-1111-1111-1111-111111111140', TRUE, TRUE, '21111111-1111-1111-1111-111111111115', '11111111-1111-1111-1111-111111111118', 'system', 'system') ON CONFLICT DO NOTHING;  -- PERMISSION_UPDATE
-INSERT INTO role_permission (id, active, active_status, role_id, permission_id, created_by, updated_by) VALUES ('31111111-1111-1111-1111-111111111141', TRUE, TRUE, '21111111-1111-1111-1111-111111111115', '11111111-1111-1111-1111-111111111119', 'system', 'system') ON CONFLICT DO NOTHING;  -- USER_CREATE
-INSERT INTO role_permission (id, active, active_status, role_id, permission_id, created_by, updated_by) VALUES ('31111111-1111-1111-1111-111111111142', TRUE, TRUE, '21111111-1111-1111-1111-111111111115', '11111111-1111-1111-1111-111111111120', 'system', 'system') ON CONFLICT DO NOTHING;  -- USER_READ
-INSERT INTO role_permission (id, active, active_status, role_id, permission_id, created_by, updated_by) VALUES ('31111111-1111-1111-1111-111111111143', TRUE, TRUE, '21111111-1111-1111-1111-111111111115', '11111111-1111-1111-1111-111111111121', 'system', 'system') ON CONFLICT DO NOTHING;  -- USER_DELETE
-INSERT INTO role_permission (id, active, active_status, role_id, permission_id, created_by, updated_by) VALUES ('31111111-1111-1111-1111-111111111144', TRUE, TRUE, '21111111-1111-1111-1111-111111111115', '11111111-1111-1111-1111-111111111122', 'system', 'system') ON CONFLICT DO NOTHING;  -- USER_UPDATE
-
--- USERS 
-INSERT INTO users (id, name, user_name, password, email, email_verified, gender, account_non_expired,account_non_locked,enabled,created_by, updated_by) VALUES ('41111111-1111-1111-1111-111111111111', 'Admin User', 'admin', '$2b$12$49ZLqbbB.5Lls18KV41ojuDGtYbLDcwHGMdRB35wD3Ao7L4W46gN.', 'admin@example.com', TRUE, 'MALE',TRUE,TRUE,TRUE, 'system', 'system') ON CONFLICT (user_name) DO NOTHING;
-INSERT INTO users (id, name, user_name, password, email, email_verified, gender,  account_non_expired,account_non_locked,enabled,created_by, updated_by) VALUES ('41111111-1111-1111-1111-111111111112', 'Manager User', 'manager', '$2b$12$Y0emneVqOxSHJQI/m5d1GezDf5H.wyjRlshKbj95g6oU9eFMr2qcS', 'manager@example.com', TRUE, 'MALE',TRUE,TRUE,TRUE, 'system', 'system') ON CONFLICT (user_name) DO NOTHING;
-INSERT INTO users (id, name, user_name, password, email, email_verified, gender,  account_non_expired,account_non_locked,enabled,created_by, updated_by) VALUES ('41111111-1111-1111-1111-111111111113', 'Customer User', 'customer', '$2b$12$Y8nE0RA62LTufclPbIQooeGli1mXma8l1FWXi/Rr0HPLLP2q18OE2', 'customer@example.com', FALSE, 'FEMALE',TRUE,TRUE,TRUE, 'system', 'system') ON CONFLICT (user_name) DO NOTHING;
-INSERT INTO users (id, name, user_name, password, email, email_verified, gender,  account_non_expired,account_non_locked,enabled,created_by, updated_by) VALUES ('41111111-1111-1111-1111-111111111114', 'Chatter User', 'chatter', '$2b$12$99aNhkJqKpRBIu1GdDZRNuxaF0hdzxYwd/aLn6JPlpHPItz2lzvVe', 'chatter@example.com', FALSE, 'MALE',TRUE,TRUE,TRUE, 'system', 'system') ON CONFLICT (user_name) DO NOTHING;
-INSERT INTO users (id, name, user_name, password, email, email_verified, gender,  account_non_expired,account_non_locked,enabled,created_by, updated_by) VALUES ('41111111-1111-1111-1111-111111111115', 'Sudo User', 'sudo', '$2b$12$Y9UHQm81cSmjqRQ89d6wfuLvbIktiDLE2OGw0U6D7nwG3NcUxu3uq', 'sudo@example.com', TRUE, 'MALE',TRUE,TRUE,TRUE, 'system', 'system') ON CONFLICT (user_name) DO NOTHING;
-
+-- USERS
+INSERT INTO users ( name, user_name, password, email, email_verified, gender, account_non_expired,account_non_locked,enabled,created_by, updated_by) VALUES ( 'Admin User', 'admin', '$2b$12$49ZLqbbB.5Lls18KV41ojuDGtYbLDcwHGMdRB35wD3Ao7L4W46gN.', 'admin@example.com', TRUE, 'MALE',TRUE,TRUE,TRUE, 'system', 'system') ON CONFLICT (user_name) DO NOTHING;
+INSERT INTO users ( name, user_name, password, email, email_verified, gender, account_non_expired,account_non_locked,enabled,created_by, updated_by) VALUES ( 'Manager User', 'manager', '$2b$12$Y0emneVqOxSHJQI/m5d1GezDf5H.wyjRlshKbj95g6oU9eFMr2qcS', 'manager@example.com', TRUE, 'MALE',TRUE,TRUE,TRUE, 'system', 'system') ON CONFLICT (user_name) DO NOTHING;
+INSERT INTO users ( name, user_name, password, email, email_verified, gender, account_non_expired,account_non_locked,enabled,created_by, updated_by) VALUES ( 'Customer User', 'customer', '$2b$12$Y8nE0RA62LTufclPbIQooeGli1mXma8l1FWXi/Rr0HPLLP2q18OE2', 'customer@example.com', FALSE, 'FEMALE',TRUE,TRUE,TRUE, 'system', 'system') ON CONFLICT (user_name) DO NOTHING;
+INSERT INTO users ( name, user_name, password, email, email_verified, gender, account_non_expired,account_non_locked,enabled,created_by, updated_by) VALUES ( 'Chatter User', 'chatter', '$2b$12$99aNhkJqKpRBIu1GdDZRNuxaF0hdzxYwd/aLn6JPlpHPItz2lzvVe', 'chatter@example.com', FALSE, 'MALE',TRUE,TRUE,TRUE, 'system', 'system') ON CONFLICT (user_name) DO NOTHING;
+INSERT INTO users ( name, user_name, password, email, email_verified, gender, account_non_expired,account_non_locked,enabled,created_by, updated_by) VALUES ( 'Sudo User', 'sudo', '$2b$12$Y9UHQm81cSmjqRQ89d6wfuLvbIktiDLE2OGw0U6D7nwG3NcUxu3uq', 'sudo@example.com', TRUE, 'MALE',TRUE,TRUE,TRUE, 'system', 'system') ON CONFLICT (user_name) DO NOTHING;

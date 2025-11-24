@@ -6,7 +6,7 @@ import java.util.UUID;
 import com.arch.micro_service.auth_server.role.infrastructure.dto.role.response.RoleUserMetaDataResponse;
 
 public record UserDetailResponse(
-    UUID id,
+    String id,
     String name,
     String userName,
     String email,

@@ -49,7 +49,7 @@ public class UserImpl implements UserDetails {
     return user.isEnabled();
   }
 
-  public UUID getId() {
+  public Long getId() {
     return user.getId();
   }
 }

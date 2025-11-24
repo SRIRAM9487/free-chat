@@ -12,5 +12,5 @@ public record UserCreateRequest(
     boolean accountNonExpired,
     boolean accountNonLocked,
     boolean enabled,
-    List<UUID> roles) {
+    List<Long> roles) {
 }

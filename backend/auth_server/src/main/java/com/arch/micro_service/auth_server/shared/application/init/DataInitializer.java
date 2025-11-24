@@ -1,7 +1,6 @@
 package com.arch.micro_service.auth_server.shared.application.init;
 
 import java.util.List;
-import java.util.UUID;
 
 import com.arch.micro_service.auth_server.role.application.service.permission.PermissionCrudService;
 import com.arch.micro_service.auth_server.role.application.service.role.RoleCrudService;
@@ -16,8 +15,6 @@ import com.arch.micro_service.auth_server.user.infrastructure.dto.request.UserCr
 import com.arch.micro_service.auth_server.user.infrastructure.persistence.UserRepository;
 
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -111,7 +108,7 @@ public class DataInitializer implements CommandLineRunner {
       String username = "test" + i;
       String email = "test" + i + "@example.com";
 
-      List<UUID> roleIds;
+      List<Long> roleIds;
       if (i == 1) {
         roleIds = List.of(adminRole.getId());
       } else if (i <= 3) {

@@ -1,7 +1,5 @@
 package com.arch.micro_service.auth_server.user.application.service;
 
-import java.util.UUID;
-
 import com.arch.micro_service.auth_server.user.application.service.impl.JwtServiceImpl;
 import com.arch.micro_service.auth_server.user.domain.entity.User;
 
@@ -19,12 +17,12 @@ public interface JwtService {
   /**
    * generate jwt token for the given userId
    */
-  String generate(UUID userId);
+  String generate(Long userId);
 
   /**
    * check if the jwt token is valid
    */
-  boolean validate(String token, UUID userId);
+  boolean validate(String token, Long userId);
 
   /**
    * extract userId from the token

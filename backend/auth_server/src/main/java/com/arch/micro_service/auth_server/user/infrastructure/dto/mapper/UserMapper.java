@@ -30,7 +30,7 @@ public class UserMapper {
       roles.add(roleMapper.toRoleUserMetaData(role));
     }
     return new UserDetailResponse(
-        user.getId(),
+        user.getId().toString(),
         user.getName(),
         user.getUserName(),
         user.getEmail().value(),

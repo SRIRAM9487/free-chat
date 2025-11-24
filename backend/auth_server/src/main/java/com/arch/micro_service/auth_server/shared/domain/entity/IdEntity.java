@@ -1,7 +1,5 @@
 package com.arch.micro_service.auth_server.shared.domain.entity;
 
-import java.util.UUID;
-
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,7 +19,7 @@ public abstract class IdEntity extends SoftDelete {
    * Id
    */
   @Id
-  @GeneratedValue(strategy = GenerationType.UUID)
-  private UUID id;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
 }

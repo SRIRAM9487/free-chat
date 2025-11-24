@@ -42,29 +42,31 @@ public class PermissionCrudServiceImpl implements PermissionCrudService {
   }
 
   @Override
-  public String create(PermissionCreateRequest requestDto) {
+  public Permission create(PermissionCreateRequest requestDto) {
     Permission permission = permissionMapper.toPermission(requestDto);
     permissionRepository.save(permission);
-    log.trace("Permsision created");
-    return PermissionConstant.CREATE;
+    log.debug("Permsision created");
+    log.trace("Data : {}", permission);
+    return permission;
   }
 
   @Override
-  public String update(String id, PermissionCreateRequest requestDto) {
+  public Permission update(String id, PermissionCreateRequest requestDto) {
     Permission permission = permissionFindUseCase.findById(id);
     permissionMapper.update(permission, requestDto);
     permissionRepository.save(permission);
     log.trace("Permisssion updated");
-    return PermissionConstant.UPDATE;
+    log.trace("Data : {}", permission);
+    return permission;
   }
 
   @Override
-  public String delete(String id) {
+  public Permission delete(String id) {
     Permission permission = permissionFindUseCase.findById(id);
     permission.softDelete();
     permissionRepository.save(permission);
     log.trace("Permission Deleted");
-    return PermissionConstant.DELETE;
+    return permission;
   }
 
 }

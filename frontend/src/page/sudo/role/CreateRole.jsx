@@ -150,7 +150,7 @@ function CreateRole({ isModelOpen, handleModalClose, view, editRecord }) {
         <div className="flex items-center justify-between bg-gray-50 px-4 py-3 rounded-md">
           PERMISSION
         </div>
-        <div>
+        <div className=" overflow-y-scroll">
           {formData?.rolePermissions?.map((permission, index) => (
             <div
               key={index}

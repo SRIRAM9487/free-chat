@@ -14,10 +14,10 @@ public interface PermissionCrudService {
 
   Permission get(String id);
 
-  String create(PermissionCreateRequest requestDto);
+  Permission create(PermissionCreateRequest requestDto);
 
-  String update(String id, PermissionCreateRequest requestDto);
+  Permission update(String id, PermissionCreateRequest requestDto);
 
-  String delete(String id);
+  Permission delete(String id);
 
 }
