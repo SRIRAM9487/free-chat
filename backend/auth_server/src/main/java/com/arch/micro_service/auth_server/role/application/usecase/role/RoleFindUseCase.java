@@ -16,6 +16,14 @@ public class RoleFindUseCase {
 
   private final RoleRepository roleRepository;
 
+  public List<Role> findAll() {
+
+    var roles = roleRepository.findAll();
+
+    return roles.stream().filter(role -> !role.isDeleted()).toList();
+
+  }
+
   public Role findById(String id) {
 
     var role = roleRepository.findById(Long.parseLong(id)).orElseThrow(() -> RoleException.notFound(id));
@@ -25,25 +33,7 @@ public class RoleFindUseCase {
     return role;
   }
 
-  public List<Role> findAll() {
-
-    var roles = roleRepository.findAll();
-
-    return roles.stream().filter(role -> !role.isDeleted()).toList();
-
-  }
-
   public List<Role> findAllById(List<Long> ids) {
-
-    var roles = roleRepository.findAllById(ids);
-
-    return roles.stream().filter(role -> !role.isDeleted()).toList();
-
-  }
-
-  public List<Role> findAllByListId(List<String> id) {
-
-    List<Long> ids = id.stream().map(Long::parseLong).toList();
 
     var roles = roleRepository.findAllById(ids);
 

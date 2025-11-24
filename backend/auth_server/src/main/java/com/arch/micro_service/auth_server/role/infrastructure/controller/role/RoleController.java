@@ -2,7 +2,9 @@ package com.arch.micro_service.auth_server.role.infrastructure.controller.role;
 
 import java.util.List;
 
+import com.arch.micro_service.auth_server.role.application.service.role.RoleCrudService;
 import com.arch.micro_service.auth_server.role.application.service.role.RoleService;
+import com.arch.micro_service.auth_server.role.infrastructure.dto.role.mapper.RoleMapper;
 import com.arch.micro_service.auth_server.role.infrastructure.dto.role.response.RoleUserMetaDataResponse;
 import com.arch.micro_service.auth_server.shared.infrastructure.dto.api.ApiResponse;
 
@@ -21,16 +23,21 @@ import lombok.RequiredArgsConstructor;
 public class RoleController {
 
   private final RoleService service;
+  private final RoleCrudService crudService;
+  private final RoleMapper roleMapper;
 
   @PatchMapping("/toggle/{id}")
   public ResponseEntity<ApiResponse<String>> toggleStatus(@PathVariable("id") String id) {
-    var response = ApiResponse.create(service.toggleActive(id));
+    var role = service.toggleActive(id);
+    var response = ApiResponse.create(role.getTitle() + "Locked ");
     return ResponseEntity.ok(response);
   }
 
   @GetMapping("/user/meta")
   public ResponseEntity<ApiResponse<List<RoleUserMetaDataResponse>>> userMeta() {
-    var response = ApiResponse.create(service.fetchRole());
+    var roles = crudService.getAll();
+    var dtos = roles.stream().map(roleMapper::toRoleUserMetaData).toList();
+    var response = ApiResponse.create(dtos);
     return ResponseEntity.ok(response);
   }
 

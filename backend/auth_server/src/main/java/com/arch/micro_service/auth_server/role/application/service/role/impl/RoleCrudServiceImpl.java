@@ -3,7 +3,6 @@ package com.arch.micro_service.auth_server.role.application.service.role.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.arch.micro_service.auth_server.role.application.constant.RoleConstant;
 import com.arch.micro_service.auth_server.role.application.service.role.RoleCrudService;
 import com.arch.micro_service.auth_server.role.application.usecase.permission.PermissionFindUseCase;
 import com.arch.micro_service.auth_server.role.application.usecase.role.RoleFindUseCase;
