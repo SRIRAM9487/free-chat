@@ -12,14 +12,12 @@ INSERT INTO permissions ( title, active, created_by, updated_by) VALUES ( 'USER_
 INSERT INTO permissions ( title, active, created_by, updated_by) VALUES ( 'USER_DELETE', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
 INSERT INTO permissions ( title, active, created_by, updated_by) VALUES ( 'USER_UPDATE', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
 
--- ROLES (unchanged - these succeed)
 INSERT INTO roles (title, active, created_by, updated_by) VALUES ('ADMIN', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
 INSERT INTO roles (title, active, created_by, updated_by) VALUES ('MANAGER', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
 INSERT INTO roles (title, active, created_by, updated_by) VALUES ('CUSTOMER', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
 INSERT INTO roles (title, active, created_by, updated_by) VALUES ('CHATTER', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
 INSERT INTO roles (title, active, created_by, updated_by) VALUES ('SUDO', TRUE, 'system', 'system') ON CONFLICT (title) DO NOTHING;
--- ROLE PERMISSIONS (expanded: Full RBAC setup)
--- ADMIN gets ALL permissions (12 entries)
+
 INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES (TRUE, TRUE, 1, 1, 'system', 'system') ON CONFLICT DO NOTHING; -- ROLE_CREATE
 INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES (TRUE, TRUE, 1, 2, 'system', 'system') ON CONFLICT DO NOTHING; -- ROLE_READ
 INSERT INTO role_permission ( active, active_status, role_id, permission_id, created_by, updated_by) VALUES (TRUE, TRUE, 1, 3, 'system', 'system') ON CONFLICT DO NOTHING; -- ROLE_DELETE

@@ -2,6 +2,7 @@ package com.arch.micro_service.auth_server.role.infrastructure.controller.role;
 
 import java.util.List;
 
+import com.arch.micro_service.auth_server.role.application.constant.RoleConstant;
 import com.arch.micro_service.auth_server.role.application.service.role.RoleCrudService;
 import com.arch.micro_service.auth_server.role.infrastructure.dto.role.mapper.RoleMapper;
 import com.arch.micro_service.auth_server.role.infrastructure.dto.role.request.RoleCreateRequest;
@@ -44,7 +45,8 @@ public class RoleCrudController {
 
   @PostMapping("/create")
   public ResponseEntity<ApiResponse<String>> create(@RequestBody RoleCreateRequest request) {
-    var response = ApiResponse.create(crudService.create(request));
+    crudService.create(request);
+    var response = ApiResponse.create(RoleConstant.CREATE);
     return ResponseEntity.ok(response);
   }
 
@@ -52,14 +54,15 @@ public class RoleCrudController {
   public ResponseEntity<ApiResponse<String>> update(
       @PathVariable("id") String id,
       @RequestBody RoleCreateRequest request) {
-
-    var response = ApiResponse.create(crudService.update(id, request));
+    crudService.update(id, request);
+    var response = ApiResponse.create(RoleConstant.UPDATE);
     return ResponseEntity.ok(response);
   }
 
   @DeleteMapping("/{id}")
   public ResponseEntity<ApiResponse<String>> delete(@PathVariable("id") String id) {
-    var response = ApiResponse.create(crudService.delete(id));
+    crudService.delete(id);
+    var response = ApiResponse.create(RoleConstant.DELETE);
     return ResponseEntity.ok(response);
   }
 }

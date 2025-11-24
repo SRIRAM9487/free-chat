@@ -11,10 +11,10 @@ public interface RoleCrudService {
 
   Role get(String id);
 
-  String create(RoleCreateRequest requestDto);
+  Role create(RoleCreateRequest requestDto);
 
-  String update(String id, RoleCreateRequest requestDto);
+  Role update(String id, RoleCreateRequest requestDto);
 
-  String delete(String id);
+  Role delete(String id);
 
 }

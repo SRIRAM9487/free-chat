@@ -48,11 +48,12 @@ public class RoleCrudServiceImpl implements RoleCrudService {
   }
 
   @Override
-  public String create(RoleCreateRequest requestDto) {
+  public Role create(RoleCreateRequest requestDto) {
     log.info("Creating role: {}", requestDto.title());
     Role role = roleMapper.toRole(requestDto);
     log.trace("Mapped Role entity: {}", role);
     List<RolePermission> rolePermissions = new ArrayList<>();
+
     for (var rolePermissionRequest : requestDto.rolePermissions()) {
       Permission permission = permissionFindUseCase.findById(rolePermissionRequest.permissionId());
       RolePermission rolePermission = RolePermission
@@ -64,15 +65,16 @@ public class RoleCrudServiceImpl implements RoleCrudService {
           .build();
       rolePermissions.add(rolePermission);
     }
+
     role.setRolePermissions(rolePermissions);
     log.trace("Final role entity before save: {}", role);
     roleRepository.save(role);
     log.info("Role created successfully: {}", requestDto.title());
-    return RoleConstant.CREATE;
+    return role;
   }
 
   @Override
-  public String update(String id, RoleCreateRequest requestDto) {
+  public Role update(String id, RoleCreateRequest requestDto) {
 
     Role role = roleFindUseCase.findById(id);
     roleMapper.updateRole(role, requestDto);
@@ -92,18 +94,18 @@ public class RoleCrudServiceImpl implements RoleCrudService {
 
     roleRepository.save(role);
     log.info("Updated role {} with {} permissions", id, rolePermissions.size());
-    return RoleConstant.UPDATE;
+    return role;
 
   }
 
   @Override
-  public String delete(String id) {
+  public Role delete(String id) {
     log.trace("Attempting to delete role with id: {}", id);
     var role = roleFindUseCase.findById(id);
     role.softDelete();
     roleRepository.save(role);
     log.info("Successfully deleted role with id: {}", id);
-    return RoleConstant.DELETE;
+    return role;
   }
 
 }
