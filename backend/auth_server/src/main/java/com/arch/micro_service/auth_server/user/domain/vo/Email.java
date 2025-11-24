@@ -27,7 +27,7 @@ public record Email(
   }
 
   public static Email create(String email) {
-    return new Email(email, true);
+    return new Email(email, false);
   }
 
   public static Email create(String email, boolean verified) {
