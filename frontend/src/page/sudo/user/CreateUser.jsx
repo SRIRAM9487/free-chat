@@ -5,6 +5,7 @@ import { getService } from "../../../script/getService";
 import CustomSelectBox from "../../../component/CustomSelectBox";
 import { postService } from "../../../script/postService";
 import { NotificationContext } from "../../../context/NotificationContext";
+import { patchService } from "../../../script/patchService";
 
 function CreateUser({ isModelOpen, handleModalClose, view, editRecord }) {
   const DEFAULT_FORM = {
@@ -18,10 +19,10 @@ function CreateUser({ isModelOpen, handleModalClose, view, editRecord }) {
     enabled: true,
     roles: [],
   };
+  const [formData, setFormData] = useState(DEFAULT_FORM);
+
   const [roleList, setRoleList] = useState([]);
   const { showError, showSuccess } = useContext(NotificationContext);
-
-  const [formData, setFormData] = useState(DEFAULT_FORM);
 
   const clearFormData = () => {
     setFormData(() => DEFAULT_FORM);
@@ -36,8 +37,31 @@ function CreateUser({ isModelOpen, handleModalClose, view, editRecord }) {
       }));
       setRoleList(role);
     } catch (error) {
-      console.log(error);
+      showError("Network error");
     }
+  };
+
+  const updateFormData = () => {
+    if (!editRecord) {
+      clearFormData();
+      return;
+    }
+    fetchRolesList();
+
+    const activeRoles = editRecord.roles.map((role) => role.id);
+    const updatedForm = {
+      name: editRecord.name,
+      userName: editRecord.userName,
+      password: "",
+      email: editRecord.email,
+      gender: editRecord.gender,
+      accountNonExpired: editRecord.accountNonExpired ? "true" : "false",
+      accountNonLocked: editRecord.accountNonLocked ? "true" : "false",
+      enabled: editRecord.enabled ? "true" : "false",
+      roles: activeRoles,
+    };
+
+    setFormData(updatedForm);
   };
 
   useEffect(() => {
@@ -48,26 +72,6 @@ function CreateUser({ isModelOpen, handleModalClose, view, editRecord }) {
       fetchRolesList();
     }
   }, [editRecord]);
-
-  const updateFormData = () => {
-    if (!editRecord) {
-      clearFormData();
-      return;
-    }
-    fetchRolesList();
-    const updatedForm = {
-      name: editRecord.name,
-      userName: editRecord.userName,
-      password: "",
-      email: editRecord.email,
-      gender: editRecord.gender,
-      accountNonExpired: true,
-      accountNonLocked: true,
-      enabled: true,
-      roles: [],
-    };
-    console.log(editRecord);
-  };
 
   const title = view ? "View User" : editRecord ? "Edit User" : "Create User";
 
@@ -122,17 +126,18 @@ function CreateUser({ isModelOpen, handleModalClose, view, editRecord }) {
         const response = await postService("v1/user/create", formData);
         showSuccess(response.data);
       } else {
-        const response = await postService(
-          `v1/user/create/${editRecord.id}`,
+        const response = await patchService(
+          `v1/user/update/${editRecord.id}`,
           formData,
         );
         showSuccess(response.data);
       }
+      if (handleModalClose) handleModalClose();
     } catch (error) {
-      console.log("ERROR : ", error);
-      showError(error?.response?.data?.message);
+      showError(error?.response.data.message);
     }
   };
+
   return (
     <Modal
       style={{ top: 20 }}
@@ -153,6 +158,7 @@ function CreateUser({ isModelOpen, handleModalClose, view, editRecord }) {
         <div className="grid grid-cols-2 gap-6">
           <div className="flex flex-col gap-4">
             <InputField
+              disabled={view}
               label="Name"
               value={formData.name}
               readOnly={view}
@@ -178,6 +184,7 @@ function CreateUser({ isModelOpen, handleModalClose, view, editRecord }) {
             )}
 
             <CustomSelectBox
+              disabled={view}
               label="Gender"
               options={[
                 { value: "MALE", label: "MALE" },
@@ -194,6 +201,7 @@ function CreateUser({ isModelOpen, handleModalClose, view, editRecord }) {
             />
 
             <CustomSelectBox
+              disabled={view}
               label="Account Non Expired"
               options={[
                 { value: "false", label: "Expired" },
@@ -209,6 +217,7 @@ function CreateUser({ isModelOpen, handleModalClose, view, editRecord }) {
               }
             />
             <CustomSelectBox
+              disabled={view}
               label="Enabled"
               options={[
                 { value: "false", label: "Expired" },
@@ -227,6 +236,7 @@ function CreateUser({ isModelOpen, handleModalClose, view, editRecord }) {
 
           <div className="flex flex-col gap-4">
             <InputField
+              disabled={view}
               label="Username"
               value={formData.userName}
               readOnly={view}
@@ -241,7 +251,7 @@ function CreateUser({ isModelOpen, handleModalClose, view, editRecord }) {
             <InputField
               label="Email"
               value={formData.email}
-              readOnly={view}
+              disabled={view}
               onChange={(e) =>
                 setFormData((prev) => ({
                   ...prev,
@@ -282,10 +292,23 @@ function CreateUser({ isModelOpen, handleModalClose, view, editRecord }) {
         </div>
 
         <div className="flex justify-end gap-4 mt-4">
-          <Button onClick={handleModalClose}>Cancel</Button>
+          <Button
+            color="red"
+            variant="solid"
+            className="!rounded !px-6 !py-2.5"
+            onClick={handleModalClose}
+          >
+            Cancel
+          </Button>
 
           {!view && (
-            <Button type="primary" htmlType="submit">
+            <Button
+              type="primary"
+              htmlType="submit"
+              color="primary"
+              variant="solid"
+              className="!rounded "
+            >
               {editRecord ? "Update User" : "Create User"}
             </Button>
           )}

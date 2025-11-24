@@ -33,6 +33,10 @@ function Role() {
     fetchRole();
   }, []);
 
+  const handleCreateBtn = async () => {
+    setIsModelOpen(true);
+  };
+
   const handleToggleBtn = async (record) => {
     try {
       const response = await patchService(`v1/role/toggle/${record.id}`);
@@ -82,9 +86,6 @@ function Role() {
     }
   };
 
-  const handleCreateBtn = async () => {
-    setIsModelOpen(true);
-  };
   const columns = [
     {
       title: "S.No",

@@ -86,12 +86,10 @@ function CreateRole({ isModelOpen, handleModalClose, view, editRecord }) {
           formData,
         );
         showSuccess(response.data);
-        console.log("RESPDONSE : ", response);
       }
       clearFormData();
       handleModalClose?.();
     } catch (error) {
-      console.log("ERROR : ", error);
       showError(error?.response.data.message);
     }
   };

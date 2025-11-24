@@ -105,6 +105,8 @@ public class UserCrudServiceImpl implements UserCrudService {
 
     Set<Role> roles = user.getRoles();
 
+    user.softDelete();
+
     for (var role : roles) {
       role.getUsers().remove(user);
     }

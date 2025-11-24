@@ -7,20 +7,25 @@ import { NotificationContext } from "../../../context/NotificationContext";
 import Deletebtn from "../../../component/btns/Deletebtn";
 import EditBtn from "../../../component/btns/EditBtn";
 import Viewbtn from "../../../component/btns/Viewbtn";
+import CustomDialogBox from "../../../component/CustomDialogBox";
+import { deleteService } from "../../../script/deleteService";
 
 function User() {
-  const [userData, setUserData] = useState([]);
-
   const { showError, showSuccess } = useContext(NotificationContext);
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const [view, setView] = useState(false);
+  const [userList, setUserList] = useState([]);
   const [editRecord, setEditRecord] = useState(null);
+  const [view, setView] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isDeleteBoxOpen, setIsDeleteBoxOpen] = useState(false);
 
   const fetchUsers = async () => {
     try {
       const response = await getService("v1/user");
-      setUserData(response.data);
-    } catch (error) {}
+      console.log(response.data);
+      setUserList(response.data);
+    } catch (error) {
+      showError("Network error");
+    }
   };
 
   useEffect(() => {
@@ -33,6 +38,9 @@ function User() {
 
   const handleCreateUserClose = () => {
     setIsCreateModalOpen(false);
+    fetchUsers();
+    setEditRecord(null);
+    if (view) setView(false);
   };
 
   const handleEditBtn = (record) => {
@@ -40,12 +48,32 @@ function User() {
     setIsCreateModalOpen(true);
   };
 
-  const handleDeleteBtn = (record) => {
-    setEditRecord(record);
-  };
-
   const handleViewBtn = (record) => {
     setEditRecord(record);
+    setIsCreateModalOpen(true);
+    setView(true);
+  };
+
+  const handleDeleteBtn = (record) => {
+    setEditRecord(record);
+    setIsDeleteBoxOpen(true);
+  };
+
+  const handleDeleteBtnCancel = () => {
+    setEditRecord(null);
+    setIsDeleteBoxOpen(false);
+    fetchUsers();
+  };
+
+  const handleDeleteBtnConfirm = async () => {
+    try {
+      const response = await deleteService(`v1/user/${editRecord.id}`);
+      showSuccess(response.data);
+    } catch (error) {
+      showError("Failed");
+    } finally {
+      handleDeleteBtnCancel();
+    }
   };
 
   const columns = [
@@ -101,6 +129,12 @@ function User() {
           view={view}
         />
 
+        <CustomDialogBox
+          open={isDeleteBoxOpen}
+          onCancel={handleDeleteBtnCancel}
+          onConfirm={handleDeleteBtnConfirm}
+        />
+
         <div>
           <Space>
             <Button
@@ -129,7 +163,7 @@ function User() {
           </Space>
         </div>
       </div>
-      <CustomTable columns={columns} data={userData} />
+      <CustomTable columns={columns} data={userList} />
     </div>
   );
 }
