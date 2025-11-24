@@ -10,6 +10,7 @@ import com.arch.micro_service.auth_server.role.infrastructure.dto.permission.res
 import com.arch.micro_service.auth_server.shared.infrastructure.dto.api.ApiResponse;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -30,6 +31,7 @@ public class PermissionCrudController {
   private final PermissionMapper permissionMapper;
 
   @GetMapping
+  @PreAuthorize("hasAuthority('PERMISSION_VIEW')")
   public ResponseEntity<ApiResponse<List<PermissionDetailResponse>>> getAll() {
     var permissions = crudService.getAll().stream().map(permissionMapper::fromPermission).toList();
     var response = ApiResponse.create(permissions);
@@ -37,6 +39,7 @@ public class PermissionCrudController {
   }
 
   @GetMapping("/{id}")
+  @PreAuthorize("hasAuthority('PERMISSION_VIEW')")
   public ResponseEntity<ApiResponse<PermissionDetailResponse>> get(@PathVariable("id") String id) {
     var permission = permissionMapper.fromPermission(crudService.get(id));
     var response = ApiResponse.create(permission);
@@ -44,6 +47,7 @@ public class PermissionCrudController {
   }
 
   @PostMapping("/create")
+  @PreAuthorize("hasAuthority('PERMISSION_CREATE')")
   public ResponseEntity<ApiResponse<String>> create(@RequestBody PermissionCreateRequest request) {
     crudService.create(request);
     var response = ApiResponse.create(PermissionConstant.CREATE);
@@ -51,6 +55,7 @@ public class PermissionCrudController {
   }
 
   @PatchMapping("/update/{id}")
+  @PreAuthorize("hasAuthority('PERMISSION_UPDATE')")
   public ResponseEntity<ApiResponse<String>> update(@PathVariable("id") String id,
       @RequestBody PermissionCreateRequest request) {
     crudService.update(id, request);
@@ -59,6 +64,7 @@ public class PermissionCrudController {
   }
 
   @DeleteMapping("/{id}")
+  @PreAuthorize("hasAuthority('PERMISSION_DELETE')")
   public ResponseEntity<ApiResponse<String>> delete(@PathVariable("id") String id) {
     crudService.delete(id);
     var response = ApiResponse.create(PermissionConstant.DELETE);

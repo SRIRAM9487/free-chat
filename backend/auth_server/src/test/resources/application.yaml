@@ -4,3 +4,7 @@ server:
 spring:
   profiles:
     active: dev,jpa,redis,eureka,sql
+
+eureka:
+  client:
+    enabled: false
