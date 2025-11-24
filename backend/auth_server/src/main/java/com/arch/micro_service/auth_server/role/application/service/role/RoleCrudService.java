@@ -2,14 +2,14 @@ package com.arch.micro_service.auth_server.role.application.service.role;
 
 import java.util.List;
 
+import com.arch.micro_service.auth_server.role.domain.etntiy.Role;
 import com.arch.micro_service.auth_server.role.infrastructure.dto.role.request.RoleCreateRequest;
-import com.arch.micro_service.auth_server.role.infrastructure.dto.role.response.RoleDetailResponse;
 
 public interface RoleCrudService {
 
-  List<RoleDetailResponse> getAll();
+  List<Role> getAll();
 
-  RoleDetailResponse get(String id);
+  Role get(String id);
 
   String create(RoleCreateRequest requestDto);
 

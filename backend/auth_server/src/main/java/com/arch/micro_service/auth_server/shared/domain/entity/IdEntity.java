@@ -21,7 +21,7 @@ public abstract class IdEntity extends SoftDelete {
    * Id
    */
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.UUID)
   private UUID id;
 
 }

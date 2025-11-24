@@ -8,7 +8,6 @@ import com.arch.micro_service.auth_server.role.application.usecase.permission.Pe
 import com.arch.micro_service.auth_server.role.domain.etntiy.Permission;
 import com.arch.micro_service.auth_server.role.infrastructure.dto.permission.mapper.PermissionMapper;
 import com.arch.micro_service.auth_server.role.infrastructure.dto.permission.request.PermissionCreateRequest;
-import com.arch.micro_service.auth_server.role.infrastructure.dto.permission.response.PermissionDetailResponse;
 import com.arch.micro_service.auth_server.role.infrastructure.persistence.PermissionRepository;
 
 import org.springframework.stereotype.Service;
@@ -28,19 +27,18 @@ public class PermissionCrudServiceImpl implements PermissionCrudService {
   private final PermissionFindUseCase permissionFindUseCase;
 
   @Override
-  public List<PermissionDetailResponse> getAll() {
+  public List<Permission> getAll() {
     var permissions = permissionRepository
         .findAll()
         .stream()
         .filter(p -> !p.isDeleted())
-        .map(permissionMapper::fromPermission)
         .toList();
     return permissions;
   }
 
   @Override
-  public PermissionDetailResponse get(String id) {
-    return permissionMapper.fromPermission(permissionFindUseCase.findById(id));
+  public Permission get(String id) {
+    return permissionFindUseCase.findById(id);
   }
 
   @Override

@@ -2,14 +2,15 @@ package com.arch.micro_service.auth_server.user.application.service;
 
 import java.util.List;
 
+import com.arch.micro_service.auth_server.user.domain.entity.User;
 import com.arch.micro_service.auth_server.user.infrastructure.dto.request.UserCreateRequest;
 import com.arch.micro_service.auth_server.user.infrastructure.dto.response.UserDetailResponse;
 
 public interface UserCrudService {
 
-  List<UserDetailResponse> getAll();
+  List<User> getAll();
 
-  UserDetailResponse get(String id);
+  User get(String id);
 
   String create(UserCreateRequest requestDto);
 

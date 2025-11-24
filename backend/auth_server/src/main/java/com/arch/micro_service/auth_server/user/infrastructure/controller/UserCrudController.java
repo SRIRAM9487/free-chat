@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.arch.micro_service.auth_server.shared.infrastructure.dto.api.ApiResponse;
 import com.arch.micro_service.auth_server.user.application.service.UserCrudService;
+import com.arch.micro_service.auth_server.user.infrastructure.dto.mapper.UserMapper;
 import com.arch.micro_service.auth_server.user.infrastructure.dto.request.UserCreateRequest;
 import com.arch.micro_service.auth_server.user.infrastructure.dto.response.UserDetailResponse;
 
@@ -25,16 +26,19 @@ import lombok.RequiredArgsConstructor;
 public class UserCrudController {
 
   private final UserCrudService crudService;
+  private final UserMapper userMapper;
 
   @GetMapping
   public ResponseEntity<ApiResponse<List<UserDetailResponse>>> getAll() {
-    var response = ApiResponse.create(crudService.getAll());
+    var users = crudService.getAll().stream().map(userMapper::fromUser).toList();
+    var response = ApiResponse.create(users);
     return ResponseEntity.ok(response);
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<ApiResponse<UserDetailResponse>> get(@PathVariable("id") String id) {
-    var response = ApiResponse.create(crudService.get(id));
+    var user = crudService.get(id);
+    var response = ApiResponse.create(userMapper.fromUser(user));
     return ResponseEntity.ok(response);
   }
 

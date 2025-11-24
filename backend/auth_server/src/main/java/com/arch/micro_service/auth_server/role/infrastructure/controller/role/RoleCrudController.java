@@ -3,6 +3,7 @@ package com.arch.micro_service.auth_server.role.infrastructure.controller.role;
 import java.util.List;
 
 import com.arch.micro_service.auth_server.role.application.service.role.RoleCrudService;
+import com.arch.micro_service.auth_server.role.infrastructure.dto.role.mapper.RoleMapper;
 import com.arch.micro_service.auth_server.role.infrastructure.dto.role.request.RoleCreateRequest;
 import com.arch.micro_service.auth_server.role.infrastructure.dto.role.response.RoleDetailResponse;
 import com.arch.micro_service.auth_server.shared.infrastructure.dto.api.ApiResponse;
@@ -25,16 +26,19 @@ import lombok.RequiredArgsConstructor;
 public class RoleCrudController {
 
   private final RoleCrudService crudService;
+  private final RoleMapper roleMapper;
 
   @GetMapping
   public ResponseEntity<ApiResponse<List<RoleDetailResponse>>> getAll() {
-    var response = ApiResponse.create(crudService.getAll());
+    var roles = crudService.getAll().stream().map(roleMapper::fromRole).toList();
+    var response = ApiResponse.create(roles);
     return ResponseEntity.ok(response);
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<ApiResponse<RoleDetailResponse>> get(@PathVariable("id") String id) {
-    var response = ApiResponse.create(crudService.get(id));
+    var role = crudService.get(id);
+    var response = ApiResponse.create(roleMapper.fromRole(role));
     return ResponseEntity.ok(response);
   }
 

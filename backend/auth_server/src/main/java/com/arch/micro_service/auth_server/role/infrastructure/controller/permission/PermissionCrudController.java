@@ -3,6 +3,7 @@ package com.arch.micro_service.auth_server.role.infrastructure.controller.permis
 import java.util.List;
 
 import com.arch.micro_service.auth_server.role.application.service.permission.PermissionCrudService;
+import com.arch.micro_service.auth_server.role.infrastructure.dto.permission.mapper.PermissionMapper;
 import com.arch.micro_service.auth_server.role.infrastructure.dto.permission.request.PermissionCreateRequest;
 import com.arch.micro_service.auth_server.role.infrastructure.dto.permission.response.PermissionDetailResponse;
 import com.arch.micro_service.auth_server.shared.infrastructure.dto.api.ApiResponse;
@@ -25,16 +26,19 @@ import lombok.RequiredArgsConstructor;
 public class PermissionCrudController {
 
   private final PermissionCrudService crudService;
+  private final PermissionMapper permissionMapper;
 
   @GetMapping
   public ResponseEntity<ApiResponse<List<PermissionDetailResponse>>> getAll() {
-    var response = ApiResponse.create(crudService.getAll());
+    var permissions = crudService.getAll().stream().map(permissionMapper::fromPermission).toList();
+    var response = ApiResponse.create(permissions);
     return ResponseEntity.ok(response);
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<ApiResponse<PermissionDetailResponse>> get(@PathVariable("id") String id) {
-    var response = ApiResponse.create(crudService.get(id));
+    var permission = permissionMapper.fromPermission(crudService.get(id));
+    var response = ApiResponse.create(permission);
     return ResponseEntity.ok(response);
   }
 

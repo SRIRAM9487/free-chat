@@ -13,7 +13,6 @@ import com.arch.micro_service.auth_server.role.domain.etntiy.RolePermission;
 import com.arch.micro_service.auth_server.role.infrastructure.dto.role.mapper.RoleMapper;
 import com.arch.micro_service.auth_server.role.infrastructure.dto.role.request.RoleCreateRequest;
 import com.arch.micro_service.auth_server.role.infrastructure.dto.role.request.RolePermissionCreateRequest;
-import com.arch.micro_service.auth_server.role.infrastructure.dto.role.response.RoleDetailResponse;
 import com.arch.micro_service.auth_server.role.infrastructure.persistence.RoleRepository;
 
 import org.springframework.stereotype.Service;
@@ -34,19 +33,18 @@ public class RoleCrudServiceImpl implements RoleCrudService {
   private final RoleFindUseCase roleFindUseCase;
 
   @Override
-  public List<RoleDetailResponse> getAll() {
+  public List<Role> getAll() {
     var roles = roleRepository
         .findAll()
         .stream()
         .filter(p -> !p.isDeleted())
-        .map(roleMapper::fromRole)
         .toList();
     return roles;
   }
 
   @Override
-  public RoleDetailResponse get(String id) {
-    return roleMapper.fromRole(roleFindUseCase.findById(id));
+  public Role get(String id) {
+    return roleFindUseCase.findById(id);
   }
 
   @Override

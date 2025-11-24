@@ -13,7 +13,6 @@ import com.arch.micro_service.auth_server.user.domain.entity.User;
 import com.arch.micro_service.auth_server.user.domain.vo.Password;
 import com.arch.micro_service.auth_server.user.infrastructure.dto.mapper.UserMapper;
 import com.arch.micro_service.auth_server.user.infrastructure.dto.request.UserCreateRequest;
-import com.arch.micro_service.auth_server.user.infrastructure.dto.response.UserDetailResponse;
 import com.arch.micro_service.auth_server.user.infrastructure.persistence.UserRepository;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -34,20 +33,19 @@ public class UserCrudServiceImpl implements UserCrudService {
   private final PasswordEncoder passwordEncoder;
 
   @Override
-  public List<UserDetailResponse> getAll() {
+  public List<User> getAll() {
     var users = userRepository
         .findAll()
         .stream()
         .filter(p -> !p.isDeleted())
-        .map(userMapper::fromUser)
         .toList();
 
     return users;
   }
 
   @Override
-  public UserDetailResponse get(String id) {
-    return userMapper.fromUser(userFindUseCase.findById(id));
+  public User get(String id) {
+    return userFindUseCase.findById(id);
   }
 
   @Override
