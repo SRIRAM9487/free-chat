@@ -1,0 +1,93 @@
+package com.arch.micro_service.auth_server.user.application.service;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.List;
+
+import com.arch.micro_service.auth_server.shared.domain.constant.Gender;
+import com.arch.micro_service.auth_server.user.domain.entity.User;
+import com.arch.micro_service.auth_server.user.domain.vo.Email;
+import com.arch.micro_service.auth_server.user.infrastructure.dto.request.UserCreateRequest;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
+
+@SpringBootTest
+public class UserCrudServiceTest {
+
+  @Autowired
+  private UserCrudService userCrudService;
+
+  @Test
+  @Transactional
+  void getAll() {
+    List<User> users = userCrudService.getAll();
+    assertEquals(5, users.size());
+    userCrudService.delete("1");
+    users = userCrudService.getAll();
+    assertEquals(4, users.size());
+  }
+
+  @Test
+  @Transactional
+  void getById() {
+    User user = userCrudService.get("1");
+    assertEquals(1L, user.getId());
+    assertEquals("Admin User", user.getName());
+    assertEquals("admin", user.getUserName());
+  }
+
+  @Test
+  @Transactional
+  void createUser() {
+
+    UserCreateRequest req = new UserCreateRequest("test", "Tester", "test", "test@gmail.com", "MALE", true, false,
+        false, List.of(1L, 2L, 3L));
+
+    User user = userCrudService.create(req);
+
+    assertEquals(6L, user.getId());
+    assertEquals(req.name(), user.getName());
+    assertEquals(req.userName(), user.getUserName());
+    assertNotNull(user.getPassword());
+    assertEquals(Email.create("test@gmail.com"), user.getEmail());
+    assertEquals(Gender.MALE, user.getGender());
+    assertEquals(req.accountNonLocked(), user.isAccountNonLocked());
+    assertEquals(req.accountNonExpired(), user.isAccountNonExpired());
+    assertEquals(req.enabled(), user.isEnabled());
+    assertNotNull(user.getCreatedAt());
+  }
+
+  @Test
+  @Transactional
+  void updateUser() {
+
+    UserCreateRequest req = new UserCreateRequest("test", "Tester", "test", "test@gmail.com", "MALE", true, false,
+        false, List.of(1L, 2L, 3L));
+    User user = userCrudService.update("1", req);
+    assertEquals(6L, user.getId());
+    assertEquals(req.name(), user.getName());
+    assertEquals(req.userName(), user.getUserName());
+    assertNotNull(user.getPassword());
+    assertEquals(Email.create("test@gmail.com"), user.getEmail());
+    assertEquals(Gender.MALE, user.getGender());
+    assertEquals(req.accountNonLocked(), user.isAccountNonLocked());
+    assertEquals(req.accountNonExpired(), user.isAccountNonExpired());
+    assertEquals(req.enabled(), user.isEnabled());
+    assertNotNull(user.getCreatedAt());
+  }
+
+  @Test
+  @Transactional
+  void deleteUser() {
+    User user = userCrudService.delete("1");
+    assertNotNull(user.getDeletedAt());
+    assertTrue(user.getRoles().isEmpty());
+  }
+
+}

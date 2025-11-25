@@ -3,6 +3,7 @@ package com.arch.micro_service.auth_server.user.infrastructure.controller;
 import java.util.List;
 
 import com.arch.micro_service.auth_server.shared.infrastructure.dto.api.ApiResponse;
+import com.arch.micro_service.auth_server.user.application.constant.UserCrudConstant;
 import com.arch.micro_service.auth_server.user.application.service.UserCrudService;
 import com.arch.micro_service.auth_server.user.infrastructure.dto.mapper.UserMapper;
 import com.arch.micro_service.auth_server.user.infrastructure.dto.request.UserCreateRequest;
@@ -44,20 +45,23 @@ public class UserCrudController {
 
   @PostMapping("/create")
   public ResponseEntity<ApiResponse<String>> create(@RequestBody UserCreateRequest request) {
-    var response = ApiResponse.create(crudService.create(request));
+    crudService.create(request);
+    var response = ApiResponse.create(UserCrudConstant.CREATE);
     return ResponseEntity.ok(response);
   }
 
   @PatchMapping("/update/{id}")
   public ResponseEntity<ApiResponse<String>> update(@PathVariable("id") String id,
       @RequestBody UserCreateRequest request) {
-    var response = ApiResponse.create(crudService.update(id, request));
+    crudService.update(id, request);
+    var response = ApiResponse.create(UserCrudConstant.UPDATE);
     return ResponseEntity.ok(response);
   }
 
   @DeleteMapping("/{id}")
   public ResponseEntity<ApiResponse<String>> delete(@PathVariable("id") String id) {
-    var response = ApiResponse.create(crudService.delete(id));
+    crudService.delete(id);
+    var response = ApiResponse.create(UserCrudConstant.DELETE);
     return ResponseEntity.ok(response);
   }
 

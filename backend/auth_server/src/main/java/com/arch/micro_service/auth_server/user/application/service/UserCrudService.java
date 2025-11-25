@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.arch.micro_service.auth_server.user.domain.entity.User;
 import com.arch.micro_service.auth_server.user.infrastructure.dto.request.UserCreateRequest;
-import com.arch.micro_service.auth_server.user.infrastructure.dto.response.UserDetailResponse;
 
 public interface UserCrudService {
 
@@ -12,10 +11,10 @@ public interface UserCrudService {
 
   User get(String id);
 
-  String create(UserCreateRequest requestDto);
+  User create(UserCreateRequest requestDto);
 
-  String update(String id, UserCreateRequest requestDto);
+  User update(String id, UserCreateRequest requestDto);
 
-  String delete(String id);
+  User delete(String id);
 
 }

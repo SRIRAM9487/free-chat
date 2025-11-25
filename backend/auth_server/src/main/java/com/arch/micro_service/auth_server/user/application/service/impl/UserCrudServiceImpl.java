@@ -49,7 +49,7 @@ public class UserCrudServiceImpl implements UserCrudService {
   }
 
   @Override
-  public String create(UserCreateRequest requestDto) {
+  public User create(UserCreateRequest requestDto) {
 
     User user = userMapper.toUser(requestDto);
     user.updatePassword(passwordEncoder.encode(requestDto.password()));
@@ -62,13 +62,13 @@ public class UserCrudServiceImpl implements UserCrudService {
       }
     }
 
-    userRepository.save(user);
+    User savedUser = userRepository.save(user);
 
-    return UserCrudConstant.CREATE;
+    return savedUser;
   }
 
   @Override
-  public String update(String id, UserCreateRequest requestDto) {
+  public User update(String id, UserCreateRequest requestDto) {
 
     User user = userFindUseCase.findById(id);
 
@@ -90,14 +90,14 @@ public class UserCrudServiceImpl implements UserCrudService {
       }
     }
 
-    userRepository.save(user);
+    User updatedUser = userRepository.save(user);
 
-    return UserCrudConstant.UPDATE;
+    return updatedUser;
 
   }
 
   @Override
-  public String delete(String id) {
+  public User delete(String id) {
 
     User user = userFindUseCase.findById(id);
 
@@ -109,9 +109,9 @@ public class UserCrudServiceImpl implements UserCrudService {
       role.getUsers().remove(user);
     }
 
-    userRepository.save(user);
+    User deleteUser = userRepository.save(user);
 
-    return UserCrudConstant.DELETE;
+    return deleteUser;
   }
 
 }
