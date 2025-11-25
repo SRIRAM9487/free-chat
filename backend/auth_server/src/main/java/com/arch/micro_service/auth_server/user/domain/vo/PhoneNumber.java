@@ -6,7 +6,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 @Embeddable
-public record PhoneNumber(
+public record   PhoneNumber(
     /*
      * Phone number
      */

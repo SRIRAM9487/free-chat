@@ -9,6 +9,7 @@ import EditBtn from "../../../component/btns/EditBtn";
 import Viewbtn from "../../../component/btns/Viewbtn";
 import CustomDialogBox from "../../../component/CustomDialogBox";
 import { deleteService } from "../../../script/deleteService";
+import UserAction from "./UserAction";
 
 function User() {
   const { showError, showSuccess } = useContext(NotificationContext);
@@ -17,6 +18,7 @@ function User() {
   const [view, setView] = useState(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isDeleteBoxOpen, setIsDeleteBoxOpen] = useState(false);
+  const [isActionBoxOpen, setIsActionBoxOpen] = useState(false);
 
   const fetchUsers = async () => {
     try {
@@ -76,6 +78,8 @@ function User() {
     }
   };
 
+  const handleActionBox = () => {};
+
   const columns = [
     {
       title: "S.No",
@@ -133,6 +137,10 @@ function User() {
           open={isDeleteBoxOpen}
           onCancel={handleDeleteBtnCancel}
           onConfirm={handleDeleteBtnConfirm}
+        />
+        <UserAction
+          isModelOpen={isActionBoxOpen}
+          handleModalClose={handleActionBox}
         />
 
         <div>

@@ -4,7 +4,7 @@ import com.arch.micro_service.auth_server.shared.domain.exception.BaseException;
 import com.arch.micro_service.auth_server.user.domain.exception.type.PhoneNumberExceptionType;
 
 /**
- * Exception to handle {@link PhoneNumbe}
+ * Exception to handle {@link com.arch.micro_service.auth_server.user.domain.vo.PhoneNumber}
  * 
  * @author SRIRAM
  */
@@ -26,15 +26,4 @@ public class PhoneNumberException extends BaseException {
     return new PhoneNumberException(PhoneNumberExceptionType.TOO_LONG);
   }
 
-  public static PhoneNumberException invalidCharacters() {
-    return new PhoneNumberException(PhoneNumberExceptionType.INVALID_CHARACTERS);
-  }
-
-  public static PhoneNumberException invalidCountryCode() {
-    return new PhoneNumberException(PhoneNumberExceptionType.INVALID_COUNTRY_CODE);
-  }
-
-  public static PhoneNumberException invalidPhoneNumber() {
-    return new PhoneNumberException(PhoneNumberExceptionType.INVALID_PHONE_NUMBER);
-  }
 }
