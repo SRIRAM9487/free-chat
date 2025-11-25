@@ -1,7 +1,6 @@
 package com.arch.micro_service.auth_server.user.domain.entity;
 
 import java.util.Collection;
-import java.util.UUID;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

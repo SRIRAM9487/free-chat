@@ -1,7 +1,5 @@
 package com.arch.micro_service.auth_server.user.application.usecase;
 
-import java.util.UUID;
-
 import com.arch.micro_service.auth_server.user.domain.entity.User;
 import com.arch.micro_service.auth_server.user.domain.exception.UserException;
 import com.arch.micro_service.auth_server.user.domain.vo.Email;
@@ -16,10 +14,9 @@ import lombok.RequiredArgsConstructor;
 public class UserFindUseCase {
 
   private final UserRepository userRepository;
-  private final String UUIDPATTERN = "^[0-9a-fA-F]{8}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{12}$";
 
   public User findById(String id) {
-    User user = userRepository.findById(UUID.fromString(id)).orElseThrow(() -> UserException.notFound(id));
+    User user = userRepository.findById(Long.parseLong(id)).orElseThrow(() -> UserException.notFound(id));
     if (user.isDeleted()) {
       throw UserException.notFound(id);
     }
@@ -33,10 +30,6 @@ public class UserFindUseCase {
     return user;
   }
 
-  public User findByEmail(Email email) {
-    return findByEmail(email.value());
-  }
-
   public User findByUserName(String userName) {
     User user = userRepository.findByUserName(userName).orElseThrow(() -> UserException.notFound(userName));
     if (user.isDeleted())
@@ -48,8 +41,11 @@ public class UserFindUseCase {
     if (Email.isEmail(id))
       return findByEmail(id);
 
-    if (id.matches(UUIDPATTERN))
+    try {
+      Long.parseLong(id);
       return findById(id);
+    } catch (NumberFormatException e) {
+    }
 
     return findByUserName(id);
   }
