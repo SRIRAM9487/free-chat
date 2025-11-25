@@ -22,6 +22,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
+@Transactional
 public class RoleCrudServiceTest {
 
   @Autowired
@@ -43,7 +44,6 @@ public class RoleCrudServiceTest {
   }
 
   @Test
-  @Transactional
   void getByIdNotFound() {
     RoleException exception = assertThrowsExactly(RoleException.class,
         () -> roleCrudService.get("588"));
@@ -51,7 +51,6 @@ public class RoleCrudServiceTest {
   }
 
   @Test
-  @Transactional
   void createRole() {
     List<Permission> permissions = permissionCrudService.getAll();
     List<RolePermissionCreateRequest> rpreq = List.of(
@@ -80,7 +79,6 @@ public class RoleCrudServiceTest {
   }
 
   @Test
-  @Transactional
   void updateRole() {
 
     List<Permission> permissions = permissionCrudService.getAll();
@@ -117,7 +115,6 @@ public class RoleCrudServiceTest {
   }
 
   @Test
-  @Transactional
   void deleteRole() {
 
     List<Role> roles = roleCrudService.getAll();

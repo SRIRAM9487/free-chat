@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum RoleExceptionType implements BaseExceptionType {
 
+  ROLE_TITLE_UNIQUE("Role must be unique", HttpStatus.CONFLICT),
   ROLE_NOT_FOUND("Role not found", HttpStatus.NOT_FOUND);
 
   private final String message;

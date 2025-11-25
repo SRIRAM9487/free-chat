@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.arch.micro_service.auth_server.role.domain.exception.type.PermissionExceptionType;
+import com.arch.micro_service.auth_server.role.domain.exception.type.RoleExceptionType;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,37 +23,41 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class PermissionControllerAdviceTest {
+public class RoleControllerAdvice {
 
   @Autowired
   private MockMvc mockMvc;
 
   @Test
-  @WithMockUser(authorities = "PERMISSION_VIEW")
-  void getByIdNotFound() throws Exception {
-    mockMvc.perform(get("/v1/permission/9999")
+  @WithMockUser(authorities = "ROLE_VIEW")
+  void getById() throws Exception {
+    this.mockMvc.perform(get("/v1/role/9999")
         .accept(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.success").value(false))
         .andExpect(jsonPath("$.method").value(HttpMethod.GET.name()))
         .andExpect(status().is(HttpStatus.NOT_FOUND.value()))
         .andExpect(jsonPath("$.timeStamp").exists())
-        .andExpect(jsonPath("$.path").value("/v1/permission/9999"))
-        .andExpect(jsonPath("$.message").value(PermissionExceptionType.PERMISSION_NOT_FOUND.getMessage()))
-        .andExpect(jsonPath("$.code").value(PermissionExceptionType.PERMISSION_NOT_FOUND.name()));
+        .andExpect(jsonPath("$.path").value("/v1/role/9999"))
+        .andExpect(jsonPath("$.message").value(RoleExceptionType.ROLE_NOT_FOUND.getMessage()))
+        .andExpect(jsonPath("$.code").value(RoleExceptionType.ROLE_NOT_FOUND.name()));
   }
 
   @Test
-  @WithMockUser(authorities = "PERMISSION_CREATE")
-  void createPermission() throws Exception {
-
+  @WithMockUser(authorities = "ROLE_CREATE")
+  void createRole() throws Exception {
     String body = """
         {
-        "title" : "ROLE_CREATE",
-        "active" : true
+          "title": "ADMIN",
+          "active": true,
+          "rolePermissions": [
+            { "permissionId": "1", "active": true },
+            { "permissionId": "2", "active": true },
+            { "permissionId": "3", "active": false }
+          ]
         }
         """;
 
-    mockMvc.perform(post("/v1/permission/create")
+    this.mockMvc.perform(post("/v1/role/create")
         .content(body)
         .contentType(MediaType.APPLICATION_JSON)
         .accept(MediaType.APPLICATION_JSON))
@@ -61,23 +65,27 @@ public class PermissionControllerAdviceTest {
         .andExpect(jsonPath("$.method").value(HttpMethod.POST.name()))
         .andExpect(status().is(HttpStatus.CONFLICT.value()))
         .andExpect(jsonPath("$.timeStamp").exists())
-        .andExpect(jsonPath("$.path").value("/v1/permission/create"))
-        .andExpect(jsonPath("$.message").value(PermissionExceptionType.UNIQUE_TITLE.getMessage()))
-        .andExpect(jsonPath("$.code").value(PermissionExceptionType.UNIQUE_TITLE.name()));
+        .andExpect(jsonPath("$.path").value("/v1/role/create"))
+        .andExpect(jsonPath("$.message").value(RoleExceptionType.ROLE_TITLE_UNIQUE.getMessage()))
+        .andExpect(jsonPath("$.code").value(RoleExceptionType.ROLE_TITLE_UNIQUE.name()));
   }
 
   @Test
-  @WithMockUser(authorities = "PERMISSION_UPDATE")
-  void updatePermissionNotFound() throws Exception {
-
+  @WithMockUser(authorities = "ROLE_UPDATE")
+  void updateRoleNotFound() throws Exception {
     String body = """
         {
-        "title" : "ROLE_CREATE",
-        "active" : true
+          "title": "ADMIN",
+          "active": true,
+          "rolePermissions": [
+            { "permissionId": "1", "active": true },
+            { "permissionId": "2", "active": true },
+            { "permissionId": "3", "active": false }
+          ]
         }
         """;
 
-    mockMvc.perform(patch("/v1/permission/update/9999")
+    this.mockMvc.perform(patch("/v1/role/update/9999")
         .content(body)
         .contentType(MediaType.APPLICATION_JSON)
         .accept(MediaType.APPLICATION_JSON))
@@ -85,24 +93,23 @@ public class PermissionControllerAdviceTest {
         .andExpect(jsonPath("$.method").value(HttpMethod.PATCH.name()))
         .andExpect(status().is(HttpStatus.NOT_FOUND.value()))
         .andExpect(jsonPath("$.timeStamp").exists())
-        .andExpect(jsonPath("$.path").value("/v1/permission/update/9999"))
-        .andExpect(jsonPath("$.message").value(PermissionExceptionType.PERMISSION_NOT_FOUND.getMessage()))
-        .andExpect(jsonPath("$.code").value(PermissionExceptionType.PERMISSION_NOT_FOUND.name()));
+        .andExpect(jsonPath("$.path").value("/v1/role/update/9999"))
+        .andExpect(jsonPath("$.message").value(RoleExceptionType.ROLE_NOT_FOUND.getMessage()))
+        .andExpect(jsonPath("$.code").value(RoleExceptionType.ROLE_NOT_FOUND.name()));
   }
 
   @Test
-  @WithMockUser(authorities = "PERMISSION_DELETE")
-  void deletePermissionNotFound() throws Exception {
+  @WithMockUser(authorities = "ROLE_DELETE")
+  void deleteRoleNotFound() throws Exception {
 
-    mockMvc.perform(delete("/v1/permission/9999")
+    this.mockMvc.perform(delete("/v1/role/9999")
         .accept(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.success").value(false))
         .andExpect(jsonPath("$.method").value(HttpMethod.DELETE.name()))
         .andExpect(status().is(HttpStatus.NOT_FOUND.value()))
         .andExpect(jsonPath("$.timeStamp").exists())
-        .andExpect(jsonPath("$.path").value("/v1/permission/9999"))
-        .andExpect(jsonPath("$.message").value(PermissionExceptionType.PERMISSION_NOT_FOUND.getMessage()))
-        .andExpect(jsonPath("$.code").value(PermissionExceptionType.PERMISSION_NOT_FOUND.name()));
+        .andExpect(jsonPath("$.path").value("/v1/role/9999"))
+        .andExpect(jsonPath("$.message").value(RoleExceptionType.ROLE_NOT_FOUND.getMessage()))
+        .andExpect(jsonPath("$.code").value(RoleExceptionType.ROLE_NOT_FOUND.name()));
   }
-
 }

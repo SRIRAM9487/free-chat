@@ -14,4 +14,8 @@ public class RoleException extends BaseException {
     return new RoleException(RoleExceptionType.ROLE_NOT_FOUND);
   }
 
+  public static BaseException titleUniqueKeyViolation() {
+    return new RoleException(RoleExceptionType.ROLE_TITLE_UNIQUE);
+  }
+
 }

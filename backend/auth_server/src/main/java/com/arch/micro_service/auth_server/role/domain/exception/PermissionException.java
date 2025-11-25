@@ -18,4 +18,8 @@ public class PermissionException extends BaseException {
     return new PermissionException(PermissionExceptionType.PERMISSION_NOT_FOUND);
   }
 
+  public static PermissionException titleUniqueKeyViolation() {
+    return new PermissionException(PermissionExceptionType.UNIQUE_TITLE);
+  }
+
 }

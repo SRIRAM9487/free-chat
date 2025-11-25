@@ -16,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
+@Transactional
 public class PermissionFindUseCaseTest {
 
   @Autowired
@@ -32,7 +33,6 @@ public class PermissionFindUseCaseTest {
   }
 
   @Test
-  @Transactional
   void getByIdNotFound() {
 
     PermissionException exception = assertThrowsExactly(PermissionException.class,

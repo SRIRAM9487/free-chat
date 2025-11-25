@@ -16,13 +16,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 public class RoleControllerTest {
 
   @Autowired
   private MockMvc mockMvc;
 
   @Test
-  @Transactional
   @WithMockUser(authorities = "ROLE_TOGGLE")
   void toggleStatus() throws Exception {
     this.mockMvc
@@ -43,7 +43,6 @@ public class RoleControllerTest {
   }
 
   @Test
-  @Transactional
   @WithMockUser(authorities = "ROLE_META")
   void roleMetaForUsers() throws Exception {
     this.mockMvc

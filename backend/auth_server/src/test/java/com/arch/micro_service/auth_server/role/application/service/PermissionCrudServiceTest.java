@@ -23,6 +23,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
+@Transactional
 public class PermissionCrudServiceTest {
 
   @Autowired
@@ -42,7 +43,6 @@ public class PermissionCrudServiceTest {
   }
 
   @Test
-  @Transactional
   void getByIdNotFound() {
     PermissionException exception = assertThrowsExactly(PermissionException.class,
         () -> permissionCrudService.get("588"));
@@ -50,7 +50,6 @@ public class PermissionCrudServiceTest {
   }
 
   @Test
-  @Transactional
   void createNewPermission() {
     PermissionCreateRequest testCreate = new PermissionCreateRequest("TEST_CREATE", true);
     Permission createdTestPermission = permissionCrudService.create(testCreate);
@@ -62,7 +61,6 @@ public class PermissionCrudServiceTest {
   }
 
   @Test
-  @Transactional
   void createNewPermissionUniqueTitleException() {
     PermissionCreateRequest testCreate = new PermissionCreateRequest("TEST_CREATE", true);
     permissionCrudService.create(testCreate);
@@ -71,7 +69,6 @@ public class PermissionCrudServiceTest {
   }
 
   @Test
-  @Transactional
   void updatePermission() {
     PermissionCreateRequest testCreate = new PermissionCreateRequest("TEST_CREATE", true);
     PermissionCreateRequest updateCreate = new PermissionCreateRequest("UPDATE_TEST_CREATE", false);
@@ -83,7 +80,6 @@ public class PermissionCrudServiceTest {
   }
 
   @Test
-  @Transactional
   void deletePermission() {
     Collection<Permission> permissions = permissionCrudService.getAll();
     Permission permission = permissionCrudService.delete("1");

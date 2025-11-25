@@ -20,13 +20,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 public class RoleCrudController {
 
   @Autowired
   private MockMvc mockMvc;
 
   @Test
-  @Transactional
   @WithMockUser(authorities = "ROLE_VIEW")
   void getAll() throws Exception {
     this.mockMvc
@@ -38,7 +38,6 @@ public class RoleCrudController {
   }
 
   @Test
-  @Transactional
   @WithMockUser(authorities = "ROLE_VIEW")
   void getById() throws Exception {
     this.mockMvc
@@ -53,7 +52,6 @@ public class RoleCrudController {
   }
 
   @Test
-  @Transactional
   @WithMockUser(authorities = "ROLE_CREATE")
   void createRole() throws Exception {
     String body = """
@@ -79,7 +77,6 @@ public class RoleCrudController {
   }
 
   @Test
-  @Transactional
   @WithMockUser(authorities = "ROLE_UPDATE")
   void updateRole() throws Exception {
     String body = """
@@ -105,7 +102,6 @@ public class RoleCrudController {
   }
 
   @Test
-  @Transactional
   @WithMockUser(authorities = "ROLE_DELETE")
   void deleteRole() throws Exception {
     this.mockMvc.perform(delete("/v1/role/1")

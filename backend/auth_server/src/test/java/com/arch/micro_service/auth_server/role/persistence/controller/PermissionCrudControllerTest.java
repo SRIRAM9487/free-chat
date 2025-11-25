@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 class PermissionCrudControllerTest {
 
   @Autowired
@@ -53,7 +54,6 @@ class PermissionCrudControllerTest {
   }
 
   @Test
-  @Transactional
   @WithMockUser(authorities = "PERMISSION_CREATE")
   void create() throws Exception {
     String body = """
@@ -74,7 +74,6 @@ class PermissionCrudControllerTest {
   }
 
   @Test
-  @Transactional
   @WithMockUser(authorities = "PERMISSION_UPDATE")
   void update() throws Exception {
     String body = """
@@ -95,7 +94,6 @@ class PermissionCrudControllerTest {
   }
 
   @Test
-  @Transactional
   @WithMockUser(authorities = "PERMISSION_DELETE")
   void deletePermission() throws Exception {
     mockMvc.perform(delete("/v1/permission/1")

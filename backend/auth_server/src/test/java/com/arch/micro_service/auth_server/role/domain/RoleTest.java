@@ -7,6 +7,7 @@ import com.arch.micro_service.auth_server.role.domain.etntiy.Role;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.transaction.annotation.Transactional;
 
 public class RoleTest {
 
@@ -22,6 +23,7 @@ public class RoleTest {
   }
 
   @Test
+  @Transactional
   void toggleRoleActiveStatus() {
     assertTrue(role.isActive(), "Role is active");
     role.toggleActive();
