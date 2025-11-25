@@ -59,7 +59,7 @@ public class User extends BasedEntity {
   /**
    * User gender
    */
-  @Column(name = "gender", nullable = false, unique = false)
+  @Column(name = "gender", nullable = false)
   @Enumerated(EnumType.STRING)
   private Gender gender;
 

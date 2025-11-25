@@ -10,6 +10,7 @@ import com.arch.micro_service.auth_server.user.infrastructure.dto.request.UserCr
 import com.arch.micro_service.auth_server.user.infrastructure.dto.response.UserDetailResponse;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -30,6 +31,7 @@ public class UserCrudController {
   private final UserMapper userMapper;
 
   @GetMapping
+  @PreAuthorize("hasAuthority('USER_VIEW')")
   public ResponseEntity<ApiResponse<List<UserDetailResponse>>> getAll() {
     var users = crudService.getAll().stream().map(userMapper::fromUser).toList();
     var response = ApiResponse.create(users);
@@ -37,6 +39,7 @@ public class UserCrudController {
   }
 
   @GetMapping("/{id}")
+  @PreAuthorize("hasAuthority('USER_VIEW')")
   public ResponseEntity<ApiResponse<UserDetailResponse>> get(@PathVariable("id") String id) {
     var user = crudService.get(id);
     var response = ApiResponse.create(userMapper.fromUser(user));
@@ -44,6 +47,7 @@ public class UserCrudController {
   }
 
   @PostMapping("/create")
+  @PreAuthorize("hasAuthority('USER_CREATE')")
   public ResponseEntity<ApiResponse<String>> create(@RequestBody UserCreateRequest request) {
     crudService.create(request);
     var response = ApiResponse.create(UserCrudConstant.CREATE);
@@ -51,6 +55,7 @@ public class UserCrudController {
   }
 
   @PatchMapping("/update/{id}")
+  @PreAuthorize("hasAuthority('USER_UPDATE')")
   public ResponseEntity<ApiResponse<String>> update(@PathVariable("id") String id,
       @RequestBody UserCreateRequest request) {
     crudService.update(id, request);
@@ -59,6 +64,7 @@ public class UserCrudController {
   }
 
   @DeleteMapping("/{id}")
+  @PreAuthorize("hasAuthority('USER_DELETE')")
   public ResponseEntity<ApiResponse<String>> delete(@PathVariable("id") String id) {
     crudService.delete(id);
     var response = ApiResponse.create(UserCrudConstant.DELETE);

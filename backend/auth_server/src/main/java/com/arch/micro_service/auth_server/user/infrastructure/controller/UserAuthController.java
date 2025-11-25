@@ -7,6 +7,7 @@ import com.arch.micro_service.auth_server.user.infrastructure.dto.response.UserL
 import com.arch.micro_service.auth_server.user.infrastructure.dto.response.UserPasswordVerificationResponse;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,6 +31,7 @@ public class UserAuthController {
   }
 
   @PatchMapping("/login/verify")
+  @PreAuthorize("hasAuthority('USER_LOGIN')")
   public ResponseEntity<ApiResponse<UserPasswordVerificationResponse>> verifyUser(
       @RequestParam("userId") String userId) {
     var response = ApiResponse.create(userAuthService.userVerify(userId));
@@ -37,6 +39,7 @@ public class UserAuthController {
   }
 
   @PatchMapping("/login/reset")
+  @PreAuthorize("hasAuthority('USER_PASSWORD_RESET')")
   public ResponseEntity<ApiResponse<UserPasswordVerificationResponse>> passwordReset(
       @RequestParam("userId") String userId) {
     var response = ApiResponse.create(userAuthService.resetPassword(userId));

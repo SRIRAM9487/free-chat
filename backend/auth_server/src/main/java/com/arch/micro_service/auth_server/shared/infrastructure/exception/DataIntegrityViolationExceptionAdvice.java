@@ -4,6 +4,7 @@ import com.arch.micro_service.auth_server.role.domain.exception.PermissionExcept
 import com.arch.micro_service.auth_server.role.domain.exception.RoleException;
 import com.arch.micro_service.auth_server.shared.domain.exception.BaseException;
 import com.arch.micro_service.auth_server.shared.infrastructure.dto.api.ApiException;
+import com.arch.micro_service.auth_server.user.domain.exception.UserException;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,12 @@ public class DataIntegrityViolationExceptionAdvice {
 
     if (exception.getLocalizedMessage().contains("roles_title_key"))
       return RoleException.titleUniqueKeyViolation();
+
+    if (exception.getLocalizedMessage().contains("users_email_key"))
+      return UserException.emailNotUniqueViolation();
+
+    if (exception.getLocalizedMessage().contains("users_user_name_key"))
+      return UserException.userNameNotUniqueViolation();
 
     return null;
   }

@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum UserExceptionType implements BaseExceptionType {
 
+  USER_EMAIL_MUST_BE_UNIQUE("User Email already exists", HttpStatus.CONFLICT),
+  USER_NAME_MUST_BE_UNIQUE("User name already exists", HttpStatus.CONFLICT),
   USER_NOT_FOUND("User not found", HttpStatus.NOT_FOUND),
   AUTHENTICATION_FAILED("Authentication failed", HttpStatus.UNAUTHORIZED),
   EMAIL_NOT_VERIFIED("Email not verified", HttpStatus.FORBIDDEN),

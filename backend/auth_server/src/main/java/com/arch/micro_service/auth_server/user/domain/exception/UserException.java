@@ -35,4 +35,12 @@ public class UserException extends BaseException {
     return new UserException(UserExceptionType.INVALID_OTP);
   }
 
+  public static UserException emailNotUniqueViolation() {
+    return new UserException(UserExceptionType.USER_EMAIL_MUST_BE_UNIQUE);
+  }
+
+  public static UserException userNameNotUniqueViolation() {
+    return new UserException(UserExceptionType.USER_NAME_MUST_BE_UNIQUE);
+  }
+
 }
