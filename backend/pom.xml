@@ -16,6 +16,7 @@
     <module>config_server</module>
     <module>gateway_server</module>
     <module>auth_server</module>
+    <module>notification_server</module>
   </modules>
 
   <parent>

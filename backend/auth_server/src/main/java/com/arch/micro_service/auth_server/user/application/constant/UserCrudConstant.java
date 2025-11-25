@@ -6,6 +6,6 @@ public class UserCrudConstant {
 
   public static String UPDATE = "User Updated";
 
-  public static String DELETE = "User deleted";
+  public static String DELETE = "User Deleted";
 
 }

@@ -49,12 +49,13 @@ public class UserAuthServiceImpl implements UserAuthService {
     return userMapper.toUserLoginResponse(user, jwt);
   }
 
+  // TODO:
   @Override
   public UserPasswordVerificationResponse userVerify(String userId) {
-    // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'userVerify'");
   }
 
+  // TODO:
   @Override
   public UserPasswordVerificationResponse resetPassword(String userId) {
 
@@ -68,6 +69,7 @@ public class UserAuthServiceImpl implements UserAuthService {
         "Password has been successfully reset. A confirmation email has been sent to the user.");
   }
 
+  // TODO:
   @Override
   public UserPasswordVerificationResponse newPassword(String token, UserLoginRequest userLoginRequest) {
     // TODO Auto-generated method stub

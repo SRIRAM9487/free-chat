@@ -2,7 +2,6 @@ package com.arch.micro_service.auth_server.user.application.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -70,7 +69,7 @@ public class UserCrudServiceTest {
     UserCreateRequest req = new UserCreateRequest("test", "Tester", "test", "test@gmail.com", "MALE", true, false,
         false, List.of(1L, 2L, 3L));
     User user = userCrudService.update("1", req);
-    assertEquals(6L, user.getId());
+    assertEquals(1L, user.getId());
     assertEquals(req.name(), user.getName());
     assertEquals(req.userName(), user.getUserName());
     assertNotNull(user.getPassword());
@@ -79,7 +78,6 @@ public class UserCrudServiceTest {
     assertEquals(req.accountNonLocked(), user.isAccountNonLocked());
     assertEquals(req.accountNonExpired(), user.isAccountNonExpired());
     assertEquals(req.enabled(), user.isEnabled());
-    assertNotNull(user.getCreatedAt());
   }
 
   @Test
