@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum EmailExceptionType implements BaseExceptionType {
 
+  UNIQUE_EMAIL("Email already exists", HttpStatus.BAD_REQUEST),
   NULL_EMAIL("Email cannot be null or empty", HttpStatus.BAD_REQUEST),
   MISSING_AT_SYMBOL("Email must contain '@' symbol", HttpStatus.BAD_REQUEST),
   MULTIPLE_AT_SYMBOLS("Email must contain only one '@' symbol", HttpStatus.BAD_REQUEST),

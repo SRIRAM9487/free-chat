@@ -47,10 +47,7 @@ public class DataInitializer implements CommandLineRunner {
 
   private void createPermission() {
 
-    List<PermissionCreateRequest> permissionCreateRequests = List.of(
-        PermissionCreateRequest.testPermission("Permission"),
-        PermissionCreateRequest.testPermission("Role"),
-        PermissionCreateRequest.testPermission("User"));
+    List<PermissionCreateRequest> permissionCreateRequests = List.of(new PermissionCreateRequest("Permission", true));
 
     for (var permissionCreateRequest : permissionCreateRequests) {
       permissionCrudService.create(permissionCreateRequest);

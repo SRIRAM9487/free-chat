@@ -10,6 +10,7 @@ import com.arch.micro_service.auth_server.role.infrastructure.dto.role.response.
 import com.arch.micro_service.auth_server.shared.infrastructure.dto.api.ApiResponse;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -30,6 +31,7 @@ public class RoleCrudController {
   private final RoleMapper roleMapper;
 
   @GetMapping
+  @PreAuthorize("hasAuthority('ROLE_VIEW')")
   public ResponseEntity<ApiResponse<List<RoleDetailResponse>>> getAll() {
     var roles = crudService.getAll().stream().map(roleMapper::fromRole).toList();
     var response = ApiResponse.create(roles);
@@ -37,6 +39,7 @@ public class RoleCrudController {
   }
 
   @GetMapping("/{id}")
+  @PreAuthorize("hasAuthority('ROLE_VIEW')")
   public ResponseEntity<ApiResponse<RoleDetailResponse>> get(@PathVariable("id") String id) {
     var role = crudService.get(id);
     var response = ApiResponse.create(roleMapper.fromRole(role));
@@ -44,6 +47,7 @@ public class RoleCrudController {
   }
 
   @PostMapping("/create")
+  @PreAuthorize("hasAuthority('ROLE_CREATE')")
   public ResponseEntity<ApiResponse<String>> create(@RequestBody RoleCreateRequest request) {
     crudService.create(request);
     var response = ApiResponse.create(RoleConstant.CREATE);
@@ -51,6 +55,7 @@ public class RoleCrudController {
   }
 
   @PatchMapping("/update/{id}")
+  @PreAuthorize("hasAuthority('ROLE_UPDATE')")
   public ResponseEntity<ApiResponse<String>> update(
       @PathVariable("id") String id,
       @RequestBody RoleCreateRequest request) {
@@ -60,6 +65,7 @@ public class RoleCrudController {
   }
 
   @DeleteMapping("/{id}")
+  @PreAuthorize("hasAuthority('ROLE_DELETE')")
   public ResponseEntity<ApiResponse<String>> delete(@PathVariable("id") String id) {
     crudService.delete(id);
     var response = ApiResponse.create(RoleConstant.DELETE);

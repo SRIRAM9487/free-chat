@@ -37,4 +37,8 @@ public class EmailException extends BaseException {
   public static EmailException tokenVerificationFailed(String email) {
     return new EmailException(EmailExceptionType.INVALID_EMAIL_TOKEN);
   }
+
+  public static EmailException uniqueKeyViolation(String email) {
+    return new EmailException(EmailExceptionType.UNIQUE_EMAIL);
+  }
 }

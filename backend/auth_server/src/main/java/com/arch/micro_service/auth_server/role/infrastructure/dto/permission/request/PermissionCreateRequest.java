@@ -4,7 +4,4 @@ public record PermissionCreateRequest(
     String title,
     boolean active) {
 
-  public static PermissionCreateRequest testPermission(String title) {
-    return new PermissionCreateRequest(title, true);
-  }
 }

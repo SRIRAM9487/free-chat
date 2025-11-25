@@ -9,6 +9,7 @@ import com.arch.micro_service.auth_server.role.infrastructure.dto.role.response.
 import com.arch.micro_service.auth_server.shared.infrastructure.dto.api.ApiResponse;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,13 +28,15 @@ public class RoleController {
   private final RoleMapper roleMapper;
 
   @PatchMapping("/toggle/{id}")
+  @PreAuthorize("hasAuthority('ROLE_TOGGLE')")
   public ResponseEntity<ApiResponse<String>> toggleStatus(@PathVariable("id") String id) {
     var role = service.toggleActive(id);
-    var response = ApiResponse.create(role.getTitle() + "Locked ");
+    var response = ApiResponse.create(role.getTitle() + (role.isActive() ? " Enabled" : " Disabled") + " Successfully");
     return ResponseEntity.ok(response);
   }
 
   @GetMapping("/user/meta")
+  @PreAuthorize("hasAuthority('ROLE_META')")
   public ResponseEntity<ApiResponse<List<RoleUserMetaDataResponse>>> userMeta() {
     var roles = crudService.getAll();
     var dtos = roles.stream().map(roleMapper::toRoleUserMetaData).toList();

@@ -15,13 +15,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class RoleMapper {
 
-  private RolePermissionDetailResponse fromRolePermission(RolePermission permission) {
+  private RolePermissionDetailResponse fromRolePermission(RolePermission rolePermissions) {
     return new RolePermissionDetailResponse(
-        permission.getId(),
-        permission.getPermission().getId().toString(),
-        permission.getPermission().getTitle(),
-        permission.isActive(),
-        permission.isActiveStatus());
+        rolePermissions.getId(),
+        rolePermissions.getPermission().getId().toString(),
+        rolePermissions.getPermission().getTitle(),
+        rolePermissions.isActive(),
+        rolePermissions.isActiveStatus());
   }
 
   public RolePermission toRolePermission(RolePermissionCreateRequest requestDto) {
@@ -54,10 +54,6 @@ public class RoleMapper {
         .build();
 
     return role;
-  }
-
-  public void updateRolePermission(RolePermission rolePermission, RolePermissionCreateRequest createRequest) {
-    rolePermission.setActive(createRequest.active());
   }
 
   public void updateRole(Role role, RoleCreateRequest requestDto) {

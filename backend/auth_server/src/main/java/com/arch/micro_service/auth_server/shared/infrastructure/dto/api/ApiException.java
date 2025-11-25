@@ -63,52 +63,16 @@ public record ApiException(
         exception.getCode());
   }
 
-  public static ApiException badRequest(BaseException exception, HttpServletRequest request) {
-    return create(exception, HttpStatus.BAD_REQUEST, request);
-  }
-
   public static ApiException unAuthorized(BaseException exception, HttpServletRequest request) {
     return create(exception, HttpStatus.UNAUTHORIZED, request);
-  }
-
-  public static ApiException unAuthenticated(BaseException exception, HttpServletRequest request) {
-    return create(exception, HttpStatus.BAD_REQUEST, request);
-  }
-
-  public static ApiException forbidden(BaseException exception, HttpServletRequest request) {
-    return create(exception, HttpStatus.FORBIDDEN, request);
-  }
-
-  public static ApiException notFound(BaseException exception, HttpServletRequest request) {
-    return create(exception, HttpStatus.NOT_FOUND, request);
   }
 
   public static ApiException conflict(BaseException exception, HttpServletRequest request) {
     return create(exception, HttpStatus.CONFLICT, request);
   }
 
-  public static ApiException badRequest(String message, String code, HttpServletRequest request) {
-    return create(HttpStatus.BAD_REQUEST, message, code, request);
-  }
-
-  public static ApiException unAuthorized(String message, String code, HttpServletRequest request) {
-    return create(HttpStatus.UNAUTHORIZED, message, code, request);
-  }
-
-  public static ApiException unAuthenticated(String message, String code, HttpServletRequest request) {
-    return create(HttpStatus.BAD_REQUEST, message, code, request);
-  }
-
-  public static ApiException forbidden(String message, String code, HttpServletRequest request) {
-    return create(HttpStatus.FORBIDDEN, message, code, request);
-  }
-
-  public static ApiException notFound(String message, String code, HttpServletRequest request) {
-    return create(HttpStatus.NOT_FOUND, message, code, request);
-  }
-
-  public static ApiException conflict(String message, String code, HttpServletRequest request) {
-    return create(HttpStatus.CONFLICT, message, code, request);
+  public static ApiException notFound(BaseException exception, HttpServletRequest request) {
+    return create(HttpStatus.NOT_FOUND, exception.getMessage(), exception.getCode(), request);
   }
 
   public static ApiException jwt(String message, HttpServletRequest request) {
