@@ -4,7 +4,6 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
   <groupId>com.arch.micro_service</groupId>
   <artifactId>parent</artifactId>
   <version>0.0.1</version>
@@ -15,22 +14,33 @@
     <module>eureka_server</module>
     <module>config_server</module>
     <module>auth_server</module>
+    <module>notification_server</module>
   </modules>
 
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.5.7</version>
+    <version>4.0.0</version>
   </parent>
 
   <properties>
     <java.version>21</java.version>
     <spring-cloud.version>2025.0.0</spring-cloud.version>
     <jjwt.version>0.12.7</jjwt.version>
+    <java-mail.version>4.0.0</java-mail.version>
   </properties>
 
   <dependencyManagement>
+
     <dependencies>
+
+
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-mail</artifactId>
+        <version>${java-mail.version}</version>
+      </dependency>
+
       <dependency>
         <groupId>io.jsonwebtoken</groupId>
         <artifactId>jjwt-jackson</artifactId>
