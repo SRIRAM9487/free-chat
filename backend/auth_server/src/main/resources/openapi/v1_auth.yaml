@@ -1,0 +1,659 @@
+openapi: 3.1.0
+info:
+  title: CUSTOM DEFINITION
+  version: v0
+servers:
+  - url: http://localhost:8500
+    description: THIS IS AN TEST
+paths:
+  /v1/user/login:
+    post:
+      tags:
+        - user-auth-controller
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserLoginRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ApiResponseUserLoginResponse"
+  /v1/user/email/verify:
+    post:
+      tags:
+        - user-email-controller
+      operationId: emailVerification
+      responses:
+        "200":
+          description: OK
+  /v1/user/create:
+    post:
+      tags:
+        - user-crud-controller
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserCreateRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ApiResponseString"
+  /v1/role/create:
+    post:
+      tags:
+        - role-crud-controller
+      operationId: create_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RoleCreateRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ApiResponseString"
+  /v1/permission/create:
+    post:
+      tags:
+        - permission-crud-controller
+      operationId: create_2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PermissionCreateRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ApiResponseString"
+  /v1/user/update/{id}:
+    patch:
+      tags:
+        - user-crud-controller
+      operationId: update
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserCreateRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ApiResponseString"
+  /v1/user/login/verify:
+    patch:
+      tags:
+        - user-auth-controller
+      operationId: verifyUser
+      parameters:
+        - name: userId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ApiResponseUserPasswordVerificationResponse"
+  /v1/user/login/reset:
+    patch:
+      tags:
+        - user-auth-controller
+      operationId: passwordReset
+      parameters:
+        - name: userId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ApiResponseUserPasswordVerificationResponse"
+  /v1/user/login/new:
+    patch:
+      tags:
+        - user-auth-controller
+      operationId: newPassword
+      parameters:
+        - name: toekn
+          in: query
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserLoginRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ApiResponseUserPasswordVerificationResponse"
+  /v1/role/update/{id}:
+    patch:
+      tags:
+        - role-crud-controller
+      operationId: update_1
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RoleCreateRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ApiResponseString"
+  /v1/role/toggle/{id}:
+    patch:
+      tags:
+        - role-controller
+      operationId: toggleStatus
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ApiResponseString"
+  /v1/permission/update/{id}:
+    patch:
+      tags:
+        - permission-crud-controller
+      operationId: update_2
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PermissionCreateRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ApiResponseString"
+  /v1/user:
+    get:
+      tags:
+        - user-crud-controller
+      operationId: getAll
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ApiResponseListUserDetailResponse"
+  /v1/user/{id}:
+    get:
+      tags:
+        - user-crud-controller
+      operationId: get
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ApiResponseUserDetailResponse"
+    delete:
+      tags:
+        - user-crud-controller
+      operationId: delete
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ApiResponseString"
+  /v1/role:
+    get:
+      tags:
+        - role-crud-controller
+      operationId: getAll_1
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ApiResponseListRoleDetailResponse"
+  /v1/role/{id}:
+    get:
+      tags:
+        - role-crud-controller
+      operationId: get_1
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ApiResponseRoleDetailResponse"
+    delete:
+      tags:
+        - role-crud-controller
+      operationId: delete_1
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ApiResponseString"
+  /v1/role/user/meta:
+    get:
+      tags:
+        - role-controller
+      operationId: userMeta
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ApiResponseListRoleUserMetaDataResponse"
+  /v1/permission:
+    get:
+      tags:
+        - permission-crud-controller
+      operationId: getAll_2
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ApiResponseListPermissionDetailResponse"
+  /v1/permission/{id}:
+    get:
+      tags:
+        - permission-crud-controller
+      operationId: get_2
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ApiResponsePermissionDetailResponse"
+    delete:
+      tags:
+        - permission-crud-controller
+      operationId: delete_2
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ApiResponseString"
+  /rb/test/email:
+    get:
+      tags:
+        - rabbit-test-controller
+      operationId: sendEmail
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: string
+components:
+  schemas:
+    UserLoginRequest:
+      type: object
+      properties:
+        userId:
+          type: string
+        password:
+          type: string
+    ApiResponseUserLoginResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: "#/components/schemas/UserLoginResponse"
+        timeStamp:
+          type: string
+          format: date-time
+    UserLoginResponse:
+      type: object
+      properties:
+        userId:
+          type: string
+        userName:
+          type: string
+        role:
+          type: array
+          items:
+            type: string
+        token:
+          type: string
+    UserCreateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        userName:
+          type: string
+        password:
+          type: string
+        email:
+          type: string
+        gender:
+          type: string
+        accountNonExpired:
+          type: boolean
+        accountNonLocked:
+          type: boolean
+        enabled:
+          type: boolean
+        roles:
+          type: array
+          items:
+            type: integer
+            format: int64
+    ApiResponseString:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: string
+        timeStamp:
+          type: string
+          format: date-time
+    RoleCreateRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        active:
+          type: boolean
+        rolePermissions:
+          type: array
+          items:
+            $ref: "#/components/schemas/RolePermissionCreateRequest"
+    RolePermissionCreateRequest:
+      type: object
+      properties:
+        permissionId:
+          type: string
+        active:
+          type: boolean
+    PermissionCreateRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        active:
+          type: boolean
+    ApiResponseUserPasswordVerificationResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: "#/components/schemas/UserPasswordVerificationResponse"
+        timeStamp:
+          type: string
+          format: date-time
+    UserPasswordVerificationResponse:
+      type: object
+      properties:
+        status:
+          type: boolean
+        message:
+          type: string
+    ApiResponseListUserDetailResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/UserDetailResponse"
+        timeStamp:
+          type: string
+          format: date-time
+    RoleUserMetaDataResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+    UserDetailResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        userName:
+          type: string
+        email:
+          type: string
+        emailVerified:
+          type: boolean
+        gender:
+          type: string
+        accountNonExpired:
+          type: boolean
+        accountNonLocked:
+          type: boolean
+        enabled:
+          type: boolean
+        roles:
+          type: array
+          items:
+            $ref: "#/components/schemas/RoleUserMetaDataResponse"
+    ApiResponseUserDetailResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: "#/components/schemas/UserDetailResponse"
+        timeStamp:
+          type: string
+          format: date-time
+    ApiResponseListRoleDetailResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/RoleDetailResponse"
+        timeStamp:
+          type: string
+          format: date-time
+    RoleDetailResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        active:
+          type: boolean
+        rolePermissions:
+          type: array
+          items:
+            $ref: "#/components/schemas/RolePermissionDetailResponse"
+    RolePermissionDetailResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        permissionId:
+          type: string
+        title:
+          type: string
+        active:
+          type: boolean
+        activeStatus:
+          type: boolean
+    ApiResponseRoleDetailResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: "#/components/schemas/RoleDetailResponse"
+        timeStamp:
+          type: string
+          format: date-time
+    ApiResponseListRoleUserMetaDataResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/RoleUserMetaDataResponse"
+        timeStamp:
+          type: string
+          format: date-time
+    ApiResponseListPermissionDetailResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/PermissionDetailResponse"
+        timeStamp:
+          type: string
+          format: date-time
+    PermissionDetailResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        active:
+          type: boolean
+    ApiResponsePermissionDetailResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: "#/components/schemas/PermissionDetailResponse"
+        timeStamp:
+          type: string
+          format: date-time

@@ -1,0 +1,4 @@
+springdoc:
+  api-docs:
+    additional-docs:
+      - classpath:openapi/v1_auth.yaml
