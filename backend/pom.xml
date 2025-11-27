@@ -14,6 +14,7 @@
     <module>eureka_server</module>
     <module>config_server</module>
     <module>auth_server</module>
+    <module>notification_server</module>
   </modules>
 
   <parent>
