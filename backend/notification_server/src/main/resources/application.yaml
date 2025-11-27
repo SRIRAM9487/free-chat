@@ -2,4 +2,4 @@ spring:
   application:
     name: notification_server
   profiles:
-    active: eureka,rabbit
+    active: eureka,rabbit,mail,dev
