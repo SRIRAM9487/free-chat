@@ -1,11 +1,14 @@
 services:
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.1
-    container_name: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.14.0
+    container_name: arch_elasticsearch
     environment:
       - discovery.type=single-node
       - ES_JAVA_OPTS=-Xms1g -Xmx1g
       - xpack.security.enabled=false
+      - xpack.security.http.ssl.enabled=false
+      - xpack.security.transport.ssl.enabled=false
+      - cluster.name=arch-elk
     ulimits:
       memlock:
         soft: -1
@@ -16,11 +19,11 @@ services:
       - "9200:9200"
       - "9300:9300"
     networks:
-      - elk
+      - arch_elk
 
   logstash:
-    image: docker.elastic.co/logstash/logstash:8.12.1
-    container_name: logstash
+    image: docker.elastic.co/logstash/logstash:8.14.0
+    container_name: arch_logstash
     depends_on:
       - elasticsearch
     volumes:
@@ -29,25 +32,26 @@ services:
       - "5000:5000"
       - "5044:5044"
     networks:
-      - elk
+      - arch_elk
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:8.12.1
-    container_name: kibana
+    image: docker.elastic.co/kibana/kibana:8.14.0
+    container_name: arch_kibana
     depends_on:
       - elasticsearch
     environment:
-      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+      ELASTICSEARCH_HOSTS: "http://elasticsearch:9200"
       xpack.security.enabled: "false"
+      ELASTICSEARCH_SSL_VERIFICATIONMODE: "none"
     ports:
       - "5601:5601"
     networks:
-      - elk
+      - arch_elk
 
 volumes:
   es_data:
     driver: local
 
 networks:
-  elk:
+  arch_elk:
     driver: bridge

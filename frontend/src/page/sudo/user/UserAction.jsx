@@ -1,19 +1,104 @@
-import { Modal } from "antd";
+import { Button, Modal, Card, Space, Typography } from "antd";
+import { TfiEmail } from "react-icons/tfi";
+import { IoKey } from "react-icons/io5";
+import { LuLock } from "react-icons/lu";
+import { useContext, useEffect } from "react";
+import { NotificationContext } from "../../../context/NotificationContext";
+import { getService } from "../../../script/getService";
 
-function UserAction({ isModelOpen, handleModalClose }) {
+const { Text } = Typography;
+
+function UserAction({ isModelOpen, handleModalClose, editRecord }) {
+  const { showError, showSuccess } = useContext(NotificationContext);
+
+  const handleEmailVerificationRequest = async () => {
+    try {
+      const response = await getService(
+        `v1/user/email/verify/${editRecord.id}`,
+      );
+      console.log("RESPONSE : ", response);
+      showSuccess(response.data);
+    } catch (error) {
+      console.log("ERROR : ", error);
+      showError("Failed");
+    }
+  };
+
+  const handleResetPassword = async () => {};
+  const handleLockUser = async () => {};
+
   return (
     <Modal
-      title="ACTIONS"
+      title="User Actions"
       open={isModelOpen}
       onCancel={handleModalClose}
-      width="90%"
+      width="40%"
       footer={null}
       styles={{
         header: { textAlign: "center" },
-        body: { padding: 0 },
+        body: { padding: "12px 0" },
       }}
     >
-      <div>MODAl</div>
+      <Space direction="vertical" size="small" style={{ width: "100%" }}>
+        <Card
+          hoverable
+          className="rounded-xl shadow-sm"
+          bodyStyle={{
+            padding: "16px 20px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Text strong>Send Email Verification</Text>
+          <Button
+            icon={<TfiEmail />}
+            type="button"
+            color="green"
+            variant="solid"
+            className="!rounded !px-6 !py-2.5"
+            onClick={handleEmailVerificationRequest}
+          />
+        </Card>
+        <Card
+          hoverable
+          className="rounded-xl shadow-sm"
+          bodyStyle={{
+            padding: "16px 20px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Text strong>Reset Password</Text>
+          <Button
+            icon={<IoKey />}
+            type="button"
+            color="blue"
+            variant="solid"
+            className="!rounded !px-6 !py-2.5"
+          />
+        </Card>
+        <Card
+          hoverable
+          className="rounded-xl shadow-sm"
+          bodyStyle={{
+            padding: "16px 20px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Text strong>Lock User</Text>
+          <Button
+            icon={<LuLock />}
+            type="button"
+            color="red"
+            variant="solid"
+            className="!rounded !px-6 !py-2.5"
+          />
+        </Card>
+      </Space>
     </Modal>
   );
 }

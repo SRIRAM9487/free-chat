@@ -10,10 +10,97 @@ import Viewbtn from "../../../component/btns/Viewbtn";
 import CustomDialogBox from "../../../component/CustomDialogBox";
 import { deleteService } from "../../../script/deleteService";
 import UserAction from "./UserAction";
+import UserActionbtn from "../../../component/btns/UserActionbtn";
 
 function User() {
   const { showError, showSuccess } = useContext(NotificationContext);
-  const [userList, setUserList] = useState([]);
+  const [userList, setUserList] = useState([
+    {
+      id: "1",
+      name: "Admin User",
+      userName: "admin",
+      email: "admin@example.com",
+      emailVerified: true,
+      gender: "MALE",
+      accountNonExpired: true,
+      accountNonLocked: true,
+      enabled: true,
+      roles: [],
+    },
+    {
+      id: "2",
+      name: "Manager User",
+      userName: "manager",
+      email: "manager@example.com",
+      emailVerified: false,
+      gender: "MALE",
+      accountNonExpired: true,
+      accountNonLocked: true,
+      enabled: true,
+      roles: [],
+    },
+    {
+      id: "3",
+      name: "Customer User",
+      userName: "customer",
+      email: "customer@example.com",
+      emailVerified: false,
+      gender: "FEMALE",
+      accountNonExpired: true,
+      accountNonLocked: true,
+      enabled: true,
+      roles: [],
+    },
+    {
+      id: "4",
+      name: "Chatter User",
+      userName: "chatter",
+      email: "chatter@example.com",
+      emailVerified: false,
+      gender: "MALE",
+      accountNonExpired: true,
+      accountNonLocked: true,
+      enabled: true,
+      roles: [],
+    },
+    {
+      id: "5",
+      name: "Sudo User",
+      userName: "sudo",
+      email: "sudo@example.com",
+      emailVerified: true,
+      gender: "MALE",
+      accountNonExpired: true,
+      accountNonLocked: true,
+      enabled: true,
+      roles: [],
+    },
+    {
+      id: "6",
+      name: "sriram",
+      userName: "sriram",
+      email: "sriram.a.2023.cse@ritchennai.edu.in",
+      emailVerified: true,
+      gender: "MALE",
+      accountNonExpired: true,
+      accountNonLocked: true,
+      enabled: true,
+      roles: [
+        {
+          id: "1",
+          title: "ADMIN",
+        },
+        {
+          id: "3",
+          title: "CUSTOMER",
+        },
+        {
+          id: "2",
+          title: "MANAGER",
+        },
+      ],
+    },
+  ]);
   const [editRecord, setEditRecord] = useState(null);
   const [view, setView] = useState(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -78,7 +165,14 @@ function User() {
     }
   };
 
-  const handleActionBox = () => {};
+  const handleUserActionBtn = (record) => {
+    setEditRecord(record);
+    setIsActionBoxOpen(true);
+  };
+  const handleActionBoxClose = () => {
+    setEditRecord(null);
+    setIsActionBoxOpen(false);
+  };
 
   const columns = [
     {
@@ -118,6 +212,7 @@ function User() {
           <Deletebtn onClick={() => handleDeleteBtn(record)} />
           <EditBtn onClick={() => handleEditBtn(record)} />
           <Viewbtn onClick={() => handleViewBtn(record)} />
+          <UserActionbtn onClick={() => handleUserActionBtn(record)} />
         </div>
       ),
     },
@@ -140,7 +235,8 @@ function User() {
         />
         <UserAction
           isModelOpen={isActionBoxOpen}
-          handleModalClose={handleActionBox}
+          handleModalClose={handleActionBoxClose}
+          editRecord={editRecord}
         />
 
         <div>
