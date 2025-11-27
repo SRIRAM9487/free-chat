@@ -6,7 +6,6 @@ import java.util.Set;
 
 import com.arch.micro_service.auth_server.role.application.usecase.role.RoleFindUseCase;
 import com.arch.micro_service.auth_server.role.domain.etntiy.Role;
-import com.arch.micro_service.auth_server.user.application.constant.UserCrudConstant;
 import com.arch.micro_service.auth_server.user.application.service.UserCrudService;
 import com.arch.micro_service.auth_server.user.application.usecase.UserFindUseCase;
 import com.arch.micro_service.auth_server.user.domain.entity.User;

@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:16
-    container_name: arch_byte
+    container_name: arch_postgres
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: 1234
@@ -11,10 +11,12 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./docker/psql/init:/docker-entrypoint-initdb.d
+    networks:
+      - arch_psql_net
 
   pgadmin:
     image: dpage/pgadmin4
-    container_name: pgadmin4_container
+    container_name: arch_pgadmin
     restart: always
     ports:
       - "8888:80"
@@ -25,7 +27,12 @@ services:
       - postgres
     volumes:
       - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - arch_psql_net
 
 volumes:
   postgres_data:
   pgadmin_data:
+
+networks:
+  arch_psql_net:

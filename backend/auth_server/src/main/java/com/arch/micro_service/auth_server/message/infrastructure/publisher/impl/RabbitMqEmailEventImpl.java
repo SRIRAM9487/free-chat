@@ -7,17 +7,19 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
-@RequiredArgsConstructor
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class RabbitMqEmailEventImpl implements EmailEventPublisher {
 
   private final RabbitTemplate rabbitTemplate;
 
-  // TODO:
   @Override
   public void publish(EmailVerificationEvent event) {
     rabbitTemplate.convertAndSend("auth.exchange", "auth.email.verification", event);
+    log.trace("Email Verification published to message broker");
   }
 
 }

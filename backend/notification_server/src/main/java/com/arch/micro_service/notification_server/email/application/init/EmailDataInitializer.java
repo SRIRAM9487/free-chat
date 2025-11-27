@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 
-@Component
+//@Component
 @RequiredArgsConstructor
 public class EmailDataInitializer implements CommandLineRunner {
 
@@ -16,9 +16,6 @@ public class EmailDataInitializer implements CommandLineRunner {
 
   @Override
   public void run(String... args) throws Exception {
-    System.out.println("TESTING");
-    System.out.println("TESTING");
-    System.out.println("TESTING");
 
     emailClient.sendVerificationEmail(
         new EmailVerificationEvent("sriram.a.2023.cse@ritchennai.edu.in", "SRIRAM", "LKSFDJLKJFDSLJFLDSKLKFJSL"));

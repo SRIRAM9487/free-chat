@@ -1,9 +1,11 @@
 services:
   redis:
     image: redis:7-alpine
-    container_name: dairy_cache_1
+    container_name: redis_arch
     ports:
       - "6379:6379"
+    networks:
+      - arch_redis_net
 
   redisinsight:
     image: redis/redisinsight:latest
@@ -15,6 +17,11 @@ services:
     volumes:
       - redisinsight_data:/data
     restart: unless-stopped
+    networks:
+      - arch_redis_net
 
 volumes:
   redisinsight_data:
+
+networks:
+  arch_redis_net:
