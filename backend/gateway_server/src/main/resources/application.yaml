@@ -2,4 +2,4 @@ spring:
   application:
     name: GATEWAY-SERVER
   profiles:
-    active: server,eureka,gateway,log
+    active: server,eureka,gateway,log,zipkin

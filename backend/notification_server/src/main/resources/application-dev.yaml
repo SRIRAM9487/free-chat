@@ -1,6 +1,3 @@
 logging:
   level:
-    root: TRACE
-    com.arch.micro_service.notification_server.email: TRACE
-    org.springframework.mail: TRACE
-    org.springframework.mail.javamail: TRACE
+    root: INFO

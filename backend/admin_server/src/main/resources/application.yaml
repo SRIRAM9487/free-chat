@@ -2,4 +2,4 @@ spring:
   application:
     name: ADMIN-SERVER
   profiles:
-    active: eureka,server
+    active: eureka,server,zipkin
