@@ -2,8 +2,4 @@ spring:
   application:
     name: GATEWAY-SERVER
   profiles:
-    active: server,eureka,gateway
-
-logging:
-  level:
-    root: TRACE
+    active: server,eureka,gateway,log
