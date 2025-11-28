@@ -26,7 +26,7 @@ public class EmailEventListener {
   @RabbitListener(queues = "auth.password.reset.queue")
   public void sendEmail(PasswordResetEvent event) {
     log.trace("Password reset Requested for {}", event.userId());
-    // emailClient.sendPasswordResetEmail(event);
+    emailClient.sendPasswordResetEmail(event);
   }
 
 }
