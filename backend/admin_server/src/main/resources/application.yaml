@@ -1,5 +1,5 @@
 spring:
   application:
-    name: ADMIN_SERVER
+    name: ADMIN-SERVER
   profiles:
     active: eureka,server

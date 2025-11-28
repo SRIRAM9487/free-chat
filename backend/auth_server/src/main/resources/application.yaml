@@ -1,5 +1,5 @@
 spring:
   application:
-    name: auth_server
+    name: AUTH-SERVER
   profiles:
     active: dev,jpa,redis,eureka,sql,rabbit

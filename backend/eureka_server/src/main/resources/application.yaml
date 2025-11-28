@@ -1,5 +1,5 @@
 spring:
   application:
-    name: eureka_server
+    name: EUREKA-SERVER
   profiles:
     active: dev

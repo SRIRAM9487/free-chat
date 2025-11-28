@@ -1,5 +1,5 @@
 spring:
   application:
-    name: notification_server
+    name: NOTIFICATION-SERVER
   profiles:
     active: eureka,rabbit,mail,dev
