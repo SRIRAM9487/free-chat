@@ -28,6 +28,7 @@
     <spring-cloud.version>2025.0.0</spring-cloud.version>
     <jjwt.version>0.12.7</jjwt.version>
     <java-mail.version>4.0.0</java-mail.version>
+    <spring-boot-admin.version>3.5.6</spring-boot-admin.version>
   </properties>
 
   <dependencyManagement>
@@ -47,7 +48,16 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+
+      <dependency>
+        <groupId>de.codecentric</groupId>
+        <artifactId>spring-boot-admin-dependencies</artifactId>
+        <version>${spring-boot-admin.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
     </dependencies>
+
   </dependencyManagement>
 
   <build>

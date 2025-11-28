@@ -49,6 +49,13 @@
       <artifactId>spring-rabbit-test</artifactId>
       <scope>test</scope>
     </dependency>
+
+
+    <dependency>
+      <groupId>de.codecentric</groupId>
+      <artifactId>spring-boot-admin-starter-client</artifactId>
+    </dependency>
+
   </dependencies>
 
 </project>
