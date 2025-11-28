@@ -1,7 +1,7 @@
 package com.arch.micro_service.auth_server.user.application.service.impl;
 
 import com.arch.micro_service.auth_server.user.application.service.JwtService;
-import com.arch.micro_service.auth_server.user.application.service.UserAuthService;
+import com.arch.micro_service.auth_server.user.application.service.UserLoginService;
 import com.arch.micro_service.auth_server.user.application.usecase.UserFindUseCase;
 import com.arch.micro_service.auth_server.user.domain.entity.User;
 import com.arch.micro_service.auth_server.user.domain.exception.UserException;
@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UserAuthServiceImpl implements UserAuthService {
+public class UserAuthServiceImpl implements UserLoginService {
 
   private final UserFindUseCase userFindUseCase;
   private final UserRepository userRepository;
@@ -51,13 +51,13 @@ public class UserAuthServiceImpl implements UserAuthService {
 
   // TODO:
   @Override
-  public UserPasswordVerificationResponse userVerify(String userId) {
+  public void userVerify(String userId) {
     throw new UnsupportedOperationException("Unimplemented method 'userVerify'");
   }
 
   // TODO:
   @Override
-  public UserPasswordVerificationResponse resetPassword(String userId) {
+  public void resetPassword(String userId) {
 
     User user = userFindUseCase.findByUserId(userId);
 
@@ -65,13 +65,13 @@ public class UserAuthServiceImpl implements UserAuthService {
 
     userRepository.save(user);
 
-    return userMapper.toUserPasswordVerificationResponse(true,
-        "Password has been successfully reset. A confirmation email has been sent to the user.");
+    // return userMapper.toUserPasswordVerificationResponse(true, "Password has been
+    // successfully reset. A confirmation email has been sent to the user.");
   }
 
   // TODO:
   @Override
-  public UserPasswordVerificationResponse newPassword(String token, UserLoginRequest userLoginRequest) {
+  public void newPassword(String token, UserLoginRequest userLoginRequest) {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'newPassword'");
   }

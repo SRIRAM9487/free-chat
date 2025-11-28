@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserAuthServiceTest {
 
   @Autowired
-  private UserAuthService userAuthService;
+  private UserLoginService userAuthService;
 
   @Test
   @Transactional

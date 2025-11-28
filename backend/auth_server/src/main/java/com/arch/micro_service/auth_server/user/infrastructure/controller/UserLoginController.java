@@ -1,10 +1,9 @@
 package com.arch.micro_service.auth_server.user.infrastructure.controller;
 
 import com.arch.micro_service.auth_server.shared.infrastructure.dto.api.ApiResponse;
-import com.arch.micro_service.auth_server.user.application.service.UserAuthService;
+import com.arch.micro_service.auth_server.user.application.service.UserLoginService;
 import com.arch.micro_service.auth_server.user.infrastructure.dto.request.UserLoginRequest;
 import com.arch.micro_service.auth_server.user.infrastructure.dto.response.UserLoginResponse;
-import com.arch.micro_service.auth_server.user.infrastructure.dto.response.UserPasswordVerificationResponse;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,36 +19,39 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/v1/user")
 @RestController
-public class UserAuthController {
+public class UserLoginController {
 
-  private final UserAuthService userAuthService;
+  private final UserLoginService userLoginService;
 
   @PostMapping("/login")
   public ResponseEntity<ApiResponse<UserLoginResponse>> login(@RequestBody UserLoginRequest requestDto) {
-    var response = ApiResponse.create(userAuthService.login(requestDto));
+    var response = ApiResponse.create(userLoginService.login(requestDto));
     return ResponseEntity.ok(response);
   }
 
   @PatchMapping("/login/verify")
   @PreAuthorize("hasAuthority('USER_LOGIN')")
-  public ResponseEntity<ApiResponse<UserPasswordVerificationResponse>> verifyUser(
+  public ResponseEntity<ApiResponse<String>> verifyUser(
       @RequestParam("userId") String userId) {
-    var response = ApiResponse.create(userAuthService.userVerify(userId));
+    userLoginService.userVerify(userId);
+    var response = ApiResponse.create("User verified successfully");
     return ResponseEntity.ok(response);
   }
 
   @PatchMapping("/login/reset")
   @PreAuthorize("hasAuthority('USER_PASSWORD_RESET')")
-  public ResponseEntity<ApiResponse<UserPasswordVerificationResponse>> passwordReset(
+  public ResponseEntity<ApiResponse<String>> passwordReset(
       @RequestParam("userId") String userId) {
-    var response = ApiResponse.create(userAuthService.resetPassword(userId));
+    userLoginService.resetPassword(userId);
+    var response = ApiResponse.create("User password reseted");
     return ResponseEntity.ok(response);
   }
 
   @PatchMapping("/login/new")
-  public ResponseEntity<ApiResponse<UserPasswordVerificationResponse>> newPassword(@RequestParam("toekn") String token,
+  public ResponseEntity<ApiResponse<String>> newPassword(@RequestParam("toekn") String token,
       @RequestBody UserLoginRequest userLoginRequestDto) {
-    var response = ApiResponse.create(userAuthService.newPassword(token, userLoginRequestDto));
+    userLoginService.newPassword(token, userLoginRequestDto);
+    var response = ApiResponse.create("Password updated");
     return ResponseEntity.ok(response);
   }
 

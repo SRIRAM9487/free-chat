@@ -81,10 +81,6 @@ public class UserMapper {
     return user;
   }
 
-  public UserPasswordVerificationResponse toUserPasswordVerificationResponse(boolean status, String message) {
-    return new UserPasswordVerificationResponse(status, message);
-  }
-
   public UserLoginResponse toUserLoginResponse(User user, String token) {
     List<String> roles = new ArrayList<>();
     for (Role role : user.getRoles()) {

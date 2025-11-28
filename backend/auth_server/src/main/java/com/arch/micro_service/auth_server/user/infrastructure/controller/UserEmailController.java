@@ -33,4 +33,5 @@ public class UserEmailController {
     var response = ApiResponse.create("Email verification successfull");
     return ResponseEntity.ok(response);
   }
+
 }
