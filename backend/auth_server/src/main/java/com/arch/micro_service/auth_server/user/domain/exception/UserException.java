@@ -35,6 +35,10 @@ public class UserException extends BaseException {
     return new UserException(UserExceptionType.INVALID_OTP);
   }
 
+  public static UserException invalidPasswordVerificationToken() {
+    return new UserException(UserExceptionType.INVALID_PASSWORD_VERIFICATION_TOKEN);
+  }
+
   public static UserException emailNotUniqueViolation() {
     return new UserException(UserExceptionType.USER_EMAIL_MUST_BE_UNIQUE);
   }

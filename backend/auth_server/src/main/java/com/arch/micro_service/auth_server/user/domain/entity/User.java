@@ -22,20 +22,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * User entity
  * 
  * @author SRIRAM
  */
+@Slf4j
 @Entity
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 @Table(name = "users")
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class User extends BasedEntity {
 
   /**
@@ -96,6 +98,7 @@ public class User extends BasedEntity {
    * update new password
    */
   public void updatePassword(String password) {
+    log.trace("User password updated");
     this.password = Password.create(password);
   }
 
@@ -103,6 +106,7 @@ public class User extends BasedEntity {
    * delete the password
    */
   public void resetPassword() {
+    log.trace("User {} password reseted", this.getId().toString());
     this.password = null;
   }
 
@@ -110,6 +114,7 @@ public class User extends BasedEntity {
    * If user is locked unlock it
    */
   public void toggleLock() {
+    log.trace("User {}  {}", this.getId().toString(), this.accountNonLocked ? "Locked" : "Unlocked");
     this.accountNonLocked = !this.accountNonLocked;
   }
 
@@ -124,6 +129,7 @@ public class User extends BasedEntity {
    * verify the Email
    */
   public void verifyEmail() {
+    log.trace("User {}  {} verified", this.getId().toString(), this.email.value());
     this.email = Email.create(this.email.value(), true);
   }
 }

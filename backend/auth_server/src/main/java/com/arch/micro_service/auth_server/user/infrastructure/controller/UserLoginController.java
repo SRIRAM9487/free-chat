@@ -29,15 +29,6 @@ public class UserLoginController {
     return ResponseEntity.ok(response);
   }
 
-  @PatchMapping("/login/verify")
-  @PreAuthorize("hasAuthority('USER_LOGIN')")
-  public ResponseEntity<ApiResponse<String>> verifyUser(
-      @RequestParam("userId") String userId) {
-    userLoginService.userVerify(userId);
-    var response = ApiResponse.create("User verified successfully");
-    return ResponseEntity.ok(response);
-  }
-
   @PatchMapping("/login/reset")
   @PreAuthorize("hasAuthority('USER_PASSWORD_RESET')")
   public ResponseEntity<ApiResponse<String>> passwordReset(
@@ -48,9 +39,9 @@ public class UserLoginController {
   }
 
   @PatchMapping("/login/new")
-  public ResponseEntity<ApiResponse<String>> newPassword(@RequestParam("toekn") String token,
-      @RequestBody UserLoginRequest userLoginRequestDto) {
-    userLoginService.newPassword(token, userLoginRequestDto);
+  public ResponseEntity<ApiResponse<String>> newPassword(@RequestParam("email") String email,
+      @RequestParam("token") String token, @RequestParam("password") String password) {
+    userLoginService.newPassword(email, token, password);
     var response = ApiResponse.create("Password updated");
     return ResponseEntity.ok(response);
   }

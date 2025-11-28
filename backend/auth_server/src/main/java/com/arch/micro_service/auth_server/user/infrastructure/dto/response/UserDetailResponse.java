@@ -1,7 +1,6 @@
 package com.arch.micro_service.auth_server.user.infrastructure.dto.response;
 
 import java.util.List;
-import java.util.UUID;
 
 import com.arch.micro_service.auth_server.role.infrastructure.dto.role.response.RoleUserMetaDataResponse;
 

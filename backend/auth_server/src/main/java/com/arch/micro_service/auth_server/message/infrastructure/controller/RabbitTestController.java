@@ -18,7 +18,8 @@ public class RabbitTestController {
 
   @GetMapping("/email")
   public String sendEmail() {
-    emailEventPublisher.publish(new EmailVerificationEvent("test@gmail.com", "tester", "ThisisandTest"));
+    emailEventPublisher
+        .publishVerificationEmail(new EmailVerificationEvent("test@gmail.com", "tester", "ThisisandTest"));
     return "EMAIL SENT SUCCESSFULLY";
   }
 

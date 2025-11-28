@@ -23,11 +23,24 @@ public class RabbitMqConfig {
   }
 
   @Bean
-  public Binding authBinding() {
+  public Binding emailBinding() {
     return BindingBuilder
         .bind(emailQueue())
         .to(authExchange())
         .with("auth.email.verification");
+  }
+
+  @Bean
+  public Queue passwordResetQueue() {
+    return new Queue("auth.password.reset.queue", true);
+  }
+
+  @Bean
+  public Binding passwordResetBinding() {
+    return BindingBuilder
+        .bind(passwordResetQueue())
+        .to(authExchange())
+        .with("auth.password.reset");
   }
 
   @Bean

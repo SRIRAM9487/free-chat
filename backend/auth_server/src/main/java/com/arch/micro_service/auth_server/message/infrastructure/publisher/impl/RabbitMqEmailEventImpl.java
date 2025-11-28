@@ -1,6 +1,7 @@
 package com.arch.micro_service.auth_server.message.infrastructure.publisher.impl;
 
 import com.arch.micro_service.auth_server.message.infrastructure.event.EmailVerificationEvent;
+import com.arch.micro_service.auth_server.message.infrastructure.event.PasswordResetEvent;
 import com.arch.micro_service.auth_server.message.infrastructure.publisher.EmailEventPublisher;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -17,9 +18,15 @@ public class RabbitMqEmailEventImpl implements EmailEventPublisher {
   private final RabbitTemplate rabbitTemplate;
 
   @Override
-  public void publish(EmailVerificationEvent event) {
+  public void publishVerificationEmail(EmailVerificationEvent event) {
     rabbitTemplate.convertAndSend("auth.exchange", "auth.email.verification", event);
     log.trace("Email Verification published to message broker");
+  }
+
+  @Override
+  public void publishPasswordResetEmail(PasswordResetEvent event) {
+    rabbitTemplate.convertAndSend("auth.exchange", "auth.password.reset", event);
+    log.trace("Password reset email event published to message broker");
   }
 
 }

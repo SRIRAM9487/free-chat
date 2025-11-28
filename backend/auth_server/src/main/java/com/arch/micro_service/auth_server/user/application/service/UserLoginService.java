@@ -7,10 +7,8 @@ public interface UserLoginService {
 
   UserLoginResponse login(UserLoginRequest request);
 
-  void userVerify(String userId);
-
   void resetPassword(String userId);
 
-  void newPassword(String token, UserLoginRequest userLoginRequest);
+  void newPassword(String email, String token, String password);
 
 }

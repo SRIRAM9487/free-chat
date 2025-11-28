@@ -12,7 +12,6 @@ import com.arch.micro_service.auth_server.user.domain.vo.Email;
 import com.arch.micro_service.auth_server.user.infrastructure.dto.request.UserCreateRequest;
 import com.arch.micro_service.auth_server.user.infrastructure.dto.response.UserDetailResponse;
 import com.arch.micro_service.auth_server.user.infrastructure.dto.response.UserLoginResponse;
-import com.arch.micro_service.auth_server.user.infrastructure.dto.response.UserPasswordVerificationResponse;
 
 import org.springframework.stereotype.Component;
 

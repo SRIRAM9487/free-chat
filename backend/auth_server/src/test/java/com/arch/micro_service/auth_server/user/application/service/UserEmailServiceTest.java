@@ -78,7 +78,7 @@ public class UserEmailServiceTest {
 
     ArgumentCaptor<EmailVerificationEvent> captor = ArgumentCaptor.forClass(EmailVerificationEvent.class);
 
-    verify(emailEventPublisher, times(1)).publish(captor.capture());
+    verify(emailEventPublisher, times(1)).publishVerificationEmail(captor.capture());
     EmailVerificationEvent ev = captor.getValue();
 
     assertEquals(user.getEmail().value(), ev.email());

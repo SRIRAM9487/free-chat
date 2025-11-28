@@ -15,6 +15,7 @@ public enum UserExceptionType implements BaseExceptionType {
   AUTHENTICATION_FAILED("Authentication failed", HttpStatus.UNAUTHORIZED),
   EMAIL_NOT_VERIFIED("Email not verified", HttpStatus.FORBIDDEN),
   INVALID_OTP("Invalid OTP", HttpStatus.UNAUTHORIZED),
+  INVALID_PASSWORD_VERIFICATION_TOKEN("Invalid token", HttpStatus.UNAUTHORIZED),
   USER_NAME_NOT_FOUND("User name not found", HttpStatus.NOT_FOUND);
 
   private final String message;

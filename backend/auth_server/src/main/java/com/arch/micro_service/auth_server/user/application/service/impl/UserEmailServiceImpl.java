@@ -31,7 +31,7 @@ public class UserEmailServiceImpl implements UserEmailService {
     log.trace("Email verification send requested for {}", userId);
     String token = tokenGeneratorService.generateToken();
     User user = userFindUseCase.findByUserId(userId);
-    emailEventPublisher.publish(new EmailVerificationEvent(user.getEmail().value(), userId, token));
+    emailEventPublisher.publishVerificationEmail(new EmailVerificationEvent(user.getEmail().value(), userId, token));
     cacheService.save(user.getEmail().value(), token);
   }
 

@@ -2,6 +2,7 @@ package com.arch.micro_service.notification_server.email.infrastructure.listener
 
 import com.arch.micro_service.notification_server.email.infrastructure.client.EmailClient;
 import com.arch.micro_service.notification_server.email.infrastructure.event.EmailVerificationEvent;
+import com.arch.micro_service.notification_server.email.infrastructure.event.PasswordResetEvent;
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,12 @@ public class EmailEventListener {
   public void sendEmail(EmailVerificationEvent event) {
     log.trace("Email verification Requested for {}", event.userId());
     emailClient.sendVerificationEmail(event);
+  }
+
+  @RabbitListener(queues = "auth.password.reset.queue")
+  public void sendEmail(PasswordResetEvent event) {
+    log.trace("Password reset Requested for {}", event.userId());
+    // emailClient.sendPasswordResetEmail(event);
   }
 
 }
