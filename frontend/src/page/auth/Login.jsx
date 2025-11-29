@@ -1,9 +1,11 @@
+import React from "react";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "antd";
-import { postService } from "../../script/postService";
 import { UserContext } from "../../context/UserContext";
 import { NotificationContext } from "../../context/NotificationContext";
+import { postService } from "../../script/postService";
+import { useEffect } from "react";
 import InputField from "../../component/InputField";
 
 function Login() {
@@ -11,8 +13,8 @@ function Login() {
   const [formData, setFormData] = useState({ userId: "", password: "" });
   const [errors, setErrors] = useState({});
   const [loading, setloading] = useState(false);
-  const { showError, showSuccess } = useContext(NotificationContext);
   const { login } = useContext(UserContext);
+  const { showError, showSuccess } = useContext(NotificationContext);
 
   const validate = () => {
     const newErrors = {};
@@ -60,6 +62,7 @@ function Login() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <InputField
+            dataTestId="login-username-inp"
             label="Username"
             placeholder="Enter your username"
             required
@@ -82,6 +85,7 @@ function Login() {
             required
             disabled={loading}
             error={errors.password}
+            dataTestId="login-password-inp"
           />
 
           <div className="space-y-4 pt-4">
@@ -90,11 +94,13 @@ function Login() {
               size="large"
               onClick={handleCancel}
               className="!bg-gray-100 !text-gray-800 !border !border-gray-300 hover:!bg-gray-200 rounded-lg h-12 text-base"
+              data-testid="login-cancel-btn"
             >
               Cancel
             </Button>
 
             <Button
+              data-testid="login-submit-btn"
               block
               type="primary"
               htmlType="submit"

@@ -1,0 +1,9 @@
+services:
+  playwright:
+    image: mcr.microsoft.com/playwright:v1.57.0-jammy
+    container_name: arch_playwright
+    working_dir: /work
+    volumes:
+      - ./e2e:/work
+    shm_size: "2gb"
+    entrypoint: ["bash"]

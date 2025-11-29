@@ -1,12 +1,13 @@
+import React from "react";
 import { useContext, useEffect, useState } from "react";
 import { Button, Space } from "antd";
 import CustomTable from "../../../component/CustomTable";
-import InputField from "../../../component/InputField";
 import CustomToggleBtn from "../../../component/CustomToggleBtn";
 import { NotificationContext } from "../../../context/NotificationContext";
 import { getService } from "../../../script/getService";
 import { postService } from "../../../script/postService";
 import { patchService } from "../../../script/patchService";
+import InputField from "../../../component/InputField";
 
 function Permission() {
   const { showError, showSuccess } = useContext(NotificationContext);
@@ -53,7 +54,7 @@ function Permission() {
         title: title,
         active: true,
       };
-      const response = await postService("v1/permission/create", payload);
+      const response = await postService("auth/v1/permission/create", payload);
       showSuccess(response.data);
       setTitle("");
       fetchPermisison();
@@ -101,6 +102,7 @@ function Permission() {
       <div className="flex justify-end mb-2 border border-gray-100 p-1">
         <Space>
           <InputField
+            dataTestId="permission-title-inp"
             placeholder="Permission"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -108,6 +110,7 @@ function Permission() {
           />
 
           <Button
+            data-testid="permission-create-btn"
             type="button"
             color="primary"
             variant="outlined"
@@ -117,6 +120,7 @@ function Permission() {
           </Button>
 
           <Button
+            data-testid="permission-cancel-btn"
             type="button"
             color="red"
             variant="outlined"

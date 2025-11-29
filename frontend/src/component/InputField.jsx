@@ -1,7 +1,7 @@
 import React from "react";
 import { Input } from "antd";
-
 function InputField({
+  dataTestId = "",
   label = "",
   placeholder = "Enter value",
   error = "",
@@ -15,12 +15,9 @@ function InputField({
   className = "!rounded-none",
 }) {
   return (
-    <div className="flex flex-col w-full space-y-1">
+    <div className="flex flex-col w-full space-y-1" data-testid={dataTestId}>
       {label && (
-        <label
-          data-testid="hell"
-          className="text-base font-semibold text-gray-800 "
-        >
+        <label className="text-base font-semibold text-gray-800 ">
           {label}
           {required && <span className="text-red-500 ml-1">*</span>}
         </label>

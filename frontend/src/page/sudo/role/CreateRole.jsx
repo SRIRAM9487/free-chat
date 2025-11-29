@@ -100,13 +100,13 @@ function CreateRole({ isModelOpen, handleModalClose, view, editRecord }) {
       title={view ? "View Role" : editRecord ? "Edit Role" : "Create Role"}
       open={isModelOpen}
       onCancel={handleModalClose}
-      width={"20%"}
       footer
       styles={{
         header: { textAlign: "center" },
         body: { padding: 0 },
       }}
       destroyOnHidden={true}
+      className="overflow-auto"
     >
       <form
         onSubmit={handleSubmitForm}

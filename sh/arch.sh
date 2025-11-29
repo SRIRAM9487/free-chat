@@ -1,6 +1,22 @@
 #!/bin/bash
 
 
+SESSION="E2E"
+
+if tmux has-session -t "$SESSION" 2>/dev/null; then
+    echo "Session '$SESSION' already running. Attaching..."
+else
+    tmux new-session -d -s "$SESSION" -c "/home/sriram/git/arch-byte/e2e/"
+
+    tmux rename-window -t "$SESSION:0" 'main'
+    tmux new-window -t "$SESSION:1" -n "database" -c "/home/sriram/git/arch-byte/e2e/"
+
+    tmux select-window -t "$SESSION:0"
+
+    echo "E2E Session created"
+fi
+
+
 SESSION="FRONT"
 
 if tmux has-session -t "$SESSION" 2>/dev/null; then
