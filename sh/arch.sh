@@ -28,7 +28,7 @@ else
     tmux new-window -t "$SESSION:1" -n "server" -c "/home/sriram/git/arch-byte/backend/eureka_server/"
     tmux new-window -t "$SESSION:2" -n "admin" -c "/home/sriram/git/arch-byte/backend/admin_server/"
     tmux new-window -t "$SESSION:3" -n "config" -c "/home/sriram/git/arch-byte/backend/config_server/"
-    tmux new-window -t "$SESSION:4" -n "gateway" -c "/home/sriram/git/arch-byte/backend/gateway_server//"
+    tmux new-window -t "$SESSION:4" -n "gateway" -c "/home/sriram/git/arch-byte/backend/gateway_server/"
     tmux new-window -t "$SESSION:5" -n "notification" -c "/home/sriram/git/arch-byte/backend/notification_server/"
     tmux new-window -t "$SESSION:6" -n "auth" -c "/home/sriram/git/arch-byte/backend/auth_server/"
 
@@ -50,7 +50,7 @@ else
     tmux new-window -t "$SESSION:1" -n "server" -c "/home/sriram/git/arch-byte/backend/eureka_server/"
     tmux new-window -t "$SESSION:2" -n "admin" -c "/home/sriram/git/arch-byte/backend/admin_server/"
     tmux new-window -t "$SESSION:3" -n "config" -c "/home/sriram/git/arch-byte/backend/config_server/"
-    tmux new-window -t "$SESSION:4" -n "gateway" -c "/home/sriram/git/arch-byte/backend/gateway_server//"
+    tmux new-window -t "$SESSION:4" -n "gateway" -c "/home/sriram/git/arch-byte/backend/gateway_server/"
     tmux new-window -t "$SESSION:5" -n "notification" -c "/home/sriram/git/arch-byte/backend/notification_server/"
     tmux new-window -t "$SESSION:6" -n "auth" -c "/home/sriram/git/arch-byte/backend/auth_server/"
 
