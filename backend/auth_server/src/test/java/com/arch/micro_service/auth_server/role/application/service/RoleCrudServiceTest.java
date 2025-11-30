@@ -33,13 +33,13 @@ public class RoleCrudServiceTest {
   @Test
   void getAll() {
     List<Role> roles = roleCrudService.getAll();
-    assertEquals(5, roles.size());
+    assertEquals(6, roles.size());
   }
 
   @Test
   void getById() {
     Role role = roleCrudService.get("1");
-    assertEquals("ADMIN", role.getTitle());
+    assertEquals("SUDO", role.getTitle());
     assertTrue(role.isActive());
   }
 

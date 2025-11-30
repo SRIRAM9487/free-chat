@@ -45,7 +45,7 @@ public class RoleCrudController {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.success").value(true))
         .andExpect(jsonPath("$.data.id").value(1L))
-        .andExpect(jsonPath("$.data.title").value("ADMIN"))
+        .andExpect(jsonPath("$.data.title").value("SUDO"))
         .andExpect(jsonPath("$.data.active").value(true))
         .andExpect(jsonPath("$.data.rolePermissions").isArray())
         .andExpect(jsonPath("$.timeStamp").exists());

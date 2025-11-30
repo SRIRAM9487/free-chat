@@ -31,10 +31,10 @@ public class UserFindUseCaseTest {
   void findById() {
     User user = userFindUseCase.findById("1");
     assertEquals(1L, user.getId());
-    assertEquals("Admin User", user.getName());
-    assertEquals("admin", user.getUserName());
+    assertEquals("Sudo Master", user.getName());
+    assertEquals("sudo", user.getUserName());
     assertNotNull(user.getPassword());
-    assertEquals(Email.create("admin@example.com", true), user.getEmail());
+    assertEquals(Email.create("sudo@devops.com", true), user.getEmail());
     assertEquals(Gender.MALE, user.getGender());
     assertTrue(user.isAccountNonLocked());
     assertTrue(user.isAccountNonExpired());
@@ -57,10 +57,10 @@ public class UserFindUseCaseTest {
   @Test
   @Transactional
   void findByEmail() {
-    User user = userFindUseCase.findByEmail("admin@example.com");
+    User user = userFindUseCase.findByEmail("sudo@devops.com");
     assertEquals(1L, user.getId());
-    assertEquals("Admin User", user.getName());
-    assertEquals("admin", user.getUserName());
+    assertEquals("Sudo Master", user.getName());
+    assertEquals("sudo", user.getUserName());
   }
 
   @Test
@@ -80,10 +80,10 @@ public class UserFindUseCaseTest {
   @Test
   @Transactional
   void findByUserName() {
-    User user = userFindUseCase.findByUserName("admin");
+    User user = userFindUseCase.findByUserName("sudo");
     assertEquals(1L, user.getId());
-    assertEquals("Admin User", user.getName());
-    assertEquals("admin@example.com", user.getEmail().value());
+    assertEquals("Sudo Master", user.getName());
+    assertEquals("sudo@devops.com", user.getEmail().value());
   }
 
   @Test
@@ -95,18 +95,18 @@ public class UserFindUseCaseTest {
 
     userCrudService.delete("1");
 
-    userException = assertThrowsExactly(UserException.class, () -> userFindUseCase.findByUserName("admin"));
+    userException = assertThrowsExactly(UserException.class, () -> userFindUseCase.findByUserName("sudo"));
     assertEquals(UserExceptionType.USER_NOT_FOUND.name(), userException.getCode());
   }
 
   @Test
   @Transactional
   void findByUserId() {
-    User user = userFindUseCase.findByUserId("admin@example.com");
+    User user = userFindUseCase.findByUserId("sudo@devops.com");
     assertEquals(1L, user.getId());
     user = userFindUseCase.findByUserId("1");
     assertEquals(1L, user.getId());
-    user = userFindUseCase.findByUserId("admin");
+    user = userFindUseCase.findByUserId("sudo");
     assertEquals(1L, user.getId());
   }
 }

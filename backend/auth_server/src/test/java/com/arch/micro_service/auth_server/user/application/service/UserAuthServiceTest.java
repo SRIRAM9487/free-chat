@@ -26,7 +26,7 @@ public class UserAuthServiceTest {
   void login() {
     UserLoginRequest req = new UserLoginRequest("admin", "tester1234");
     UserLoginResponse res = userAuthService.login(req);
-    assertEquals("1", res.userId());
+    assertEquals("2", res.userId());
     assertEquals("admin", res.userName());
     assertNotNull(res.token());
   }

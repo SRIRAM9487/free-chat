@@ -30,7 +30,7 @@ public class RoleControllerTest {
             .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.success").value(true))
-        .andExpect(jsonPath("$.data").value("ADMIN Disabled Successfully"))
+        .andExpect(jsonPath("$.data").value("SUDO Disabled Successfully"))
         .andExpect(jsonPath("$.timeStamp").exists());
 
     this.mockMvc
@@ -38,7 +38,7 @@ public class RoleControllerTest {
             .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.success").value(true))
-        .andExpect(jsonPath("$.data").value("ADMIN Enabled Successfully"))
+        .andExpect(jsonPath("$.data").value("SUDO Enabled Successfully"))
         .andExpect(jsonPath("$.timeStamp").exists());
   }
 

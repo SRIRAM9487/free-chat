@@ -48,7 +48,7 @@ class PermissionCrudControllerTest {
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.success").value(true))
         .andExpect(jsonPath("$.data.id").value(1))
-        .andExpect(jsonPath("$.data.title").value("ROLE_CREATE"))
+        .andExpect(jsonPath("$.data.title").value("PERMISSION_CREATE"))
         .andExpect(jsonPath("$.data.active").value(true))
         .andExpect(jsonPath("$.timeStamp").exists());
   }

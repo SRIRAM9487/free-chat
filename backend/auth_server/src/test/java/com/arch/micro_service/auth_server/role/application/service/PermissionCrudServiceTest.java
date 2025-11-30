@@ -32,13 +32,13 @@ public class PermissionCrudServiceTest {
   @Test
   void getAll() {
     List<Permission> permissions = permissionCrudService.getAll();
-    assertEquals(12, permissions.size());
+    assertEquals(19, permissions.size());
   }
 
   @Test
   void getById() {
     Permission permission = permissionCrudService.get("1");
-    assertEquals("ROLE_CREATE", permission.getTitle());
+    assertEquals("PERMISSION_CREATE", permission.getTitle());
     assertTrue(permission.isActive());
   }
 

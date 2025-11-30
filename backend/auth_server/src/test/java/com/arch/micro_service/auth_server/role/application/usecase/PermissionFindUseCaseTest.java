@@ -28,7 +28,7 @@ public class PermissionFindUseCaseTest {
   @Test
   void findById() {
     Permission permission = permissionFindUseCase.findById("1");
-    assertEquals(permission.getTitle(), "ROLE_CREATE");
+    assertEquals("PERMISSION_CREATE",permission.getTitle());
     assertTrue(permission.isActive());
   }
 
