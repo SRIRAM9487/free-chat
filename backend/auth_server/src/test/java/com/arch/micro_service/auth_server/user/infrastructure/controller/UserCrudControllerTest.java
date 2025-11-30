@@ -1,22 +1,34 @@
 package com.arch.micro_service.auth_server.user.infrastructure.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import com.arch.micro_service.auth_server.user.application.constant.UserCrudConstant;
-
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.arch.micro_service.auth_server.shared.domain.constant.Gender;
+import com.arch.micro_service.auth_server.user.application.constant.UserCrudConstant;
+import com.arch.micro_service.auth_server.user.application.service.UserCrudService;
+import com.arch.micro_service.auth_server.user.domain.entity.User;
+import com.arch.micro_service.auth_server.user.domain.vo.Email;
+import com.arch.micro_service.auth_server.user.domain.vo.Password;
+import com.arch.micro_service.auth_server.user.infrastructure.dto.request.UserCreateRequest;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,10 +39,41 @@ public class UserCrudControllerTest {
   @Autowired
   private MockMvc mockMvc;
 
+  @MockitoBean
+  private UserCrudService userCrudService;
+
+  private List<User> users;
+
+  @BeforeEach
+  void setup() {
+    users = new ArrayList<>();
+    for (int i = 1; i < 10; i++) {
+
+      String name = "test" + i;
+      User user = User
+          .builder()
+          .userName(name)
+          .password(Password.create(name))
+          .email(Email.create(name + "@gmail.com"))
+          .gender(Gender.MALE)
+          .accountNonLocked(true)
+          .accountNonExpired(true)
+          .enabled(true)
+          .build();
+      user.setName(name);
+      user.setId((long) i);
+
+      users.add(user);
+    }
+  }
+
   @Test
   @Transactional
   @WithMockUser(authorities = "USER_VIEW")
   void getAll() throws Exception {
+
+    when(userCrudService.getAll()).thenReturn(users);
+
     this.mockMvc.perform(get("/v1/user")
         .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
@@ -43,12 +86,13 @@ public class UserCrudControllerTest {
   @Transactional
   @WithMockUser(authorities = "USER_VIEW")
   void getById() throws Exception {
+    when(userCrudService.get("1")).thenReturn(users.getFirst());
     this.mockMvc.perform(get("/v1/user/1")
         .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.success").value(true))
         .andExpect(jsonPath("$.data.id").value("1"))
-        .andExpect(jsonPath("$.data.userName").value("admin"))
+        .andExpect(jsonPath("$.data.userName").value("test1"))
         .andExpect(jsonPath("$.timeStamp").exists());
   }
 
@@ -58,21 +102,19 @@ public class UserCrudControllerTest {
   void createUser() throws Exception {
     String body = """
             {
-            "name": "tester",
-            "userName": "tester",
+            "name": "test1",
+            "userName": "test1",
             "password": "test1",
             "email": "tester1@gmail.com",
-            "gender": "FEMALE",
+            "gender": "MALE",
             "accountNonExpired": "true",
             "accountNonLocked": "true",
             "enabled": "true",
-            "roles": [
-                "1",
-                "2",
-                "3"
-            ]
+            "roles": []
         }
             """;
+
+    when(userCrudService.create(any(UserCreateRequest.class))).thenReturn(users.getFirst());
     this.mockMvc.perform(post("/v1/user/create")
         .content(body)
         .contentType(MediaType.APPLICATION_JSON)
@@ -97,13 +139,10 @@ public class UserCrudControllerTest {
             "accountNonExpired": "true",
             "accountNonLocked": "true",
             "enabled": "true",
-            "roles": [
-                "1",
-                "2",
-                "3"
-            ]
+            "roles": []
         }
             """;
+    when(userCrudService.update(eq("1"), any(UserCreateRequest.class))).thenReturn(users.getFirst());
     this.mockMvc.perform(patch("/v1/user/update/1")
         .content(body)
         .contentType(MediaType.APPLICATION_JSON)
@@ -118,6 +157,7 @@ public class UserCrudControllerTest {
   @Transactional
   @WithMockUser(authorities = "USER_DELETE")
   void deleteUser() throws Exception {
+    when(userCrudService.delete("1")).thenReturn(users.getFirst());
     this.mockMvc.perform(delete("/v1/user/1")
         .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())

@@ -32,20 +32,20 @@ public class RoleFindUseCaseTest {
   @Test
   void getAll() {
     List<Role> roles = roleFindUseCase.findAll();
-    assertEquals(5, roles.size());
+    assertEquals(6, roles.size());
   }
 
   @Test
   void getAllSoftDelete() {
     roleCrudService.delete("1");
     List<Role> roles = roleFindUseCase.findAll();
-    assertEquals(4, roles.size());
+    assertEquals(5, roles.size());
   }
 
   @Test
   void findById() {
     Role role = roleFindUseCase.findById("1");
-    assertEquals("ADMIN", role.getTitle());
+    assertEquals("SUDO", role.getTitle());
     assertTrue(role.isActive());
   }
 
