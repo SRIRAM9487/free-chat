@@ -1,5 +1,4 @@
 spring:
   sql:
     init:
-      mode: always
-      schema-locations: classpath:db/psql/schema.sql
+      mode: never

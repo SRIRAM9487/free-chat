@@ -1,3 +1,5 @@
 logging:
   level:
-    root: INFO
+    org.flywaydb: TRACE
+    org.springframework.boot.autoconfigure.flyway: TRACE
+    com.zaxxer.hikari: DEBUG
