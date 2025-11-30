@@ -1,12 +1,12 @@
 import React from "react";
 import { useContext, useEffect, useState } from "react";
 import { Button, Space } from "antd";
-import CustomTable from "../../../component/CustomTable";
-import CustomToggleBtn from "../../../component/CustomToggleBtn";
 import { NotificationContext } from "../../../context/NotificationContext";
 import { getService } from "../../../script/getService";
 import { postService } from "../../../script/postService";
 import { patchService } from "../../../script/patchService";
+import CustomTable from "../../../component/CustomTable";
+import CustomToggleBtn from "../../../component/CustomToggleBtn";
 import InputField from "../../../component/InputField";
 
 function Permission() {
@@ -15,55 +15,65 @@ function Permission() {
   const [title, setTitle] = useState("");
 
   const fetchPermisison = async () => {
+    //console.log("Permission fetch requested.");
     try {
-      const response = await getService("v1/permission");
-      // console.log(response);
+      const response = await getService("auth/v1/permission");
+      // console.log("Fetch response ",response);
       setPermissionList(response.data);
     } catch (error) {
+      // console.log("Fetch error ",error)
       showError("Network error");
     }
   };
 
   useEffect(() => {
+    //console.log("Modal mounted");
     fetchPermisison();
   }, []);
 
   const handleToggleBtn = async (record) => {
+    //console.log("Update permission requested")
     try {
       const payload = {
         title: record.title,
         active: !record.active,
       };
-      // console.log("UPDATE: ", payload);
+      // console.log("Permission update payload ", payload);
       const response = await patchService(
-        `v1/permission/update/${record.id}`,
+        `auth/v1/permission/update/${record.id}`,
         payload,
       );
-      // console.log("SUCCESS: ", response);
+      // console.log("Permission update success ", response);
       showSuccess(response.data, 800);
       setTitle("");
       fetchPermisison();
     } catch (error) {
+      // console.log("Permission update error ", error);
       showError("Toggle failed");
     }
   };
 
   const handleCreateBtn = async () => {
+    //console.log("Create permission requested")
     try {
       const payload = {
         title: title,
         active: true,
       };
+      // console.log("Permission update payload ", payload);
       const response = await postService("auth/v1/permission/create", payload);
       showSuccess(response.data);
       setTitle("");
+      // console.log("Permission create success ", response);
       fetchPermisison();
     } catch (error) {
+      // console.log("Permission create error ", error);
       showError("Creation failed");
     }
   };
 
   const handlCancelBtn = () => {
+    //console.log("Cancel btn clicked")
     setTitle("");
   };
 

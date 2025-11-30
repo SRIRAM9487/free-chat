@@ -18,12 +18,15 @@ function CreateRole({ isModelOpen, handleModalClose, view, editRecord }) {
   const { showError, showSuccess } = useContext(NotificationContext);
 
   const clearFormData = () => {
+    //console.log("Form data cleared");
     setFormData(() => DEFAULT_FORM);
   };
 
   const fetchPermissions = async () => {
+    //console.log("Fetching permissions");
     try {
-      const response = await getService("v1/permission");
+      const response = await getService("auth/v1/permission");
+      //console.log("Permsisions fetched successfully",response);
       const permissionData = response.data.map((perm) => ({
         permissionId: perm.id,
         active: false,
@@ -35,6 +38,7 @@ function CreateRole({ isModelOpen, handleModalClose, view, editRecord }) {
         rolePermissions: permissionData,
       }));
     } catch (error) {
+      //console.log("Permsisions fetched error",error);
       showError("Network error");
     }
   };
@@ -69,27 +73,32 @@ function CreateRole({ isModelOpen, handleModalClose, view, editRecord }) {
     }
   }, [editRecord]);
 
+  /*
   useEffect(() => {
     console.log("FORM DATA ", formData);
   }, [formData]);
+  */
 
   const handleSubmitForm = async (e) => {
+    //console.log("Form submission requested");
     e.preventDefault();
     try {
       if (!editRecord) {
-        const response = await postService("v1/role/create", formData);
+        const response = await postService("auth/v1/role/create", formData);
+        //console.log("Role create successfully  : ", response);
         showSuccess(response.data);
       } else {
-        console.log("RESPDONSE : ", editRecord.id);
         const response = await patchService(
-          `v1/role/update/${editRecord.id}`,
+          `auth/v1/role/update/${editRecord.id}`,
           formData,
         );
+        //console.log("Role updated successfully  : ", response);
         showSuccess(response.data);
       }
       clearFormData();
       handleModalClose?.();
     } catch (error) {
+      console.log("Role submint Error", error);
       showError(error?.response.data.message);
     }
   };

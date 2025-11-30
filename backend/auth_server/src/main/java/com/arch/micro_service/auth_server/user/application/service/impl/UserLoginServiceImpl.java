@@ -1,6 +1,5 @@
 package com.arch.micro_service.auth_server.user.application.service.impl;
 
-import com.arch.micro_service.auth_server.message.infrastructure.event.EmailVerificationEvent;
 import com.arch.micro_service.auth_server.message.infrastructure.event.PasswordResetEvent;
 import com.arch.micro_service.auth_server.message.infrastructure.publisher.EmailEventPublisher;
 import com.arch.micro_service.auth_server.user.application.service.CacheService;
@@ -27,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserAuthServiceImpl implements UserLoginService {
+public class UserLoginServiceImpl implements UserLoginService {
 
   private final UserFindUseCase userFindUseCase;
   private final UserRepository userRepository;
@@ -53,7 +52,6 @@ public class UserAuthServiceImpl implements UserLoginService {
     User user = userFindUseCase.findByUserId(request.userId());
 
     if (!user.isVerified()) {
-      log.trace("User Email not verified");
       throw UserException.emailNotVerified();
     }
 
@@ -89,6 +87,8 @@ public class UserAuthServiceImpl implements UserLoginService {
     }
 
     user.updatePassword(passwordEncoder.encode(password));
+
+    userRepository.save(user);
 
     cacheService.remove(email);
 

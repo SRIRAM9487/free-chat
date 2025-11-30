@@ -1,9 +1,4 @@
 server:
   port: 8500
-
-logging:
-  level:
-    root: TRACE
-
 jwt:
   secret: 3a46a40a411ee5b6b49cd7de9bfbda3ba35df960a4e75ff254299a280b433c3d5e4861ff3c51f03831e2ef60e631045b179f61493e7b2907f370795052c43a38

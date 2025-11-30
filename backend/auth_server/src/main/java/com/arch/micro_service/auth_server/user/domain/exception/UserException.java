@@ -4,11 +4,14 @@ import com.arch.micro_service.auth_server.shared.domain.exception.BaseException;
 import com.arch.micro_service.auth_server.user.domain.entity.User;
 import com.arch.micro_service.auth_server.user.domain.exception.type.UserExceptionType;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Exception to handle {@link User}
  * 
  * @author SRIRAM
  */
+@Slf4j
 public class UserException extends BaseException {
 
   public UserException(UserExceptionType type) {

@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    active: dev,jpa,redis,eureka,sql
+    active: dev,datasource,redis,eureka,sql,log
 
 eureka:
   client:

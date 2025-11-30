@@ -21,43 +21,54 @@ function Role() {
   const [isDeleteBoxOpen, setIsDeleteBoxOpen] = useState(false);
 
   const fetchRole = async () => {
+    //console.log("Role fetch requested");
     try {
-      const response = await getService("v1/role");
+      const response = await getService("auth/v1/role");
+      //console.log("Role fetched successfully", response);
       setRoleList(response.data);
     } catch (error) {
+      //console.log("Role fetched error ", error);
       showError("Network error");
     }
   };
 
   useEffect(() => {
+    //console.log("Modal mounted");
     fetchRole();
   }, []);
 
   const handleCreateBtn = async () => {
+    //console.log("Create btn clicked");
     setIsModelOpen(true);
   };
 
   const handleToggleBtn = async (record) => {
+    //console.log("Toggle btn clicked");
     try {
-      const response = await patchService(`v1/role/toggle/${record.id}`);
+      const response = await patchService(`auth/v1/role/toggle/${record.id}`);
+      //console.log("Toggle btn response ",response);
       showSuccess(response.data, 800);
       fetchRole();
     } catch (error) {
+      //console.log("Toggle btn error ",error);
       showError("Toggle failed");
     }
   };
   const handleEditBtn = (record) => {
+    //console.log("edit btn clicked");
     setEditRecord(record);
     setIsModelOpen(true);
   };
 
   const handleViewBtn = (record) => {
+    //console.log("view btn clicked");
     setEditRecord(record);
     setIsModelOpen(true);
     setView(true);
   };
 
   const handleModalClose = () => {
+    //console.log("Modal closed");
     setIsModelOpen(false);
     fetchRole();
     setEditRecord(null);
@@ -65,22 +76,27 @@ function Role() {
   };
 
   const handlDeleteBtn = (record) => {
+    //console.log("delete btn clicked");
     setIsDeleteBoxOpen(true);
     setEditRecord(record);
   };
 
   const handleDeleteBoxClose = () => {
+    //console.log("delete box closed");
     setEditRecord(null);
     setIsDeleteBoxOpen(false);
   };
 
   const handleDeleteBoxConfirm = async () => {
+    //console.log("Delete confirmed")
     try {
-      const response = await deleteService(`v1/role/${editRecord.id}`);
+      const response = await deleteService(`auth/v1/role/${editRecord.id}`);
       showSuccess(response.data);
       fetchRole();
+      //console.log("Delete successfull response ",response)
     } catch (error) {
       showError("Failed");
+      //console.log("Delete successfull error ",error)
     } finally {
       handleDeleteBoxClose();
     }
