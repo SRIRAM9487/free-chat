@@ -42,6 +42,7 @@ function Login() {
       setloading(false);
     } catch (error) {
       const message = error?.message;
+      console.log("Login failed ", error);
       showError(message ? message : "Network error");
     }
   };
