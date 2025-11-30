@@ -15,15 +15,22 @@ function InputField({
   className = "!rounded-none",
 }) {
   return (
-    <div className="flex flex-col w-full space-y-1" data-testid={dataTestId}>
+    <div
+      data-testid={`${dataTestId}-div`}
+      className="flex flex-col w-full space-y-1"
+    >
       {label && (
-        <label className="text-base font-semibold text-gray-800 ">
+        <label
+          className="text-base font-semibold text-gray-800 "
+          data-testid={`${dataTestId}-label`}
+        >
           {label}
           {required && <span className="text-red-500 ml-1">*</span>}
         </label>
       )}
 
       <Input
+        data-testid={dataTestId}
         type={type}
         value={value}
         onChange={onChange}
@@ -35,7 +42,14 @@ function InputField({
         className={className}
       />
 
-      {error && <span className="text-xs text-red-500 mt-1">{error}</span>}
+      {error && (
+        <span
+          data-testid={`${dataTestId}-error`}
+          className="text-xs text-red-500 mt-1"
+        >
+          {error}
+        </span>
+      )}
     </div>
   );
 }

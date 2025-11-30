@@ -1,0 +1,643 @@
+{
+	"info": {
+		"_postman_id": "52c53f10-b8b3-4477-a858-4a29cad4358f",
+		"name": "arch_byte",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "46659110"
+	},
+	"item": [
+		{
+			"name": "AUTH_SERVER",
+			"item": [
+				{
+					"name": "permission",
+					"item": [
+						{
+							"name": "crud",
+							"item": [
+								{
+									"name": "get_all",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{localhost}}:{{port}}/{{auth}}{{version1}}/permission",
+											"host": [
+												"{{localhost}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"{{auth}}{{version1}}",
+												"permission"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get_by_id",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{localhost}}:{{port}}/{{auth}}{{version1}}/permission/1",
+											"host": [
+												"{{localhost}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"{{auth}}{{version1}}",
+												"permission",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "create",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"title\": \"User\",\n    \"active\": true\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{localhost}}:{{port}}/{{auth}}{{version1}}/permission/create",
+											"host": [
+												"{{localhost}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"{{auth}}{{version1}}",
+												"permission",
+												"create"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "update",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"title\": \"User\",\n    \"active\": true\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{localhost}}:{{port}}/{{auth}}{{version1}}/permission/update/13",
+											"host": [
+												"{{localhost}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"{{auth}}{{version1}}",
+												"permission",
+												"update",
+												"13"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "delete",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{localhost}}:{{port}}/{{auth}}{{version1}}/permission/1",
+											"host": [
+												"{{localhost}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"{{auth}}{{version1}}",
+												"permission",
+												"1"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "role",
+					"item": [
+						{
+							"name": "crud",
+							"item": [
+								{
+									"name": "get_all",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{localhost}}:{{port}}/{{auth}}{{version1}}/role",
+											"host": [
+												"{{localhost}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"{{auth}}{{version1}}",
+												"role"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get_by_id",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{localhost}}:{{port}}/{{auth}}{{version1}}/role/1",
+											"host": [
+												"{{localhost}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"{{auth}}{{version1}}",
+												"role",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "create",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"title\": \"HOME\",\n    \"active\": false,\n    \"rolePermissions\": [\n        {\n            \"permissionId\": \"1\",\n            \"active\": false,\n            \"title\": \"Role\"\n        },\n        {\n            \"permissionId\": \"2\",\n            \"active\": false,\n            \"title\": \"Permission\"\n        },\n        {\n            \"permissionId\": \"3\",\n            \"active\": true,\n            \"title\": \"User\"\n        }\n    ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{localhost}}:{{port}}/{{auth}}{{version1}}/role/create",
+											"host": [
+												"{{localhost}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"{{auth}}{{version1}}",
+												"role",
+												"create"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "update",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"title\": \"HOME\",\n    \"active\": false,\n    \"rolePermissions\": [\n        {\n            \"permissionId\": \"1\",\n            \"active\": false,\n            \"title\": \"Role\"\n        },\n        {\n            \"permissionId\": \"2\",\n            \"active\": false,\n            \"title\": \"Permission\"\n        },\n        {\n            \"permissionId\": \"3\",\n            \"active\": true,\n            \"title\": \"User\"\n        }\n    ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{localhost}}:{{port}}/{{auth}}{{version1}}/role/update/2",
+											"host": [
+												"{{localhost}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"{{auth}}{{version1}}",
+												"role",
+												"update",
+												"2"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "delete",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{localhost}}:{{port}}/{{auth}}{{version1}}/role/6",
+											"host": [
+												"{{localhost}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"{{auth}}{{version1}}",
+												"role",
+												"6"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "New Folder",
+							"item": [
+								{
+									"name": "toggle_active",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"title\": \"HOME\",\n    \"active\": false,\n    \"rolePermissions\": [\n        {\n            \"permissionId\": \"f2ecad7d-4fbf-43f9-a39d-72907d9155de\",\n            \"active\": false,\n            \"title\": \"Role\"\n        },\n        {\n            \"permissionId\": \"99e8431e-8557-4bd8-9ef3-40bb6cc92b3d\",\n            \"active\": false,\n            \"title\": \"Permission\"\n        },\n        {\n            \"permissionId\": \"94f8c05b-73bf-4000-b5b2-ed3d513daf00\",\n            \"active\": true,\n            \"title\": \"User\"\n        }\n    ]\n}"
+										},
+										"url": {
+											"raw": "{{localhost}}:{{port}}/{{auth}}{{version1}}/role/toggle/1",
+											"host": [
+												"{{localhost}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"{{auth}}{{version1}}",
+												"role",
+												"toggle",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "user_meta_data",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{localhost}}:{{port}}/{{auth}}{{version1}}/role/user/meta",
+											"host": [
+												"{{localhost}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"{{auth}}{{version1}}",
+												"role",
+												"user",
+												"meta"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "user",
+					"item": [
+						{
+							"name": "crud",
+							"item": [
+								{
+									"name": "getAll",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{localhost}}:{{port}}/{{auth}}{{version1}}/user",
+											"host": [
+												"{{localhost}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"{{auth}}{{version1}}",
+												"user"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "getById",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{localhost}}:{{port}}/{{auth}}{{version1}}/user/1",
+											"host": [
+												"{{localhost}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"{{auth}}{{version1}}",
+												"user",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "create",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"foo\",\n    \"userName\": \"foo\",\n    \"password\": \"foo\",\n    \"email\": \"footester4321@gmail.com\",\n    \"gender\": \"MALE\",\n    \"accountNonExpired\": \"true\",\n    \"accountNonLocked\": \"true\",\n    \"enabled\": \"true\",\n    \"roles\": [\n        \"1\",\n        \"2\",\n        \"3\"\n    ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{localhost}}:{{port}}/{{auth}}{{version1}}/user/create",
+											"host": [
+												"{{localhost}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"{{auth}}{{version1}}",
+												"user",
+												"create"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "update",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"tester\",\n    \"userName\": \"tester\",\n    \"password\": \"test1\",\n    \"email\": \"tester21@gmail.com\",\n    \"gender\": \"FEMALE\",\n    \"accountNonExpired\": \"true\",\n    \"accountNonLocked\": \"true\",\n    \"enabled\": \"true\",\n    \"roles\": [\n        \"1\",\n        \"2\",\n        \"3\"\n    ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{localhost}}:{{port}}/{{auth}}{{version1}}/user/update/1",
+											"host": [
+												"{{localhost}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"{{auth}}{{version1}}",
+												"user",
+												"update",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "delete",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \n}"
+										},
+										"url": {
+											"raw": "{{localhost}}:{{port}}/{{auth}}{{version1}}/user/1",
+											"host": [
+												"{{localhost}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"{{auth}}{{version1}}",
+												"user",
+												"1"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "rest",
+							"item": [
+								{
+									"name": "create_meta_data",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{localhost}}:{{port}}/{{auth}}{{version1}}/user/create",
+											"host": [
+												"{{localhost}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"{{auth}}{{version1}}",
+												"user",
+												"create"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "toggle_lock",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"url": {
+											"raw": "{{localhost}}:{{port}}/{{auth}}{{version1}}/user/lock/test1",
+											"host": [
+												"{{localhost}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"{{auth}}{{version1}}",
+												"user",
+												"lock",
+												"test1"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Login",
+							"item": [
+								{
+									"name": "Login",
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"userId\": \"admin\",\n    \"password\": \"tester1234\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{localhost}}:{{port}}/{{auth}}{{version1}}/user/login",
+											"host": [
+												"{{localhost}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"{{auth}}{{version1}}",
+												"user",
+												"login"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "login_reset",
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"userId\":\"sriram\",\n    \"password\":\"user1gamile\"\n}"
+										},
+										"url": {
+											"raw": "{{localhost}}:{{port}}/{{version1}}/user/login/reset?userId=6",
+											"host": [
+												"{{localhost}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"{{version1}}",
+												"user",
+												"login",
+												"reset"
+											],
+											"query": [
+												{
+													"key": "userId",
+													"value": "6"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "email",
+							"item": [
+								{
+									"name": "verification_request",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{localhost}}:{{port}}/{{auth}}{{version1}}/user/email/verify/6",
+											"host": [
+												"{{localhost}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"{{auth}}{{version1}}",
+												"user",
+												"email",
+												"verify",
+												"6"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "localhost",
+			"value": ""
+		},
+		{
+			"key": "port",
+			"value": ""
+		},
+		{
+			"key": "version1",
+			"value": ""
+		},
+		{
+			"key": "auth",
+			"value": ""
+		}
+	]
+}

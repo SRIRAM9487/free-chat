@@ -5,7 +5,6 @@ import { Button } from "antd";
 import { UserContext } from "../../context/UserContext";
 import { NotificationContext } from "../../context/NotificationContext";
 import { postService } from "../../script/postService";
-import { useEffect } from "react";
 import InputField from "../../component/InputField";
 
 function Login() {
@@ -37,7 +36,7 @@ function Login() {
     setloading(false);
     try {
       const response = await postService("auth/v1/user/login", formData);
-      login(response.data);
+      login(response?.data);
       navigate("/dashboard");
       showSuccess("Login successfull", 1000);
       setloading(false);
@@ -75,6 +74,7 @@ function Login() {
           />
 
           <InputField
+            dataTestId="login-password-inp"
             label="Password"
             type="password"
             placeholder="Enter your password"
@@ -85,16 +85,15 @@ function Login() {
             required
             disabled={loading}
             error={errors.password}
-            dataTestId="login-password-inp"
           />
 
           <div className="space-y-4 pt-4">
             <Button
+              data-testid="login-cancel-btn"
               block
               size="large"
               onClick={handleCancel}
               className="!bg-gray-100 !text-gray-800 !border !border-gray-300 hover:!bg-gray-200 rounded-lg h-12 text-base"
-              data-testid="login-cancel-btn"
             >
               Cancel
             </Button>

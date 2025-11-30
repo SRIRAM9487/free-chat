@@ -12,6 +12,7 @@ function CustomNotification({
   open,
   setOpen,
   duration,
+  dataTestId,
 }) {
   const vertical = "top";
   const horizontal = "center";
@@ -24,6 +25,7 @@ function CustomNotification({
 
   return (
     <Snackbar
+      data-testid={dataTestId}
       open={open}
       autoHideDuration={duration}
       onClose={handleClose}
