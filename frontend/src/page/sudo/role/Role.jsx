@@ -115,17 +115,27 @@ function Role() {
       key: "title",
       align: "center",
       sorter: (a, b) => a.title.localeCompare(b.title),
+      defaultSortOrder: "ascend",
     },
     {
       title: "Action",
       key: "action",
       width: 120,
       align: "center",
-      render: (_, record) => (
+      render: (_, record, index) => (
         <div className="flex justify-around ">
-          <Deletebtn onClick={() => handlDeleteBtn(record)} />
-          <EditBtn onClick={() => handleEditBtn(record)} />
-          <Viewbtn onClick={() => handleViewBtn(record)} />
+          <Deletebtn
+            dataTestId={`icon-delete-${index}`}
+            onClick={() => handlDeleteBtn(record)}
+          />
+          <EditBtn
+            dataTestId={`icon-edit-${index}`}
+            onClick={() => handleEditBtn(record)}
+          />
+          <Viewbtn
+            dataTestId={`icon-view-${index}`}
+            onClick={() => handleViewBtn(record)}
+          />
         </div>
       ),
     },
@@ -134,9 +144,10 @@ function Role() {
       key: "active",
       width: 120,
       align: "center",
-      render: (_, record) => (
+      render: (_, record, index) => (
         <Space>
           <CustomToggleBtn
+            dataTestId={`toggle-btn-${index}`}
             checked={record.active}
             onChange={() => handleToggleBtn(record)}
           />
@@ -156,6 +167,7 @@ function Role() {
         />
 
         <CustomDialogBox
+          dataTestId="role-dialog"
           open={isDeleteBoxOpen}
           onCancel={handleDeleteBoxClose}
           onConfirm={handleDeleteBoxConfirm}
@@ -163,6 +175,7 @@ function Role() {
 
         <Space>
           <Button
+            data-testid="role-create-btn"
             type="button"
             color="primary"
             variant="solid"
@@ -175,7 +188,7 @@ function Role() {
       </div>
 
       <div className="flex justify-end mb-4 p-1">
-        <CustomTable data={roleList} columns={columns} />
+        <CustomTable dataTestId="role" data={roleList} columns={columns} />
       </div>
     </div>
   );

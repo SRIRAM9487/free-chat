@@ -1,6 +1,7 @@
 import { Modal, Button, Space } from "antd";
 
 const CustomDialogBox = ({
+  dataTestId = "dialog-box",
   open,
   onCancel,
   onConfirm,
@@ -14,6 +15,7 @@ const CustomDialogBox = ({
 }) => {
   return (
     <Modal
+      data-testid={dataTestId}
       open={open}
       onCancel={onCancel}
       title={title}
@@ -25,10 +27,15 @@ const CustomDialogBox = ({
       <p style={{ marginBottom: "1.5rem", fontSize: "1rem" }}>{message}</p>
 
       <Space style={{ display: "flex", justifyContent: "flex-end" }}>
-        <Button onClick={onCancel} disabled={loading}>
+        <Button
+          data-testid={`${dataTestId}-cancel-btn`}
+          onClick={onCancel}
+          disabled={loading}
+        >
           {cancelText}
         </Button>
         <Button
+          data-testid={`${dataTestId}-confirm-btn`}
           type={confirmType === "danger" ? "primary" : confirmType}
           danger={confirmType === "danger"}
           onClick={onConfirm}

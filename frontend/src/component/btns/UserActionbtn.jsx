@@ -1,6 +1,7 @@
-function UserActionbtn({ onClick }) {
+function UserActionbtn({ onClick, dataTestId = "icon-delete-btn" }) {
   return (
     <button
+      data-testid={dataTestId}
       className="
       p-1
       rounded-md

@@ -5,6 +5,7 @@ import { FilePdfOutlined, FileExcelOutlined } from "@ant-design/icons";
 const { Search } = Input;
 
 function CustomTable({
+  dataTestId,
   columns,
   searchColumnName = "name",
   data,

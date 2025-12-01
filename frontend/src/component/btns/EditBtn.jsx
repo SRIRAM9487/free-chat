@@ -1,7 +1,8 @@
 import { EditOutlined } from "@ant-design/icons";
-function EditBtn({ onClick }) {
+function EditBtn({ onClick, dataTestId = "icon-delete-btn" }) {
   return (
     <button
+      data-testid={dataTestId}
       className="
       p-1
       rounded-md

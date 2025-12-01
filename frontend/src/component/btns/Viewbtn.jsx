@@ -1,7 +1,8 @@
 import { EyeOutlined } from "@ant-design/icons";
-function Viewbtn({ onClick }) {
+function Viewbtn({ onClick, dataTestId = "icon-delete-btn" }) {
   return (
     <button
+      data-testid={dataTestId}
       className="
       p-1
       rounded-md 

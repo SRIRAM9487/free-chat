@@ -33,7 +33,7 @@ public class EmailClient {
     String userId = event.userId();
     String token = event.token();
 
-    String verificationLink = "http://localhost:8500/v1/user/email/verify?token=" + token + "&email=" + email;
+    String verificationLink = "http://localhost:8500/auth/v1/user/email/verify?token=" + token + "&email=" + email;
 
     ClassPathResource file = new ClassPathResource("templates/email/v1_email-verification.html");
     log.trace("Email html template loaded");
@@ -68,7 +68,7 @@ public class EmailClient {
     String userId = event.userId();
     String token = event.token();
 
-    String verificationLink = "http://localhost:8500/v1/user/login/new?token=" + token + "&email=" + email;
+    String verificationLink = "http://localhost:8500/auth/v1/user/login/new?token=" + token + "&email=" + email;
 
     ClassPathResource file = new ClassPathResource("templates/email/v1_password-reset.html");
     log.trace("Password Html template loaded");

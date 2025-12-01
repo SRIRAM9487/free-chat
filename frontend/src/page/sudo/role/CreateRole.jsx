@@ -99,7 +99,11 @@ function CreateRole({ isModelOpen, handleModalClose, view, editRecord }) {
       handleModalClose?.();
     } catch (error) {
       console.log("Role submint Error", error);
-      showError(error?.response.data.message);
+      showError(
+        error?.response?.data?.message
+          ? error.response?.data?.message
+          : "Network error",
+      );
     }
   };
 
@@ -116,6 +120,7 @@ function CreateRole({ isModelOpen, handleModalClose, view, editRecord }) {
       }}
       destroyOnHidden={true}
       className="overflow-auto"
+      data-testid="role-modal"
     >
       <form
         onSubmit={handleSubmitForm}
@@ -123,6 +128,7 @@ function CreateRole({ isModelOpen, handleModalClose, view, editRecord }) {
       >
         <div className="space-y-4 pb-3">
           <InputField
+            dataTestId="role-title-inp"
             disabled={view}
             label="Title"
             placeholder="Title"
@@ -135,6 +141,7 @@ function CreateRole({ isModelOpen, handleModalClose, view, editRecord }) {
           <div className="flex items-center justify-between bg-gray-50 px-4 py-3 rounded-md">
             <span className="text-gray-700 font-bold">Active</span>
             <CustomToggleBtn
+              dataTestId="role-toggle-active"
               disabled={view}
               checked={formData.active}
               onChange={() =>
@@ -145,11 +152,19 @@ function CreateRole({ isModelOpen, handleModalClose, view, editRecord }) {
 
           {!view && (
             <div className="flex justify-end gap-3 pt-2">
-              <Button type="default" onClick={handleModalClose}>
+              <Button
+                type="default"
+                onClick={handleModalClose}
+                data-testid="role-cancel-btn"
+              >
                 Cancel
               </Button>
 
-              <Button type="primary" htmlType="submit">
+              <Button
+                type="primary"
+                htmlType="submit"
+                data-testid="role-modal-create-btn"
+              >
                 {editRecord ? "Update" : "Create"}
               </Button>
             </div>
@@ -169,6 +184,7 @@ function CreateRole({ isModelOpen, handleModalClose, view, editRecord }) {
                 {permission.title}
               </span>
               <CustomToggleBtn
+                dataTestId={`permission-toggle-${index}`}
                 disabled={view}
                 checked={permission.active}
                 onChange={() =>

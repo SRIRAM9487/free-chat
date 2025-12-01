@@ -13,6 +13,7 @@ function Permission() {
   const { showError, showSuccess } = useContext(NotificationContext);
   const [permissionList, setPermissionList] = useState([]);
   const [title, setTitle] = useState("");
+  const [error, setError] = useState("");
 
   const fetchPermisison = async () => {
     //console.log("Permission fetch requested.");
@@ -33,6 +34,7 @@ function Permission() {
 
   const handleToggleBtn = async (record) => {
     //console.log("Update permission requested")
+
     try {
       const payload = {
         title: record.title,
@@ -55,6 +57,11 @@ function Permission() {
 
   const handleCreateBtn = async () => {
     //console.log("Create permission requested")
+    if (!title) {
+      showError("Title missing");
+      setError(true);
+      return;
+    }
     try {
       const payload = {
         title: title,
@@ -67,8 +74,8 @@ function Permission() {
       // console.log("Permission create success ", response);
       fetchPermisison();
     } catch (error) {
-      // console.log("Permission create error ", error);
-      showError("Creation failed");
+      console.log("Permission create error ", error);
+      showError(error.message ? error.message : "Creation failed");
     }
   };
 
@@ -90,15 +97,17 @@ function Permission() {
       key: "title",
       align: "center",
       sorter: (a, b) => a.title.localeCompare(b.title),
+      defaultSortOrder: "ascend",
     },
     {
       title: "Actions",
       key: "actions",
       width: 120,
       align: "right",
-      render: (_, record) => (
+      render: (_, record, index) => (
         <Space>
           <CustomToggleBtn
+            dataTestId={`toggle-btn-${index}`}
             checked={record.active}
             onChange={() => handleToggleBtn(record)}
           />
@@ -117,6 +126,7 @@ function Permission() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             size="mid"
+            error={error}
           />
 
           <Button

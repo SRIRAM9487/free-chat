@@ -1,8 +1,9 @@
 import { AiOutlineDelete } from "react-icons/ai";
 
-function Deletebtn({ onClick }) {
+function Deletebtn({ onClick, dataTestId = "icon-delete-btn" }) {
   return (
     <button
+      data-testid={dataTestId}
       className="
       p-1 
       rounded-md
