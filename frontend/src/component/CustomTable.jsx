@@ -5,7 +5,7 @@ import { FilePdfOutlined, FileExcelOutlined } from "@ant-design/icons";
 const { Search } = Input;
 
 function CustomTable({
-  dataTestId,
+  dataTestId = "table",
   columns,
   searchColumnName = "name",
   data,
@@ -48,6 +48,7 @@ function CustomTable({
         <div className="flex flex-wrap items-center justify-between gap-3 p-2 bg-gray-50 border-b border-gray-200">
           <div className="flex-1 min-w-[200px] ">
             <Search
+              data-testid={`${dataTestId}-search`}
               placeholder={`Search by ${searchColumnName}...`}
               allowClear
               onSearch={handleSearch}
@@ -59,6 +60,7 @@ function CustomTable({
           </div>
           <div className="flex flex-wrap items-center gap-2 justify-end">
             <Button
+              data-testid={`${dataTestId}-pdf`}
               type="primary"
               danger
               icon={<FilePdfOutlined />}
@@ -69,6 +71,7 @@ function CustomTable({
             </Button>
 
             <Button
+              data-testid={`${dataTestId}-excel`}
               type="primary"
               icon={<FileExcelOutlined />}
               style={{ backgroundColor: "#52c41a", borderColor: "#52c41a" }}
@@ -81,37 +84,9 @@ function CustomTable({
         </div>
       )}
 
-      {isMobile && (
-        <div className="p-2 bg-gray-50 border-b border-gray-200 ">
-          <Search
-            placeholder={`Search by ${searchColumnName}...`}
-            allowClear
-            onSearch={handleSearch}
-            onChange={(e) => setSearchText(e.target.value)}
-            size="middle"
-            className="w-full "
-            value={searchText}
-          />
-          <div className="flex gap-2 p-2 justify-start">
-            <Button
-              type="primary"
-              danger
-              icon={<FilePdfOutlined />}
-              onClick={handleExportPDF}
-            />
-
-            <Button
-              type="primary"
-              icon={<FileExcelOutlined />}
-              style={{ backgroundColor: "#52c41a", borderColor: "#52c41a" }}
-              onClick={handleExportExcel}
-            />
-          </div>
-        </div>
-      )}
-
       <div className="" style={{ flex: 1, width: "100%", overflowX: "auto" }}>
         <Table
+          data-testid={`${dataTestId}-table`}
           columns={columns}
           dataSource={data}
           loading={loading}

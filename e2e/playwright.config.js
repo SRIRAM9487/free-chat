@@ -12,7 +12,7 @@ export default defineConfig({
     video: "on",
 
     launchOptions: {
-      slowMo: 100,
+      //slowMo: 100,
       args: ["--start-maximized"],
     },
   },

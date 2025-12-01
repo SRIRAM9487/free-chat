@@ -1,4 +1,4 @@
-function UserActionbtn({ onClick, dataTestId = "icon-delete-btn" }) {
+function UserActionbtn({ onClick, dataTestId = "user-action-btn" }) {
   return (
     <button
       data-testid={dataTestId}

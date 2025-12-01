@@ -14,9 +14,9 @@ function CreateUser({ isModelOpen, handleModalClose, view, editRecord }) {
     password: "",
     email: "",
     gender: "",
-    accountNonExpired: true,
-    accountNonLocked: true,
-    enabled: true,
+    accountNonExpired: "true",
+    accountNonLocked: "true",
+    enabled: "true",
     roles: [],
   };
   const [formData, setFormData] = useState(DEFAULT_FORM);
@@ -30,11 +30,12 @@ function CreateUser({ isModelOpen, handleModalClose, view, editRecord }) {
 
   const fetchRolesList = async () => {
     try {
-      const response = await getService("v1/role/user/meta");
+      const response = await getService("auth/v1/role/user/meta");
       const role = response.data.map((role) => ({
         value: role.id,
         label: role.title,
       }));
+      console.log(response);
       setRoleList(role);
     } catch (error) {
       showError("Network error");
@@ -123,11 +124,11 @@ function CreateUser({ isModelOpen, handleModalClose, view, editRecord }) {
     if (!validateForm()) return;
     try {
       if (!editRecord) {
-        const response = await postService("v1/user/create", formData);
+        const response = await postService("auth/v1/user/create", formData);
         showSuccess(response.data);
       } else {
         const response = await patchService(
-          `v1/user/update/${editRecord.id}`,
+          `auth/v1/user/update/${editRecord.id}`,
           formData,
         );
         showSuccess(response.data);
@@ -158,6 +159,7 @@ function CreateUser({ isModelOpen, handleModalClose, view, editRecord }) {
         <div className="grid grid-cols-2 gap-6">
           <div className="flex flex-col gap-4">
             <InputField
+              dataTestId="create-name-inp"
               disabled={view}
               label="Name"
               value={formData.name}
@@ -170,20 +172,21 @@ function CreateUser({ isModelOpen, handleModalClose, view, editRecord }) {
               }
             />
 
-            {!view && (
-              <InputField
-                label="Password"
-                value={formData.password}
-                onChange={(e) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    password: e.target.value,
-                  }))
-                }
-              />
-            )}
+            <InputField
+              dataTestId="create-password-inp"
+              label="Password"
+              value={formData.password}
+              readOnly={view}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  password: e.target.value,
+                }))
+              }
+            />
 
             <CustomSelectBox
+              dataTestId="create-gender-inp"
               disabled={view}
               label="Gender"
               options={[
@@ -201,6 +204,7 @@ function CreateUser({ isModelOpen, handleModalClose, view, editRecord }) {
             />
 
             <CustomSelectBox
+              dataTestId="create-accountnonexpired-inp"
               disabled={view}
               label="Account Non Expired"
               options={[
@@ -217,6 +221,7 @@ function CreateUser({ isModelOpen, handleModalClose, view, editRecord }) {
               }
             />
             <CustomSelectBox
+              dataTestId="create-enabled-inp"
               disabled={view}
               label="Enabled"
               options={[
@@ -236,6 +241,7 @@ function CreateUser({ isModelOpen, handleModalClose, view, editRecord }) {
 
           <div className="flex flex-col gap-4">
             <InputField
+              dataTestId="create-username-inp"
               disabled={view}
               label="Username"
               value={formData.userName}
@@ -249,6 +255,7 @@ function CreateUser({ isModelOpen, handleModalClose, view, editRecord }) {
             />
 
             <InputField
+              dataTestId="create-email-inp"
               label="Email"
               value={formData.email}
               disabled={view}
@@ -260,6 +267,7 @@ function CreateUser({ isModelOpen, handleModalClose, view, editRecord }) {
               }
             />
             <CustomSelectBox
+              dataTestId="create-roles-inp"
               label="Role(s)"
               mode="multiple"
               options={roleList}
@@ -274,6 +282,7 @@ function CreateUser({ isModelOpen, handleModalClose, view, editRecord }) {
             />
 
             <CustomSelectBox
+              dataTestId="create-accountnonlocked-inp"
               label="Account Non Locked"
               options={[
                 { value: "false", label: "Expired" },
@@ -293,6 +302,7 @@ function CreateUser({ isModelOpen, handleModalClose, view, editRecord }) {
 
         <div className="flex justify-end gap-4 mt-4">
           <Button
+            data-testid="create-cancel-btn"
             color="red"
             variant="solid"
             className="!rounded !px-6 !py-2.5"
@@ -303,6 +313,7 @@ function CreateUser({ isModelOpen, handleModalClose, view, editRecord }) {
 
           {!view && (
             <Button
+              data-testid="create-submit-btn"
               type="primary"
               htmlType="submit"
               color="primary"

@@ -4,7 +4,7 @@ function InputField({
   dataTestId = "",
   label = "",
   placeholder = "Enter value",
-  error = "",
+  errors = "",
   required = false,
   value,
   onChange,
@@ -35,19 +35,19 @@ function InputField({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        status={error ? "error" : ""}
+        status={errors ? "error" : ""}
         disabled={disabled}
         size={size}
         readOnly={readOnly}
         className={className}
       />
 
-      {error && (
+      {errors && (
         <span
           data-testid={`${dataTestId}-error`}
           className="text-xs text-red-500 mt-1"
         >
-          {error}
+          {errors}
         </span>
       )}
     </div>

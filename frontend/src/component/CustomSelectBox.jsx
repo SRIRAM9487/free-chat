@@ -2,6 +2,7 @@ import { Select } from "antd";
 import "./CustomSelectBox.css";
 
 function CustomSelectBox({
+  dataTestId,
   label,
   value,
   placeholder,
@@ -22,6 +23,8 @@ function CustomSelectBox({
       )}
 
       <Select
+        status={errors ? "error" : ""}
+        data-testid={`${dataTestId}`}
         mode={mode}
         showSearch
         value={value}

@@ -11,96 +11,11 @@ import CustomDialogBox from "../../../component/CustomDialogBox";
 import { deleteService } from "../../../script/deleteService";
 import UserAction from "./UserAction";
 import UserActionbtn from "../../../component/btns/UserActionbtn";
+import { users } from "../../../../dummy/user/users";
 
 function User() {
   const { showError, showSuccess } = useContext(NotificationContext);
-  const [userList, setUserList] = useState([
-    {
-      id: "1",
-      name: "Admin User",
-      userName: "admin",
-      email: "admin@example.com",
-      emailVerified: true,
-      gender: "MALE",
-      accountNonExpired: true,
-      accountNonLocked: true,
-      enabled: true,
-      roles: [],
-    },
-    {
-      id: "2",
-      name: "Manager User",
-      userName: "manager",
-      email: "manager@example.com",
-      emailVerified: false,
-      gender: "MALE",
-      accountNonExpired: true,
-      accountNonLocked: true,
-      enabled: true,
-      roles: [],
-    },
-    {
-      id: "3",
-      name: "Customer User",
-      userName: "customer",
-      email: "customer@example.com",
-      emailVerified: false,
-      gender: "FEMALE",
-      accountNonExpired: true,
-      accountNonLocked: true,
-      enabled: true,
-      roles: [],
-    },
-    {
-      id: "4",
-      name: "Chatter User",
-      userName: "chatter",
-      email: "chatter@example.com",
-      emailVerified: false,
-      gender: "MALE",
-      accountNonExpired: true,
-      accountNonLocked: true,
-      enabled: true,
-      roles: [],
-    },
-    {
-      id: "5",
-      name: "Sudo User",
-      userName: "sudo",
-      email: "sudo@example.com",
-      emailVerified: true,
-      gender: "MALE",
-      accountNonExpired: true,
-      accountNonLocked: true,
-      enabled: true,
-      roles: [],
-    },
-    {
-      id: "6",
-      name: "sriram",
-      userName: "sriram",
-      email: "sriram.a.2023.cse@ritchennai.edu.in",
-      emailVerified: true,
-      gender: "MALE",
-      accountNonExpired: true,
-      accountNonLocked: true,
-      enabled: true,
-      roles: [
-        {
-          id: "1",
-          title: "ADMIN",
-        },
-        {
-          id: "3",
-          title: "CUSTOMER",
-        },
-        {
-          id: "2",
-          title: "MANAGER",
-        },
-      ],
-    },
-  ]);
+  const [userList, setUserList] = useState(users);
   const [editRecord, setEditRecord] = useState(null);
   const [view, setView] = useState(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -109,8 +24,7 @@ function User() {
 
   const fetchUsers = async () => {
     try {
-      const response = await getService("v1/user");
-      console.log(response.data);
+      const response = await getService("auth/v1/user");
       setUserList(response.data);
     } catch (error) {
       showError("Network error");
@@ -156,7 +70,7 @@ function User() {
 
   const handleDeleteBtnConfirm = async () => {
     try {
-      const response = await deleteService(`v1/user/${editRecord.id}`);
+      const response = await deleteService(`auth/v1/user/${editRecord.id}`);
       showSuccess(response.data);
     } catch (error) {
       showError("Failed");
@@ -207,11 +121,20 @@ function User() {
       key: "action",
       width: 120,
       align: "center",
-      render: (_, record) => (
+      render: (_, record, index) => (
         <div className="flex justify-around ">
-          <Deletebtn onClick={() => handleDeleteBtn(record)} />
-          <EditBtn onClick={() => handleEditBtn(record)} />
-          <Viewbtn onClick={() => handleViewBtn(record)} />
+          <Deletebtn
+            dataTestId={`icon-del-${index}`}
+            onClick={() => handleDeleteBtn(record)}
+          />
+          <EditBtn
+            dataTestId={`icon-edit-${index}`}
+            onClick={() => handleEditBtn(record)}
+          />
+          <Viewbtn
+            dataTestId={`icon-view-${index}`}
+            onClick={() => handleViewBtn(record)}
+          />
           <UserActionbtn onClick={() => handleUserActionBtn(record)} />
         </div>
       ),
@@ -242,6 +165,7 @@ function User() {
         <div>
           <Space>
             <Button
+              data-testid="user-btn-create"
               type="button"
               color="primary"
               variant="solid"
@@ -251,6 +175,7 @@ function User() {
               Create
             </Button>
             <Button
+              data-testid="user-btn-upload"
               type="default"
               size="middle"
               className="!rounded !px-6 !py-2.5"
@@ -258,6 +183,7 @@ function User() {
               Upload
             </Button>
             <Button
+              data-testid="user-btn-template"
               type="default"
               size="middle"
               className="!rounded !px-6 !py-2.5"
