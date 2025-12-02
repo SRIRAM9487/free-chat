@@ -1,97 +1,95 @@
 import test, { expect } from "@playwright/test";
+import {
+  permission_error_messages,
+  permission_selectors,
+  permission_success_messages,
+} from "./permissionconstant";
+import {
+  mockPermissionUpdated404,
+  mockPermissionUpdated500,
+  permission_error_notification,
+  permission_success_notification,
+  toggle_btn,
+} from "./permissionutils";
 
-test("page renders", async ({ page }) => {
+test.beforeEach(async ({ page }) => {
   await page.goto("http://localhost:5173/permission");
-  await expect(page.getByTestId("permission-title-inp")).toBeVisible();
-  await expect(page.getByTestId("permission-cancel-btn")).toBeVisible();
-  await expect(page.getByTestId("permission-create-btn")).toBeVisible();
 });
 
-test("Permission cancel", async ({ page }) => {
-  await page.goto("http://localhost:5173/permission");
-  await page.getByTestId("permission-title-inp").fill("TEST_PERMISSION_CREATE");
-  await page.getByTestId("permission-cancel-btn").click();
-  await expect(page.getByTestId("permission-title-inp")).toHaveText("");
-});
-
-test("Permission missing title", async ({ page }) => {
-  await page.goto("http://localhost:5173/permission");
-  await page.getByTestId("permission-title-inp").fill("");
-  await page.getByTestId("permission-create-btn").click();
-  await expect(page.getByTestId("permission-title-inp")).toHaveText("");
-  await expect(page.getByTestId("error-notification")).toContainText(
-    "Title missing",
-  );
-});
-test("Permission created successful", async ({ page }) => {
-  await page.goto("http://localhost:5173/permission");
-  await page.getByTestId("permission-title-inp").fill("TEST_PERMISSION_0");
-  await page.getByTestId("permission-create-btn").click();
-  await expect(page.getByTestId("success-notification")).toBeVisible();
-  await expect(page.getByTestId("permission-title-inp")).toHaveText("");
-});
-
-test("Permission created  failed", async ({ page }) => {
-  await page.goto("http://localhost:5173/permission");
-  await page.getByTestId("permission-title-inp").fill("PERMISSION_CREATE");
-  await page.getByTestId("permission-create-btn").click();
-  await expect(page.getByTestId("error-notification")).toContainText(
-    "Permission already exists",
-  );
-});
-
-test("Permission toggle status success", async ({ page }) => {
-  await page.goto("http://localhost:5173/permission");
-  await page.getByTestId("toggle-btn-0").click();
-  await expect(page.getByTestId("success-notification")).toBeVisible();
-});
-
-test("Permission toggle status failed", async ({ page }) => {
-  await page.route("**/auth/v1/permission/update/**", (route) => {
-    route.fulfill({
-      status: 404,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        success: false,
-        method: "GET",
-        status: null,
-        timeStamp: "2025-12-01T09:56:16.280286751",
-        path: null,
-        message: "Permission not found",
-        code: "PERMISSION_NOT_FOUND",
-      }),
-    });
+test.describe("create", () => {
+  test("Successful", async ({ page }) => {
+    for (let i = 0; i < 5; i++) {
+      const permission_title = `TESTER_PERMISSION_${Date.now()}`;
+      await page
+        .getByTestId(permission_selectors.permission_title)
+        .fill(permission_title);
+      await page.getByTestId(permission_selectors.create_btn).click();
+      await permission_success_notification(
+        page,
+        permission_success_messages.create,
+      );
+    }
   });
 
-  await page.goto("http://localhost:5173/permission");
-  await page.getByTestId("toggle-btn-0").click();
-  await expect(page.getByTestId("error-notification")).toBeVisible();
+  test("failed", async ({ page }) => {
+    await page
+      .getByTestId(permission_selectors.permission_title)
+      .fill("PERMISSION_CREATE");
+
+    await page.getByTestId(permission_selectors.create_btn).click();
+    await permission_error_notification(
+      page,
+      permission_error_messages.unique_title,
+    );
+  });
 });
 
-test("Permission toggle status failed internal server error", async ({
-  page,
-}) => {
-  await page.goto("http://localhost:5173/permission");
+test.describe("cleanup", () => {
+  test("clear title", async ({ page }) => {
+    const title = page.getByTestId(permission_selectors.permission_title);
+    await title.fill("TEST_PERMISSION_CREATE");
+    await page.getByTestId(permission_selectors.cancel_btn).click();
+    await expect(title).toHaveValue("");
+  });
+});
 
-  await page.route("**/auth/v1/permission/update/**", (route) => {
-    route.fulfill({
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        success: false,
-        method: "PATCH",
-        status: null,
-        timeStamp: "2025-12-01T09:56:16.280286751",
-        path: null,
-        message: "Internal server error",
-        code: "INTERNAL_SERVER_ERROR",
-      }),
-    });
+test.describe("missing values", () => {
+  test("Title", async ({ page }) => {
+    const title = page.getByTestId(permission_selectors.permission_title);
+    await title.fill("");
+    await page.getByTestId(permission_selectors.create_btn).click();
+    await expect(title).toHaveText("");
+    await permission_error_notification(
+      page,
+      permission_error_messages.title_missing,
+    );
+  });
+});
+
+test.describe("toggle", () => {
+  test("Success", async ({ page }) => {
+    await toggle_btn(page);
+    await permission_success_notification(
+      page,
+      permission_success_messages.update,
+    );
   });
 
-  await page.getByTestId("toggle-btn-0").click();
+  test("Failed", async ({ page }) => {
+    await mockPermissionUpdated404(page);
+    await toggle_btn(page);
+    await permission_error_notification(
+      page,
+      permission_error_messages.toggle_failed,
+    );
+  });
 
-  await expect(page.getByTestId("error-notification")).toContainText(
-    "Toggle failed",
-  );
+  test("Internal server error", async ({ page }) => {
+    await mockPermissionUpdated500(page);
+    await toggle_btn(page);
+    await permission_error_notification(
+      page,
+      permission_error_messages.toggle_failed,
+    );
+  });
 });

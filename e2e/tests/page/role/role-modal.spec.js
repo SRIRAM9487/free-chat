@@ -1,151 +1,125 @@
 import test, { expect } from "@playwright/test";
+import {
+  role_error_messages,
+  role_selectors,
+  role_success_messages,
+} from "./roleconstant";
+import {
+  role_error_notification,
+  mockRoleCreate500,
+  mockRoleToggle500,
+  role_success_notification,
+  toggle_active_btn,
+  toggle_buttons,
+  toggle_delete,
+  toggle_edit,
+  toggle_view,
+} from "./roleutils";
 
-test("Role create success", async ({ page }) => {
+test.beforeEach(async ({ page }) => {
   await page.goto("http://localhost:5173/role");
-
-  await page.getByTestId("role-create-btn").click();
-
-  await page.locator(".ant-modal-content").isVisible();
-
-  await page.getByTestId("role-title-inp").fill("TESTER_ROLE_1");
-
-  await page.getByTestId("role-toggle-active").click();
-  await page.getByTestId("permission-toggle-0").click();
-
-  await page.getByTestId("permission-toggle-2").click();
-  await page.getByTestId("permission-toggle-4").click();
-
-  await page.getByTestId("role-modal-create-btn").click();
-
-  await expect(page.getByTestId("success-notification")).toContainText(
-    "Role Created",
-  );
 });
 
-test("Role update success", async ({ page }) => {
-  await page.goto("http://localhost:5173/role");
-
-  await page.getByTestId("icon-edit-0").click();
-
-  await page.locator(".ant-modal-content").isVisible();
-
-  await expect(page.getByTestId("role-title-inp")).not.toHaveValue("");
-
-  await page.getByTestId("role-title-inp").fill("ADMIN_ROLE_1");
-
-  await page.getByTestId("role-toggle-active").click();
-
-  await page.getByTestId("permission-toggle-0").click();
-
-  await page.getByTestId("permission-toggle-2").click();
-  await page.getByTestId("permission-toggle-4").click();
-
-  await page.getByTestId("role-modal-create-btn").click();
-
-  await expect(page.getByTestId("success-notification")).toContainText(
-    "Role Updated",
-  );
-});
-
-test("Role view", async ({ page }) => {
-  await page.goto("http://localhost:5173/role");
-
-  await page.goto("http://localhost:5173/role");
-
-  await page.getByTestId("icon-view-0").click();
-
-  await expect(page.getByTestId("role-title-inp")).toBeDisabled();
-
-  await expect(page.getByTestId("role-toggle-active")).toBeDisabled();
-
-  await expect(page.getByTestId("permission-toggle-0")).toBeDisabled();
-  await expect(page.getByTestId("permission-toggle-1")).toBeDisabled();
-  await expect(page.getByTestId("permission-toggle-2")).toBeDisabled();
-  await expect(page.getByTestId("permission-toggle-3")).toBeDisabled();
-
-  await expect(page.getByTestId("role-modal-create-btn")).not.toBeVisible();
-  await expect(page.getByTestId("role-cancel-btn")).not.toBeVisible();
-});
-test("Role create failed", async ({ page }) => {
-  await page.goto("http://localhost:5173/role");
-
-  await page.getByTestId("role-create-btn").click();
-
-  await page.locator(".ant-modal-content").isVisible();
-
-  await page.getByTestId("role-title-inp").fill("SUDO");
-
-  await page.getByTestId("role-toggle-active").click();
-  await page.getByTestId("permission-toggle-0").click();
-
-  await page.getByTestId("permission-toggle-2").click();
-  await page.getByTestId("permission-toggle-4").click();
-
-  await page.getByTestId("role-modal-create-btn").click();
-
-  await expect(page.getByTestId("error-notification")).toContainText(
-    "Role must be unique",
-  );
-});
-
-test("Role update conflict", async ({ page }) => {
-  await page.goto("http://localhost:5173/role");
-
-  await page.getByTestId("icon-edit-0").click();
-
-  await page.locator(".ant-modal-content").isVisible();
-
-  await expect(page.getByTestId("role-title-inp")).not.toHaveValue("");
-
-  await page.getByTestId("role-title-inp").fill("SUDO");
-
-  await page.getByTestId("role-toggle-active").click();
-
-  const toggles = page.getByTestId(/permission-toggle-/);
-  const count = await toggles.count();
-
-  const randomIndex = Math.floor(Math.random() * count);
-  await toggles.nth(randomIndex).click();
-
-  await page.getByTestId("role-modal-create-btn").click();
-
-  await expect(page.getByTestId("error-notification")).toContainText(
-    "Role must be unique",
-  );
-});
-
-test("Network error", async ({ page }) => {
-  await page.goto("http://localhost:5173/role");
-
-  await page.route("**/auth/v1/role/create", (route) => {
-    route.fulfill({
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        success: false,
-        method: "POST",
-        status: null,
-        timeStamp: "2025-12-01T09:56:16.280286751",
-        path: null,
-        code: "INTERNAL_SERVER_ERROR",
-      }),
-    });
+test.describe("create", () => {
+  test("success", async ({ page }) => {
+    await page.getByTestId(role_selectors.create_btn).click();
+    await page.locator(role_selectors.modal).isVisible();
+    const role_name = `TESTER_ROLE_${Date.now()}`;
+    await page.getByTestId(role_selectors.title_input).fill(role_name);
+    await page.getByTestId(role_selectors.active_toggle).click();
+    await toggle_buttons(page);
+    await page.getByTestId(role_selectors.save_btn).click();
+    await role_success_notification(page, role_success_messages.create);
   });
 
-  await page.getByTestId("role-create-btn").click();
+  test("Unique title", async ({ page }) => {
+    await page.getByTestId(role_selectors.create_btn).click();
+    await page.locator(role_selectors.modal).isVisible();
+    await page.getByTestId(role_selectors.title_input).fill("SUDO");
+    await page.getByTestId(role_selectors.active_toggle).click();
+    await toggle_buttons(page);
+    await page.getByTestId(role_selectors.save_btn).click();
+    await role_error_notification(page, role_error_messages.unique_title);
+  });
+});
 
-  await page.locator(".ant-modal-content").isVisible();
+test.describe("Update", () => {
+  test("success", async ({ page }) => {
+    await toggle_edit(page);
+    await page.locator(role_selectors.modal).isVisible();
+    const title = page.getByTestId(role_selectors.title_input);
+    await expect(title).not.toHaveValue("");
+    const role_name = `TESTER_ROLE_${Date.now()}`;
+    await page.getByTestId(role_selectors.title_input).fill(role_name);
+    await page.getByTestId(role_selectors.active_toggle).click();
+    await toggle_buttons(page);
+    await page.getByTestId(role_selectors.save_btn).click();
+    await role_success_notification(page, role_success_messages.update);
+  });
 
-  await page.getByTestId("role-title-inp").fill("TESTER5");
-  await page.getByTestId("role-toggle-active").click();
+  test("Uniuqe title", async ({ page }) => {
+    await toggle_edit(page);
+    await page.locator(role_selectors.modal).isVisible();
+    const title = page.getByTestId(role_selectors.title_input);
+    await expect(title).not.toHaveValue("");
+    await title.fill("SUDO");
+    await page.getByTestId(role_selectors.active_toggle).click();
+    await toggle_buttons(page);
+    await page.getByTestId(role_selectors.save_btn).click();
+    await role_error_notification(page, role_error_messages.unique_title);
+  });
+});
 
-  await page.getByTestId("permission-toggle-0").click();
-  await page.getByTestId("permission-toggle-2").click();
-  await page.getByTestId("permission-toggle-4").click();
+test.describe("view", () => {
+  test("default", async ({ page }) => {
+    await toggle_view(page);
+    await expect(page.getByTestId(role_selectors.title_input)).toBeDisabled();
+    await expect(page.getByTestId(role_selectors.active_toggle)).toBeDisabled();
+    const toggles = page.getByTestId(/permission-toggle-/);
+    for (let i = 0; i < toggles.count(); i++) {
+      await expect(toggles[i]).toBeDisabled();
+    }
+    await expect(page.getByTestId(role_selectors.save_btn)).not.toBeVisible();
+    await expect(page.getByTestId(role_selectors.cancel_btn)).not.toBeVisible();
+  });
+});
 
-  await page.getByTestId("role-modal-create-btn").click();
+test.describe("Network", () => {
+  test("Network error", async ({ page }) => {
+    await mockRoleCreate500(page);
+    await page.getByTestId(role_selectors.create_btn).click();
+    await page.locator(role_selectors.modal).isVisible();
+    await page.getByTestId(role_selectors.title_input).fill("TESTER5");
+    await page.getByTestId(role_selectors.active_toggle).click();
+    toggle_buttons(page);
+    await page.getByTestId(role_selectors.save_btn).click();
+    await role_error_notification(page, role_error_messages.network_error);
+  });
+});
 
-  await expect(page.getByTestId("error-notification")).toContainText(
-    "Network error",
-  );
+test.describe("toggle", () => {
+  test("Status toggled", async ({ page }) => {
+    await toggle_active_btn(page);
+    await role_success_notification(page, role_success_messages.toggle);
+  });
+
+  test("Status toggle failed", async ({ page }) => {
+    await mockRoleToggle500(page);
+    await toggle_active_btn(page);
+    await role_error_notification(page, role_error_messages.toggle_failed);
+  });
+});
+
+test.describe("delete", () => {
+  test("cancel", async ({ page }) => {
+    toggle_delete(page);
+    await page.getByTestId(role_selectors.delete_modal).isVisible();
+    await page.getByTestId(role_selectors.delete_btn_cancel).click();
+  });
+  test("success", async ({ page }) => {
+    await toggle_delete(page);
+    await page.getByTestId(role_selectors.delete_modal).isVisible();
+    await page.getByTestId(role_selectors.delete_btn).click();
+    await role_success_notification(page, role_success_messages.delete);
+  });
 });
