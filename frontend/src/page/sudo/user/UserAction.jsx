@@ -14,7 +14,7 @@ function UserAction({ isModelOpen, handleModalClose, editRecord }) {
   const handleEmailVerificationRequest = async () => {
     try {
       const response = await getService(
-        `v1/user/email/verify/${editRecord.id}`,
+        `auth/v1/user/email/verify/${editRecord.id}`,
       );
       console.log("RESPONSE : ", response);
       showSuccess(response.data);
@@ -29,6 +29,7 @@ function UserAction({ isModelOpen, handleModalClose, editRecord }) {
 
   return (
     <Modal
+      data-testid="user-action-modal"
       title="User Actions"
       open={isModelOpen}
       onCancel={handleModalClose}
@@ -52,6 +53,7 @@ function UserAction({ isModelOpen, handleModalClose, editRecord }) {
         >
           <Text strong>Send Email Verification</Text>
           <Button
+            data-testid="email-verification-btn"
             icon={<TfiEmail />}
             type="button"
             color="green"
@@ -72,6 +74,7 @@ function UserAction({ isModelOpen, handleModalClose, editRecord }) {
         >
           <Text strong>Reset Password</Text>
           <Button
+            data-testid="password-reset-btn"
             icon={<IoKey />}
             type="button"
             color="blue"
@@ -91,6 +94,7 @@ function UserAction({ isModelOpen, handleModalClose, editRecord }) {
         >
           <Text strong>Lock User</Text>
           <Button
+            data-testid="lock-user-btn"
             icon={<LuLock />}
             type="button"
             color="red"

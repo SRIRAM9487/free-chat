@@ -135,7 +135,10 @@ function User() {
             dataTestId={`icon-view-${index}`}
             onClick={() => handleViewBtn(record)}
           />
-          <UserActionbtn onClick={() => handleUserActionBtn(record)} />
+          <UserActionbtn
+            dataTestId={`icon-action-${index}`}
+            onClick={() => handleUserActionBtn(record)}
+          />
         </div>
       ),
     },

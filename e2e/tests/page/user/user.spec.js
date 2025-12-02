@@ -53,7 +53,7 @@ test("User invalid password", async ({ page }) => {
   await page.getByTitle("Expired").nth(2).click();
 
   await page.getByTestId("create-enabled-inp").click();
-  await page.getByTitle("Active").nth(2).click();
+  await page.getByTitle("Expired").nth(4).click();
 
   await page.getByTestId("create-password-inp").fill("Tester");
   await page.getByTestId("create-submit-btn").click();
@@ -179,4 +179,26 @@ test("User update conflict", async ({ page }) => {
   );
 
   await page.getByTestId("create-submit-btn").click();
+});
+
+test("User view", async ({ page }) => {
+  await page.goto("http://localhost:5173/user");
+
+  await page.getByTestId("icon-edit-0").click();
+
+  await page.getByText("Create UserNamePasswordGender").isVisible();
+
+  await expect(page.getByTestId("create-name-inp")).not.toHaveValue("");
+  await expect(page.getByTestId("create-username-inp")).not.toHaveValue("");
+  await expect(page.getByTestId("create-password-inp")).toHaveValue("");
+  await expect(page.getByTestId("create-email-inp")).not.toHaveValue("");
+  await expect(page.getByTestId("create-gender-inp")).not.toHaveText("");
+  await expect(page.getByTestId("create-roles-inp")).not.toHaveText("");
+  await expect(page.getByTestId("create-accountnonexpired-inp")).not.toHaveText(
+    "",
+  );
+  await expect(page.getByTestId("create-accountnonlocked-inp")).not.toHaveText(
+    "",
+  );
+  await expect(page.getByTestId("create-enabled-inp")).not.toHaveText("");
 });
