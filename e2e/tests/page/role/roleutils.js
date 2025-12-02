@@ -47,7 +47,7 @@ export async function toggle_edit(page) {
 }
 
 export async function toggle_delete(page) {
-  const edits = page.getByTestId(/icon-delete-/);
+  const edits = page.getByTestId(/icon-del-/);
   const count = await edits.count();
   let randomIndex = Math.floor(Math.random() * count);
   await edits.nth(randomIndex).click();

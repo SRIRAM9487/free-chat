@@ -14,6 +14,11 @@ function CustomSelectBox({
   className = "",
   mode = undefined,
 }) {
+  const testableOptions = options.map((o, index) => ({
+    ...o,
+    className: `${dataTestId}-option-${index + 1}`,
+  }));
+
   return (
     <div className="flex flex-col w-full space-y-1">
       {label && (
@@ -24,13 +29,13 @@ function CustomSelectBox({
 
       <Select
         status={errors ? "error" : ""}
-        data-testid={`${dataTestId}`}
+        data-testid={dataTestId}
         mode={mode}
         showSearch
         value={value}
         onChange={handleChange}
         placeholder={placeholder}
-        options={options}
+        options={testableOptions}
         size={size}
         disabled={readOnly}
         className={`sharp-select ${className}`}

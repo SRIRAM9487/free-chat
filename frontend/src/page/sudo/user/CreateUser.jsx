@@ -141,6 +141,7 @@ function CreateUser({ isModelOpen, handleModalClose, view, editRecord }) {
 
   return (
     <Modal
+      data-testid="create-user-modal"
       style={{ top: 20 }}
       title={title}
       open={isModelOpen}

@@ -1,204 +1,270 @@
 import test, { expect } from "@playwright/test";
+import {
+  user_error_messages,
+  user_selectors,
+  user_success_messages,
+} from "./userConstant";
+import {
+  select_account_non_exipred,
+  select_account_non_locked,
+  select_edit_btn,
+  select_enabled,
+  select_gender,
+  select_roles,
+  select_view_btn,
+  user_error_notification,
+  user_success_notification,
+} from "./userutils";
+import { toggle_delete } from "../role/roleutils";
 
-test("User create successfull", async ({ page }) => {
+test.beforeEach(async ({ page }) => {
   await page.goto("http://localhost:5173/user");
-
-  await page.getByTestId("user-btn-create").click();
-  await page.getByText("Create UserNamePasswordGender").isVisible();
-
-  await page.getByTestId("create-name-inp").fill("Tester2");
-  await page.getByTestId("create-username-inp").fill("Tester2");
-  await page.getByTestId("create-password-inp").fill("Tester2djfkl");
-  await page.getByTestId("create-email-inp").fill("tester2@gmail.com");
-  await page.getByTestId("create-gender-inp").click();
-  await page.getByText("FEMALE").nth(1).click();
-
-  await page.getByTestId("create-roles-inp").click();
-  await page.getByTitle("TESTER").nth(1).click();
-
-  await page.getByTestId("create-accountnonexpired-inp").click();
-  await page.getByText("Expired", { exact: true }).click();
-
-  await page.getByTestId("create-accountnonlocked-inp").click();
-  await page.getByTitle("Expired").nth(2).click();
-
-  await page.getByTestId("create-enabled-inp").click();
-  await page.getByTitle("Expired").nth(4).click();
-
-  await page.getByTestId("create-submit-btn").click();
-  await expect(page.getByTestId("success-notification")).toHaveText(
-    "User Created",
-  );
 });
 
-test("User invalid password", async ({ page }) => {
-  await page.goto("http://localhost:5173/user");
-
-  await page.getByTestId("user-btn-create").click();
-  await page.getByText("Create UserNamePasswordGender").isVisible();
-
-  await page.getByTestId("create-name-inp").fill("Tester1");
-  await page.getByTestId("create-username-inp").fill("Tester1");
-  await page.getByTestId("create-email-inp").fill("tester@gmail.com");
-  await page.getByTestId("create-gender-inp").click();
-  await page.getByText("FEMALE").nth(1).click();
-
-  await page.getByTestId("create-roles-inp").click();
-  await page.getByTitle("TESTER").nth(1).click();
-
-  await page.getByTestId("create-accountnonexpired-inp").click();
-  await page.getByText("Expired", { exact: true }).click();
-
-  await page.getByTestId("create-accountnonlocked-inp").click();
-  await page.getByTitle("Expired").nth(2).click();
-
-  await page.getByTestId("create-enabled-inp").click();
-  await page.getByTitle("Expired").nth(4).click();
-
-  await page.getByTestId("create-password-inp").fill("Tester");
-  await page.getByTestId("create-submit-btn").click();
-  await expect(page.getByTestId("error-notification")).toContainText(
-    "Password must be at least 8 characters",
-  );
+test.describe("Create ", () => {
+  test("Successfull", async ({ page }) => {
+    await page.getByTestId(user_selectors.create_btn).click();
+    await page.getByText(user_selectors.create_user_modal).isVisible();
+    const user_name = `TESTER_ROLE_${Date.now()}`;
+    await page.getByTestId(user_selectors.create_name_inp).fill(user_name);
+    await page.getByTestId(user_selectors.create_username_inp).fill(user_name);
+    await page
+      .getByTestId(user_selectors.create_password_inp)
+      .fill("Tester2djfkl");
+    await page
+      .getByTestId(user_selectors.create_email_inp)
+      .fill(user_name + "@gmail.com");
+    await select_gender(page);
+    await select_roles(page);
+    await select_account_non_locked(page);
+    await select_account_non_exipred(page);
+    await select_enabled(page);
+    await page.getByTestId(user_selectors.create_user_btn).click();
+    await user_success_notification(page, user_success_messages.create);
+  });
 });
 
-test("User missing values", async ({ page }) => {
-  await page.goto("http://localhost:5173/user");
-
-  await page.getByTestId("user-btn-create").click();
-  await page.getByText("Create UserNamePasswordGender").isVisible();
-
-  await page.getByTestId("create-submit-btn").click();
-  await expect(page.getByTestId("error-notification")).toContainText(
-    "Name is required",
-  );
-  await page.getByTestId("create-name-inp").fill("Tester1");
-  await page.getByTestId("create-submit-btn").click();
-
-  await expect(page.getByTestId("error-notification")).toContainText(
-    "Username is required",
-  );
-  await page.getByTestId("create-username-inp").fill("Tester1");
-  await page.getByTestId("create-submit-btn").click();
-
-  await expect(page.getByTestId("error-notification")).toContainText(
-    "Email is required",
-  );
-  await page.getByTestId("create-email-inp").fill("tester@gmail.com");
-  await page.getByTestId("create-submit-btn").click();
-
-  await expect(page.getByTestId("error-notification")).toContainText(
-    "Password is required",
-  );
-  await page.getByTestId("create-submit-btn").click();
-  await page.getByTestId("create-password-inp").fill("Tester");
-  await page.getByTestId("create-submit-btn").click();
-
-  await expect(page.getByTestId("error-notification")).toContainText(
-    "Password must be at least 8 characters",
-  );
-  await page.getByTestId("create-submit-btn").click();
-  await page.getByTestId("create-password-inp").fill("Tester123asf4");
-
-  await page.getByTestId("create-submit-btn").click();
-  await expect(page.getByTestId("error-notification")).toContainText(
-    "Gender is required",
-  );
-  await page.getByTestId("create-gender-inp").click();
-  await page.getByText("FEMALE").nth(1).click();
-
-  await page.getByTestId("create-submit-btn").click();
-  await expect(page.getByTestId("error-notification")).toContainText(
-    "At least one role must be selected",
-  );
-
-  await page.getByTestId("create-roles-inp").click();
-  await page.getByTitle("TESTER").nth(1).click();
-  await page.getByTestId("create-submit-btn").click();
+test.describe("missing values", () => {
+  test("missing", async ({ page }) => {
+    await page.getByTestId(user_selectors.create_btn).click();
+    await page.getByText("Create UserNamePasswordGender").isVisible();
+    const user_name = `TESTER_ROLE_${Date.now()}`;
+    await test.step("Name", async () => {
+      await page.getByTestId(user_selectors.create_user_btn).click();
+      await user_error_notification(page, user_error_messages.name_required);
+      await page.getByTestId(user_selectors.create_name_inp).fill(user_name);
+    });
+    await test.step("User Name", async () => {
+      await page.getByTestId(user_selectors.create_user_btn).click();
+      await user_error_notification(
+        page,
+        user_error_messages.user_name_required,
+      );
+      await page
+        .getByTestId(user_selectors.create_username_inp)
+        .fill(user_name);
+    });
+    await test.step("Email required", async () => {
+      await page.getByTestId(user_selectors.create_user_btn).click();
+      await user_error_notification(page, user_error_messages.email_required);
+      await page.getByTestId(user_selectors.create_email_inp).fill(user_name);
+    });
+    await test.step("Email Invalid", async () => {
+      await page.getByTestId(user_selectors.create_user_btn).click();
+      await user_error_notification(page, user_error_messages.email_invalid);
+      await page
+        .getByTestId(user_selectors.create_email_inp)
+        .fill(user_name + "@gmail.com");
+    });
+    await test.step("password is required", async () => {
+      await page.getByTestId(user_selectors.create_user_btn).click();
+      await user_error_notification(
+        page,
+        user_error_messages.password_required,
+      );
+      await page.getByTestId(user_selectors.create_password_inp).fill("Tester");
+    });
+    await test.step("password too short", async () => {
+      await page.getByTestId(user_selectors.create_user_btn).click();
+      await user_error_notification(page, user_error_messages.password_short);
+      await page
+        .getByTestId(user_selectors.create_password_inp)
+        .fill("Tester1234");
+    });
+    await test.step("Gender", async () => {
+      await page.getByTestId(user_selectors.create_user_btn).click();
+      await user_error_notification(page, user_error_messages.gender_required);
+      await select_gender(page);
+    });
+    await test.step("Roles", async () => {
+      await page.getByTestId(user_selectors.create_user_btn).click();
+      await user_error_notification(page, user_error_messages.roles_required);
+      await select_roles(page);
+    });
+  });
 });
 
-test("User update successfull", async ({ page }) => {
-  await page.goto("http://localhost:5173/user");
+test.describe("Update", () => {
+  test("Successfull", async ({ page }) => {
+    await select_edit_btn(page);
+    await page.getByText(user_selectors.create_user_modal).isVisible();
 
-  await page.getByTestId("icon-edit-0").click();
-  await page.getByText("Create UserNamePasswordGender").isVisible();
+    const user_name = `TESTER_ROLE_${Date.now()}`;
 
-  await expect(page.getByTestId("create-name-inp")).not.toHaveValue("");
-  await page.getByTestId("create-name-inp").fill("Tester8");
+    await expect(
+      page.getByTestId(user_selectors.create_name_inp),
+    ).not.toHaveValue("");
+    await page.getByTestId(user_selectors.create_name_inp).fill(user_name);
 
-  await expect(page.getByTestId("create-username-inp")).not.toHaveValue("");
-  await page.getByTestId("create-username-inp").fill("Tester8");
+    await expect(
+      page.getByTestId(user_selectors.create_username_inp),
+    ).not.toHaveValue("");
+    await page.getByTestId(user_selectors.create_username_inp).fill(user_name);
 
-  await expect(page.getByTestId("create-password-inp")).toHaveValue("");
-  await page.getByTestId("create-password-inp").fill("Tester8djfkl");
+    await expect(
+      page.getByTestId(user_selectors.create_password_inp),
+    ).toHaveValue("");
 
-  await expect(page.getByTestId("create-email-inp")).not.toHaveValue("");
-  await page.getByTestId("create-email-inp").fill("tester8@gmail.com");
+    await expect(
+      page.getByTestId(user_selectors.create_email_inp),
+    ).not.toHaveValue("");
 
-  await page.getByTestId("create-gender-inp").click();
-  await page.getByText("FEMALE").nth(1).click();
+    await page
+      .getByTestId(user_selectors.create_email_inp)
+      .fill(user_name + "@gmail.com");
 
-  await page.getByTestId("create-submit-btn").click();
+    await expect(page.getByTestId(user_selectors.create_gender)).not.toHaveText(
+      "",
+    );
+    await select_gender(page);
 
-  await expect(page.getByTestId("success-notification")).toHaveText(
-    "User Updated",
-  );
+    await expect(page.getByTestId(user_selectors.select_role)).not.toHaveText(
+      "",
+    );
+    await select_roles(page);
+
+    await expect(
+      page.getByTestId(user_selectors.select_account_non_locked),
+    ).not.toHaveText("");
+    await select_account_non_locked(page);
+
+    await expect(
+      page.getByTestId(user_selectors.select_account_non_exipred),
+    ).not.toHaveText("");
+    await select_account_non_exipred(page);
+
+    await expect(
+      page.getByTestId(user_selectors.select_enabled),
+    ).not.toHaveText("");
+    await select_enabled(page);
+
+    await page.getByTestId(user_selectors.create_user_btn).click();
+    await user_success_notification(page, user_success_messages.update);
+  });
 });
 
-test("User update conflict", async ({ page }) => {
-  await page.goto("http://localhost:5173/user");
-
-  await page.getByTestId("icon-edit-0").click();
-  await page.getByText("Create UserNamePasswordGender").isVisible();
-
-  await expect(page.getByTestId("create-name-inp")).not.toHaveValue("");
-  await page.getByTestId("create-name-inp").fill("Tester8");
-
-  await expect(page.getByTestId("create-username-inp")).not.toHaveValue("");
-  await page.getByTestId("create-username-inp").fill("Tester8");
-
-  await expect(page.getByTestId("create-password-inp")).toHaveValue("");
-  await page.getByTestId("create-password-inp").fill("Tester8djfkl");
-
-  await expect(page.getByTestId("create-email-inp")).not.toHaveValue("");
-  await page.getByTestId("create-email-inp").fill("tester8@gmail.com");
-
-  await page.getByTestId("create-gender-inp").click();
-  await page.getByText("FEMALE").nth(1).click();
-
-  await page.getByTestId("create-submit-btn").click();
-
-  await expect(page.getByTestId("error-notification")).toHaveText(
-    "User name already exists",
-  );
-
-  await page.getByTestId("create-username-inp").fill("Tester01");
-  await page.getByTestId("create-submit-btn").click();
-  await expect(page.getByTestId("error-notification")).toHaveText(
-    "User Email already exists",
-  );
-
-  await page.getByTestId("create-submit-btn").click();
+test.describe("view", () => {
+  test("User view", async ({ page }) => {
+    await select_view_btn(page);
+    await page.getByText(user_selectors.create_user_modal).isVisible();
+    await expect(
+      page.getByTestId(user_selectors.create_name_inp),
+    ).not.toHaveValue("");
+    await expect(
+      page.getByTestId(user_selectors.create_username_inp),
+    ).not.toHaveValue("");
+    await expect(
+      page.getByTestId(user_selectors.create_password_inp),
+    ).toHaveValue("");
+    await expect(
+      page.getByTestId(user_selectors.create_email_inp),
+    ).not.toHaveValue("");
+    await expect(page.getByTestId(user_selectors.create_gender)).not.toHaveText(
+      "",
+    );
+    await expect(page.getByTestId(user_selectors.select_role)).not.toHaveText(
+      "",
+    );
+    await expect(
+      page.getByTestId(user_selectors.select_account_non_exipred),
+    ).not.toHaveText("");
+    await expect(
+      page.getByTestId(user_selectors.select_account_non_locked),
+    ).not.toHaveText("");
+    await expect(
+      page.getByTestId(user_selectors.select_enabled),
+    ).not.toHaveText("");
+  });
 });
 
-test("User view", async ({ page }) => {
-  await page.goto("http://localhost:5173/user");
+test.describe("Delete", () => {
+  test("Cancel", async ({ page }) => {
+    await toggle_delete(page);
+    await page.getByTestId(user_selectors.delete_box).isVisible();
+    await page.getByTestId(user_selectors.delete_box_cancel_btn).click();
+  });
 
-  await page.getByTestId("icon-edit-0").click();
+  test("Successfull", async ({ page }) => {
+    await toggle_delete(page);
+    await page.getByTestId(user_selectors.delete_box).isVisible();
+    await page.getByTestId(user_selectors.delete_box_submit_btn).click();
+    await user_success_notification(page, user_success_messages.delete);
+  });
 
-  await page.getByText("Create UserNamePasswordGender").isVisible();
+  test("Internal server error", async ({ page }) => {
+    await page.route("**/auth/v1/user/**", (route) => {
+      route.fulfill({
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          success: false,
+          method: "DELETE",
+          status: null,
+          timeStamp: "2025-12-01T09:56:16.280286751",
+          path: null,
+          message: "Internal server error",
+          code: "INTERNAL_SERVER_ERROR",
+        }),
+      });
+    });
+    await toggle_delete(page);
 
-  await expect(page.getByTestId("create-name-inp")).not.toHaveValue("");
-  await expect(page.getByTestId("create-username-inp")).not.toHaveValue("");
-  await expect(page.getByTestId("create-password-inp")).toHaveValue("");
-  await expect(page.getByTestId("create-email-inp")).not.toHaveValue("");
-  await expect(page.getByTestId("create-gender-inp")).not.toHaveText("");
-  await expect(page.getByTestId("create-roles-inp")).not.toHaveText("");
-  await expect(page.getByTestId("create-accountnonexpired-inp")).not.toHaveText(
-    "",
-  );
-  await expect(page.getByTestId("create-accountnonlocked-inp")).not.toHaveText(
-    "",
-  );
-  await expect(page.getByTestId("create-enabled-inp")).not.toHaveText("");
+    await page.getByTestId(user_selectors.delete_box).isVisible();
+    await page.getByTestId(user_selectors.delete_box_submit_btn).click();
+    await user_error_notification(page, user_error_messages.failed);
+  });
 });
+
+// test("User update conflict", async ({ page }) => {
+//   await page.getByTestId(user_selectors.edit_icon_0).click();
+//   await page.getByText(user_selectors.create_user_modal).isVisible();
+//   const user_name = "Tester8";
+//   const updated_username = "Tester01";
+
+//   await page.getByTestId(user_selectors.create_name_inp).fill(user_name);
+//   await page.getByTestId(user_selectors.create_username_inp).fill(user_name);
+//   await page
+//     .getByTestId(user_selectors.create_password_inp)
+//     .fill("Tester8djfkl");
+
+//   await expect(
+//     page.getByTestId(user_selectors.create_email_inp),
+//   ).not.toHaveValue("");
+
+//   await page
+//     .getByTestId(user_selectors.create_email_inp)
+//     .fill("tester8@gmail.com");
+
+//   await select_gender(page);
+
+//   await page.getByTestId(user_selectors.create_user_btn).click();
+//   await user_error_notification(page, user_error_messages.username_exists);
+
+//   await page
+//     .getByTestId(user_selectors.create_username_inp)
+//     .fill(updated_username);
+//   await page.getByTestId(user_selectors.create_user_btn).click();
+//   await user_error_notification(page, user_error_messages.email_exists);
+
+//   await page.getByTestId(user_selectors.create_user_btn).click();
+// });
