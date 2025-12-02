@@ -20,6 +20,7 @@ function Login() {
     if (!formData.userId.trim()) newErrors.userId = "user name is required";
     if (!formData.password.trim()) newErrors.password = "password is required";
     setErrors(newErrors);
+    console.log(newErrors);
     if (Object.keys(newErrors).length > 0) {
       setloading(false);
       return false;
@@ -71,7 +72,7 @@ function Login() {
               setFormData((prev) => ({ ...prev, userId: e.target.value }))
             }
             disabled={loading}
-            error={errors.userId}
+            errors={errors.userId}
           />
 
           <InputField
@@ -85,7 +86,7 @@ function Login() {
             }
             required
             disabled={loading}
-            error={errors.password}
+            errors={errors.password}
           />
 
           <div className="space-y-4 pt-4">

@@ -92,18 +92,14 @@ function CreateRole({ isModelOpen, handleModalClose, view, editRecord }) {
           `auth/v1/role/update/${editRecord.id}`,
           formData,
         );
-        //console.log("Role updated successfully  : ", response);
+        console.log("Role updated successfully  : ", response);
         showSuccess(response.data);
       }
       clearFormData();
       handleModalClose?.();
     } catch (error) {
       console.log("Role submint Error", error);
-      showError(
-        error?.response?.data?.message
-          ? error.response?.data?.message
-          : "Network error",
-      );
+      showError(error?.message ? error?.message : "Network error");
     }
   };
 

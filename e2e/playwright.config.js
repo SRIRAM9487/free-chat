@@ -2,12 +2,12 @@ import { defineConfig } from "@playwright/test";
 
 export default defineConfig({
   testDir: "./tests",
-  fullyParallel: false,
-  reporter: "html",
-  workers: 1,
+  fullyParallel: true,
+  //reporter: "html",
+  workers: 4,
 
   use: {
-    headless: false,
+    headless: true,
     viewport: { width: 1920, height: 1080 },
     video: "on",
 

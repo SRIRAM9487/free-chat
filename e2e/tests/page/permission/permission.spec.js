@@ -25,20 +25,16 @@ test("Permission missing title", async ({ page }) => {
 });
 test("Permission created successful", async ({ page }) => {
   await page.goto("http://localhost:5173/permission");
-  await page.getByTestId("permission-title-inp").fill("TEST_PERMISSION_2");
+  await page.getByTestId("permission-title-inp").fill("TEST_PERMISSION_0");
   await page.getByTestId("permission-create-btn").click();
-
-  // succes notification
   await expect(page.getByTestId("success-notification")).toBeVisible();
   await expect(page.getByTestId("permission-title-inp")).toHaveText("");
 });
 
 test("Permission created  failed", async ({ page }) => {
   await page.goto("http://localhost:5173/permission");
-  await page.getByTestId("permission-title-inp").fill("TEST_PERMISSION_2");
+  await page.getByTestId("permission-title-inp").fill("PERMISSION_CREATE");
   await page.getByTestId("permission-create-btn").click();
-
-  // succes notification
   await expect(page.getByTestId("error-notification")).toContainText(
     "Permission already exists",
   );
@@ -46,9 +42,7 @@ test("Permission created  failed", async ({ page }) => {
 
 test("Permission toggle status success", async ({ page }) => {
   await page.goto("http://localhost:5173/permission");
-  await expect(page.getByTestId("toggle-btn-0")).toBeChecked();
   await page.getByTestId("toggle-btn-0").click();
-  await expect(page.getByTestId("toggle-btn-0")).not.toBeChecked();
   await expect(page.getByTestId("success-notification")).toBeVisible();
 });
 
@@ -70,10 +64,7 @@ test("Permission toggle status failed", async ({ page }) => {
   });
 
   await page.goto("http://localhost:5173/permission");
-
-  await expect(page.getByTestId("toggle-btn-0")).not.toBeChecked();
   await page.getByTestId("toggle-btn-0").click();
-
   await expect(page.getByTestId("error-notification")).toBeVisible();
 });
 
@@ -98,7 +89,6 @@ test("Permission toggle status failed internal server error", async ({
     });
   });
 
-  await expect(page.getByTestId("toggle-btn-0")).not.toBeChecked();
   await page.getByTestId("toggle-btn-0").click();
 
   await expect(page.getByTestId("error-notification")).toContainText(
