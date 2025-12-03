@@ -103,6 +103,10 @@ test.describe("missing values", () => {
       await user_error_notification(page, user_error_messages.roles_required);
       await select_roles(page);
     });
+
+    await select_account_non_exipred(page);
+    await select_account_non_locked(page);
+    await select_enabled(page);
   });
 });
 

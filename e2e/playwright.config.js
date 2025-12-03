@@ -4,7 +4,7 @@ export default defineConfig({
   testDir: "./tests",
   fullyParallel: true,
   //reporter: "html",
-  workers: 4,
+  workers: 12,
 
   use: {
     headless: true,
@@ -12,7 +12,7 @@ export default defineConfig({
     video: "on",
 
     launchOptions: {
-      // slowMo: 100,
+      //slowMo: 400,
       args: ["--start-maximized"],
     },
   },

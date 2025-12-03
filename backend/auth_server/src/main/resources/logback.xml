@@ -1,0 +1,33 @@
+<configuration>
+  <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+
+  <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+      <charset>utf8</charset>
+    </encoder>
+  </appender>
+
+
+  <appender name="logfile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+    <file>../logs/auth/log-file.json</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>../logs/auth/log-file-.%d.json</fileNamePattern>
+    </rollingPolicy>
+    <encoder>
+      <pattern>%m%n</pattern>
+      <charset>utf8</charset>
+    </encoder>
+  </appender>
+
+  <logger name="FileLogger" level="TRACE">
+    <appender-ref ref="logfile" />
+  </logger>
+
+  <root level="INFO">
+    <appender-ref ref="console" />
+  </root>
+
+</configuration>
+

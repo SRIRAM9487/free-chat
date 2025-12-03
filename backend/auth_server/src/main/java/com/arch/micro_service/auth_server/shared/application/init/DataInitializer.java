@@ -14,11 +14,15 @@ import com.arch.micro_service.auth_server.user.application.service.UserCrudServi
 import com.arch.micro_service.auth_server.user.infrastructure.dto.request.UserCreateRequest;
 import com.arch.micro_service.auth_server.user.infrastructure.persistence.UserRepository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-//@Component
+@Component
 @RequiredArgsConstructor
 @Slf4j
 public class DataInitializer implements CommandLineRunner {
@@ -31,6 +35,8 @@ public class DataInitializer implements CommandLineRunner {
 
   private final UserRepository userRepository;
   private final UserCrudService userCrudService;
+
+  private final Logger log = LoggerFactory.getLogger("FileLogger");
 
   @Override
   public void run(String... args) throws Exception {

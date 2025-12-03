@@ -20,7 +20,7 @@ public class RabbitMqEmailEventImpl implements EmailEventPublisher {
   @Override
   public void publishVerificationEmail(EmailVerificationEvent event) {
     rabbitTemplate.convertAndSend("auth.exchange", "auth.email.verification", event);
-    log.trace("Email Verification published to message broker");
+
   }
 
   @Override
