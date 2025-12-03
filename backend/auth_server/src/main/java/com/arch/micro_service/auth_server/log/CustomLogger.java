@@ -36,7 +36,7 @@ public class CustomLogger {
     return "anonymous";
   }
 
-  public void success(String message, String data, String prev) {
+  public void success(String invocation, String message, String data, String prev) {
 
     LoggerContext context = LoggerContextHolder.get();
 
@@ -52,6 +52,7 @@ public class CustomLogger {
         context.getUserAgent(),
         System.currentTimeMillis() - context.getStartMills(),
         serviceName,
+        invocation,
         message,
         data,
         prev);
@@ -59,7 +60,7 @@ public class CustomLogger {
     log.trace(toJson(event));
   }
 
-  public void failure(String message, BaseException baseException) {
+  public void failure(String invocation, String message, BaseException baseException) {
 
     LoggerContext context = LoggerContextHolder.get();
 
@@ -75,6 +76,7 @@ public class CustomLogger {
         context.getUserAgent(),
         System.currentTimeMillis() - context.getStartMills(),
         serviceName,
+        invocation,
         baseException.getHttpStatus().name(),
         baseException.getCode(),
         baseException.getMessage());
@@ -92,6 +94,7 @@ public class CustomLogger {
       String userAgent,
       long durationMs,
       String service,
+      String invocation,
       String message,
       String data,
       String prev) {
@@ -107,6 +110,7 @@ public class CustomLogger {
       String userAgent,
       long durationMs,
       String service,
+      String invocation,
       String status,
       String code,
       String message) {

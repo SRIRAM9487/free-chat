@@ -2,7 +2,6 @@ package com.arch.micro_service.auth_server.role.application.service.permission.i
 
 import java.util.List;
 
-import com.arch.micro_service.auth_server.role.application.constant.PermissionConstant;
 import com.arch.micro_service.auth_server.role.application.service.permission.PermissionCrudService;
 import com.arch.micro_service.auth_server.role.application.usecase.permission.PermissionFindUseCase;
 import com.arch.micro_service.auth_server.role.domain.etntiy.Permission;
