@@ -7,6 +7,8 @@ import {
 import {
   select_account_non_exipred,
   select_account_non_locked,
+  select_action_btn,
+  select_delete_btn,
   select_edit_btn,
   select_enabled,
   select_gender,
@@ -14,8 +16,8 @@ import {
   select_view_btn,
   user_error_notification,
   user_success_notification,
+  user_toggle_delete,
 } from "./userutils";
-import { toggle_delete } from "../role/roleutils";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("http://localhost:5173/user");
@@ -199,13 +201,13 @@ test.describe("view", () => {
 
 test.describe("Delete", () => {
   test("Cancel", async ({ page }) => {
-    await toggle_delete(page);
+    await select_delete_btn(page);
     await page.getByTestId(user_selectors.delete_box).isVisible();
     await page.getByTestId(user_selectors.delete_box_cancel_btn).click();
   });
 
   test("Successfull", async ({ page }) => {
-    await toggle_delete(page);
+    await select_delete_btn(page);
     await page.getByTestId(user_selectors.delete_box).isVisible();
     await page.getByTestId(user_selectors.delete_box_submit_btn).click();
     await user_success_notification(page, user_success_messages.delete);
@@ -227,7 +229,7 @@ test.describe("Delete", () => {
         }),
       });
     });
-    await toggle_delete(page);
+    await select_delete_btn(page);
 
     await page.getByTestId(user_selectors.delete_box).isVisible();
     await page.getByTestId(user_selectors.delete_box_submit_btn).click();
@@ -235,36 +237,17 @@ test.describe("Delete", () => {
   });
 });
 
-// test("User update conflict", async ({ page }) => {
-//   await page.getByTestId(user_selectors.edit_icon_0).click();
-//   await page.getByText(user_selectors.create_user_modal).isVisible();
-//   const user_name = "Tester8";
-//   const updated_username = "Tester01";
-
-//   await page.getByTestId(user_selectors.create_name_inp).fill(user_name);
-//   await page.getByTestId(user_selectors.create_username_inp).fill(user_name);
-//   await page
-//     .getByTestId(user_selectors.create_password_inp)
-//     .fill("Tester8djfkl");
-
-//   await expect(
-//     page.getByTestId(user_selectors.create_email_inp),
-//   ).not.toHaveValue("");
-
-//   await page
-//     .getByTestId(user_selectors.create_email_inp)
-//     .fill("tester8@gmail.com");
-
-//   await select_gender(page);
-
-//   await page.getByTestId(user_selectors.create_user_btn).click();
-//   await user_error_notification(page, user_error_messages.username_exists);
-
-//   await page
-//     .getByTestId(user_selectors.create_username_inp)
-//     .fill(updated_username);
-//   await page.getByTestId(user_selectors.create_user_btn).click();
-//   await user_error_notification(page, user_error_messages.email_exists);
-
-//   await page.getByTestId(user_selectors.create_user_btn).click();
-// });
+test.describe("Action", () => {
+  test("Email reset", async ({ page }) => {
+    await select_action_btn(page);
+    page.getByTestId(user_selectors.user_action_box_email).value;
+    await expect(
+      page.getByTestId(user_selectors.user_action_box_email),
+    ).toBeVisible();
+    // await page.getByTestId(user_selectors.user_action_box_email).click();
+    // await user_success_notification(
+    //   page,
+    //   user_success_messages.email_verification,
+    // );
+  });
+});

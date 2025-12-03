@@ -101,6 +101,7 @@ function User() {
       key: "name",
       align: "center",
       sorter: (a, b) => a.name.localeCompare(b.name),
+      render: (value, _, index) => <div data-testid={`cell-name`}>{value}</div>,
     },
     {
       title: "User Name",
@@ -108,6 +109,9 @@ function User() {
       key: "userName",
       align: "center",
       sorter: (a, b) => a.userName.localeCompare(b.userName),
+      render: (value, _, index) => (
+        <div data-testid={`cell-username`}>{value}</div>
+      ),
     },
     {
       title: "Email",
@@ -115,6 +119,9 @@ function User() {
       key: "email",
       align: "center",
       sorter: (a, b) => a.email.localeCompare(b.email),
+      render: (value, _, index) => (
+        <div data-testid={`cell-email`}>{value}</div>
+      ),
     },
     {
       title: "Action",

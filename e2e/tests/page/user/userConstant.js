@@ -1,5 +1,3 @@
-import { select_account_non_exipred } from "./userutils";
-
 export const user_selectors = {
   create_btn: "user-btn-create",
   create_user_modal: "create-user-modal",
@@ -19,13 +17,18 @@ export const user_selectors = {
   delete_box: "dialog-box",
   delete_box_submit_btn: "dialog-box-confirm-btn",
   delete_box_cancel_btn: "dialog-box-cancel-btn",
+
+  user_action_box: "user-action-modal",
+  user_action_box_email: "email-verification-btn",
+
+  table_row: "table-row-0",
 };
 
 export const user_success_messages = {
   create: "User Created",
   update: "User Updated",
   delete: "User Deleted",
-  toggle: "Successfully",
+  email_verification: "Email Verification sent",
 };
 
 export const user_error_messages = {

@@ -83,13 +83,11 @@ function CustomTable({
           </div>
         </div>
       )}
-
       <div className="" style={{ flex: 1, width: "100%", overflowX: "auto" }}>
         <Table
           data-testid={`${dataTestId}-table`}
           columns={columns}
           dataSource={data}
-          loading={loading}
           rowKey={(record) => record.id || record.key}
           scroll={{ x: "max-content", y: "max-content" }}
           bordered={bordered}
@@ -98,6 +96,11 @@ function CustomTable({
             size: isMobile ? "small" : "default",
           }}
           size={isMobile ? "small" : "middle"}
+          onRow={(record, index) => {
+            return {
+              "data-testid": `${dataTestId}-row-${index}`,
+            };
+          }}
         />
       </div>
     </div>

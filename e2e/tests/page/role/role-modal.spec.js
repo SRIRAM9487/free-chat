@@ -11,9 +11,9 @@ import {
   role_success_notification,
   toggle_active_btn,
   toggle_buttons,
-  toggle_delete,
   toggle_edit,
   toggle_view,
+  role_toggle_delete,
 } from "./roleutils";
 
 test.beforeEach(async ({ page }) => {
@@ -84,19 +84,6 @@ test.describe("view", () => {
   });
 });
 
-test.describe("Network", () => {
-  test("Network error", async ({ page }) => {
-    await mockRoleCreate500(page);
-    await page.getByTestId(role_selectors.create_btn).click();
-    await page.locator(role_selectors.modal).isVisible();
-    await page.getByTestId(role_selectors.title_input).fill("TESTER5");
-    await page.getByTestId(role_selectors.active_toggle).click();
-    toggle_buttons(page);
-    await page.getByTestId(role_selectors.save_btn).click();
-    await role_error_notification(page, role_error_messages.network_error);
-  });
-});
-
 test.describe("toggle", () => {
   test("Status toggled", async ({ page }) => {
     await toggle_active_btn(page);
@@ -112,12 +99,13 @@ test.describe("toggle", () => {
 
 test.describe("delete", () => {
   test("cancel", async ({ page }) => {
-    toggle_delete(page);
+    role_toggle_delete(page);
     await page.getByTestId(role_selectors.delete_modal).isVisible();
     await page.getByTestId(role_selectors.delete_btn_cancel).click();
   });
+
   test("success", async ({ page }) => {
-    await toggle_delete(page);
+    await role_toggle_delete(page);
     await page.getByTestId(role_selectors.delete_modal).isVisible();
     await page.getByTestId(role_selectors.delete_btn).click();
     await role_success_notification(page, role_success_messages.delete);

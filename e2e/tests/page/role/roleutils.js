@@ -46,8 +46,8 @@ export async function toggle_edit(page) {
   }
 }
 
-export async function toggle_delete(page) {
-  const edits = page.getByTestId(/icon-del-/);
+export async function role_toggle_delete(page) {
+  const edits = page.getByTestId(/icon-delete-/);
   const count = await edits.count();
   let randomIndex = Math.floor(Math.random() * count);
   await edits.nth(randomIndex).click();

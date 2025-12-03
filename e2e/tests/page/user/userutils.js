@@ -37,9 +37,20 @@ export const select_enabled = async (page) => {
 
 export const select_roles = async (page) => {
   await page.getByTestId(user_selectors.select_role).click();
-  await page.getByTitle("SUDO").click();
-  await page.getByTitle("MODERATOR").click();
-  await page.getByTitle("CUSTOMER").click();
+
+  const picked = new Set();
+
+  while (picked.size < 2) {
+    const randomCount = Math.floor(Math.random() * 2) + 1;
+    picked.add(randomCount);
+  }
+
+  for (const index of picked) {
+    await page
+      .locator(`.${user_selectors.select_role}-option-${index}`)
+      .click();
+  }
+
   await page.getByTestId(user_selectors.select_role).click();
 };
 
@@ -58,21 +69,48 @@ export async function user_error_notification(page, message) {
   ).toContainText(message);
 }
 
+export async function select_action_btn(page) {
+  const rows = page.getByTestId(/table-row/);
+  const count = await rows.count();
+  const randomIndex = Math.floor(Math.random() * count);
+  const row = rows.nth(randomIndex);
+  await expect(row.getByTestId(/cell-name/)).not.toHaveText("admin");
+  const edits = row.getByTestId(/icon-action-/);
+  const editCount = await edits.count();
+  const randomEdit = Math.floor(Math.random() * editCount);
+  await edits.nth(randomEdit).click();
+}
+
 export async function select_edit_btn(page) {
+  const rows = page.getByTestId(/table-row/);
+  const count = await rows.count();
+  const randomIndex = Math.floor(Math.random() * count);
+  const row = rows.nth(randomIndex);
+  await expect(row.getByTestId(/cell-name/)).not.toHaveText("SUDO");
   const edits = page.getByTestId(/icon-edit-/);
-  const count = await edits.count();
-  let randomIndex = Math.floor(Math.random() * count);
-  await edits.nth(randomIndex).click();
+  const editCount = await edits.count();
+  const randomEdit = Math.floor(Math.random() * editCount);
+  await edits.nth(randomEdit).click();
 }
 export async function select_view_btn(page) {
+  const rows = page.getByTestId(/table-row/);
+  const count = await rows.count();
+  const randomIndex = Math.floor(Math.random() * count);
+  const row = rows.nth(randomIndex);
+  await expect(row.getByTestId(/cell-name/)).not.toHaveText("SUDO");
   const edits = page.getByTestId(/icon-view-/);
-  const count = await edits.count();
-  let randomIndex = Math.floor(Math.random() * count);
-  await edits.nth(randomIndex).click();
+  const editCount = await edits.count();
+  const randomEdit = Math.floor(Math.random() * editCount);
+  await edits.nth(randomEdit).click();
 }
 export async function select_delete_btn(page) {
+  const rows = page.getByTestId(/table-row/);
+  const count = await rows.count();
+  const randomIndex = Math.floor(Math.random() * count);
+  const row = rows.nth(randomIndex);
+  await expect(row.getByTestId(/cell-name/)).not.toHaveText("SUDO");
   const edits = page.getByTestId(/icon-del-/);
-  const count = await edits.count();
-  let randomIndex = Math.floor(Math.random() * count);
-  await edits.nth(randomIndex).click();
+  const editCount = await edits.count();
+  const randomEdit = Math.floor(Math.random() * editCount);
+  await edits.nth(randomEdit).click();
 }
