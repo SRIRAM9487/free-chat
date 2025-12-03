@@ -2,6 +2,7 @@ package com.arch.micro_service.auth_server.shared.application.init;
 
 import java.util.List;
 
+import com.arch.micro_service.auth_server.message.infrastructure.event.EmailVerificationEvent;
 import com.arch.micro_service.auth_server.role.application.service.permission.PermissionCrudService;
 import com.arch.micro_service.auth_server.role.application.service.role.RoleCrudService;
 import com.arch.micro_service.auth_server.role.domain.etntiy.Permission;
@@ -20,11 +21,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Component
 @RequiredArgsConstructor
-@Slf4j
 public class DataInitializer implements CommandLineRunner {
 
   private final PermissionRepository permissionRepository;
@@ -41,6 +40,8 @@ public class DataInitializer implements CommandLineRunner {
   @Override
   public void run(String... args) throws Exception {
 
+    tester(new EmailVerificationEvent("Email@gmail.com", "1L", "TOKENER"));
+
     if (permissionRepository.count() == 0)
       createPermission();
 
@@ -49,6 +50,13 @@ public class DataInitializer implements CommandLineRunner {
 
     if (userRepository.count() == 0)
       createUser();
+  }
+
+  public void tester(EmailVerificationEvent eventPublisher) {
+    for (int i = 0; i < 1000; i++) {
+
+      System.out.println("TESTING");
+    }
   }
 
   private void createPermission() {
