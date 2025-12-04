@@ -1,5 +1,8 @@
 package com.arch.micro_service.auth_server.role.persistence.controller;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
@@ -7,14 +10,17 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.arch.micro_service.auth_server.log.CustomLogger;
 import com.arch.micro_service.auth_server.role.application.constant.RoleConstant;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,8 +32,17 @@ public class RoleCrudController {
   @Autowired
   private MockMvc mockMvc;
 
+  @MockitoBean
+  private CustomLogger customLogger;
+
+  @BeforeEach
+  void setup() {
+    doNothing().when(customLogger).success(anyString(), anyString(), any(), any());
+    doNothing().when(customLogger).failure(anyString(), anyString(), any());
+  }
+
   @Test
-  @WithMockUser(authorities = "ROLE_VIEW")
+  @WithMockUser(authorities = "ROLE_READ")
   void getAll() throws Exception {
     this.mockMvc
         .perform(get("/v1/role").accept(MediaType.APPLICATION_JSON))
@@ -38,7 +53,7 @@ public class RoleCrudController {
   }
 
   @Test
-  @WithMockUser(authorities = "ROLE_VIEW")
+  @WithMockUser(authorities = "ROLE_READ")
   void getById() throws Exception {
     this.mockMvc
         .perform(get("/v1/role/1").accept(MediaType.APPLICATION_JSON))

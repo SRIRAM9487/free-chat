@@ -58,7 +58,6 @@ public class RoleCrudServiceImpl implements RoleCrudService {
       RolePermission rolePermission = RolePermission
           .builder()
           .active(rolePermissionRequest.active())
-          .activeStatus(permission.isActive())
           .role(role)
           .permission(permission)
           .build();

@@ -11,10 +11,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.List;
 
+import com.arch.micro_service.auth_server.log.CustomLogger;
 import com.arch.micro_service.auth_server.user.application.service.UserLoginService;
 import com.arch.micro_service.auth_server.user.infrastructure.dto.request.UserLoginRequest;
 import com.arch.micro_service.auth_server.user.infrastructure.dto.response.UserLoginResponse;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -36,6 +38,15 @@ public class UserLoginControllerTest {
 
   @MockitoBean
   private UserLoginService userLoginService;
+
+  @MockitoBean
+  private CustomLogger customLogger;
+
+  @BeforeEach
+  void setup() {
+    doNothing().when(customLogger).success(anyString(), anyString(), any(), any());
+    doNothing().when(customLogger).failure(anyString(), anyString(), any());
+  }
 
   @Test
   @Transactional

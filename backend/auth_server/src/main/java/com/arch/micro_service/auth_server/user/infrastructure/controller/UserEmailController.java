@@ -4,6 +4,7 @@ import com.arch.micro_service.auth_server.shared.infrastructure.dto.api.ApiRespo
 import com.arch.micro_service.auth_server.user.application.service.UserEmailService;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ public class UserEmailController {
   public final UserEmailService userEmailService;
 
   @GetMapping("/email/verify/{id}")
+  @PreAuthorize("hasAuthority('USER_EMAIL_VERIFICATION')")
   public ResponseEntity<ApiResponse<String>> emailVerificationRequest(@PathVariable("id") String id) {
     userEmailService.sendVerification(id);
     var response = ApiResponse.create("Email Verification sent");

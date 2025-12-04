@@ -1,6 +1,5 @@
 package com.arch.micro_service.auth_server.user.application.service.impl;
 
-import com.arch.micro_service.auth_server.log.CustomLogger;
 import com.arch.micro_service.auth_server.message.infrastructure.event.PasswordResetEvent;
 import com.arch.micro_service.auth_server.message.infrastructure.publisher.EmailEventPublisher;
 import com.arch.micro_service.auth_server.user.application.service.CacheService;
@@ -39,7 +38,6 @@ public class UserLoginServiceImpl implements UserLoginService {
   private final PasswordEncoder passwordEncoder;
   private final TokenGeneratorService tokenGeneratorService;
   private final EmailEventPublisher emailEventPublisher;
-  private final CustomLogger customLogger;
   private final Logger log = LoggerFactory.getLogger("MethodLogger");
 
   @Override

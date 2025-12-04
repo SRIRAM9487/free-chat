@@ -6,20 +6,26 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
 
 import java.util.Collection;
 import java.util.List;
 
+import com.arch.micro_service.auth_server.log.CustomLogger;
 import com.arch.micro_service.auth_server.role.application.service.permission.PermissionCrudService;
 import com.arch.micro_service.auth_server.role.domain.etntiy.Permission;
 import com.arch.micro_service.auth_server.role.domain.exception.PermissionException;
 import com.arch.micro_service.auth_server.role.domain.exception.type.PermissionExceptionType;
 import com.arch.micro_service.auth_server.role.infrastructure.dto.permission.request.PermissionCreateRequest;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
@@ -28,6 +34,15 @@ public class PermissionCrudServiceTest {
 
   @Autowired
   private PermissionCrudService permissionCrudService;
+
+  @MockitoBean
+  private CustomLogger customLogger;
+
+  @BeforeEach
+  void setup() {
+    doNothing().when(customLogger).success(anyString(), anyString(), any(), any());
+    doNothing().when(customLogger).failure(anyString(), anyString(), any());
+  }
 
   @Test
   void getAll() {

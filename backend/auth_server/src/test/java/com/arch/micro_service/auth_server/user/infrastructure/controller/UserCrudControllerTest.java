@@ -1,7 +1,9 @@
 package com.arch.micro_service.auth_server.user.infrastructure.controller;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -13,6 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.ArrayList;
 import java.util.List;
 
+import com.arch.micro_service.auth_server.log.CustomLogger;
 import com.arch.micro_service.auth_server.shared.domain.constant.Gender;
 import com.arch.micro_service.auth_server.user.application.constant.UserCrudConstant;
 import com.arch.micro_service.auth_server.user.application.service.UserCrudService;
@@ -42,6 +45,9 @@ public class UserCrudControllerTest {
   @MockitoBean
   private UserCrudService userCrudService;
 
+  @MockitoBean
+  private CustomLogger customLogger;
+
   private List<User> users;
 
   @BeforeEach
@@ -65,11 +71,13 @@ public class UserCrudControllerTest {
 
       users.add(user);
     }
+    doNothing().when(customLogger).success(anyString(), anyString(), any(), any());
+    doNothing().when(customLogger).failure(anyString(), anyString(), any());
   }
 
   @Test
   @Transactional
-  @WithMockUser(authorities = "USER_VIEW")
+  @WithMockUser(authorities = "USER_READ")
   void getAll() throws Exception {
 
     when(userCrudService.getAll()).thenReturn(users);
@@ -84,7 +92,7 @@ public class UserCrudControllerTest {
 
   @Test
   @Transactional
-  @WithMockUser(authorities = "USER_VIEW")
+  @WithMockUser(authorities = "USER_READ")
   void getById() throws Exception {
     when(userCrudService.get("1")).thenReturn(users.getFirst());
     this.mockMvc.perform(get("/v1/user/1")

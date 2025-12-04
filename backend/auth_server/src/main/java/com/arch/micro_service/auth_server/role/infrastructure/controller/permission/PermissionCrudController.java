@@ -31,7 +31,7 @@ public class PermissionCrudController {
   private final PermissionMapper permissionMapper;
 
   @GetMapping
-  @PreAuthorize("hasAuthority('PERMISSION_VIEW')")
+  @PreAuthorize("hasAuthority('PERMISSION_READ')")
   public ResponseEntity<ApiResponse<List<PermissionDetailResponse>>> getAll() {
     var permissions = crudService.getAll().stream().map(permissionMapper::fromPermission).toList();
     var response = ApiResponse.create(permissions);
@@ -39,7 +39,7 @@ public class PermissionCrudController {
   }
 
   @GetMapping("/{id}")
-  @PreAuthorize("hasAuthority('PERMISSION_VIEW')")
+  @PreAuthorize("hasAuthority('PERMISSION_READ')")
   public ResponseEntity<ApiResponse<PermissionDetailResponse>> get(@PathVariable("id") String id) {
     var permission = permissionMapper.fromPermission(crudService.get(id));
     var response = ApiResponse.create(permission);

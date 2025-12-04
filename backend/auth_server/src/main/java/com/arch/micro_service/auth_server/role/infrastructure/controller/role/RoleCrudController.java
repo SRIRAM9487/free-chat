@@ -31,7 +31,7 @@ public class RoleCrudController {
   private final RoleMapper roleMapper;
 
   @GetMapping
-  @PreAuthorize("hasAuthority('ROLE_VIEW')")
+  @PreAuthorize("hasAuthority('ROLE_READ')")
   public ResponseEntity<ApiResponse<List<RoleDetailResponse>>> getAll() {
     var roles = crudService.getAll().stream().map(roleMapper::fromRole).toList();
     var response = ApiResponse.create(roles);
@@ -39,7 +39,7 @@ public class RoleCrudController {
   }
 
   @GetMapping("/{id}")
-  @PreAuthorize("hasAuthority('ROLE_VIEW')")
+  @PreAuthorize("hasAuthority('ROLE_READ')")
   public ResponseEntity<ApiResponse<RoleDetailResponse>> get(@PathVariable("id") String id) {
     var role = crudService.get(id);
     var response = ApiResponse.create(roleMapper.fromRole(role));

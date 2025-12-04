@@ -1,8 +1,12 @@
 package com.arch.micro_service.auth_server.user.domain.entity;
 
 import java.util.Collection;
+import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
@@ -12,15 +16,17 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 public class UserImpl implements UserDetails {
 
+  private final List<SimpleGrantedAuthority> authorities;
   private User user;
 
-  public UserImpl(User user) {
+  public UserImpl(User user, List<SimpleGrantedAuthority> authorities) {
     this.user = user;
+    this.authorities = authorities;
   }
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return null;
+    return authorities;
   }
 
   @Override

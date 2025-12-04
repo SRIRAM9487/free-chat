@@ -5,18 +5,24 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
 
 import java.util.List;
 
+import com.arch.micro_service.auth_server.log.CustomLogger;
 import com.arch.micro_service.auth_server.role.application.service.role.RoleCrudService;
 import com.arch.micro_service.auth_server.role.application.usecase.role.RoleFindUseCase;
 import com.arch.micro_service.auth_server.role.domain.etntiy.Role;
 import com.arch.micro_service.auth_server.role.domain.exception.RoleException;
 import com.arch.micro_service.auth_server.role.domain.exception.type.RoleExceptionType;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
@@ -28,6 +34,15 @@ public class RoleFindUseCaseTest {
 
   @Autowired
   private RoleCrudService roleCrudService;
+
+  @MockitoBean
+  private CustomLogger customLogger;
+
+  @BeforeEach
+  void setup() {
+    doNothing().when(customLogger).success(anyString(), anyString(), any(), any());
+    doNothing().when(customLogger).failure(anyString(), anyString(), any());
+  }
 
   @Test
   void getAll() {

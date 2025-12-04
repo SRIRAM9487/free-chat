@@ -14,6 +14,7 @@ import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -83,7 +84,7 @@ public class User extends BasedEntity {
   @Column(name = "enabled")
   private boolean enabled;
 
-  @ManyToMany(mappedBy = "users")
+  @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
   @Builder.Default
   private Set<Role> roles = new HashSet<>();
 

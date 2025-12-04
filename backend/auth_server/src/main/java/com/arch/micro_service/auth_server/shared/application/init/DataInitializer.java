@@ -36,8 +36,6 @@ public class DataInitializer implements CommandLineRunner {
   @Override
   public void run(String... args) throws Exception {
 
-    tester(new EmailVerificationEvent("Email@gmail.com", "1L", "TOKENER"));
-
     if (permissionRepository.count() == 0)
       createPermission();
 
@@ -46,13 +44,6 @@ public class DataInitializer implements CommandLineRunner {
 
     if (userRepository.count() == 0)
       createUser();
-  }
-
-  public void tester(EmailVerificationEvent eventPublisher) {
-    for (int i = 0; i < 1000; i++) {
-
-      System.out.println("TESTING");
-    }
   }
 
   private void createPermission() {

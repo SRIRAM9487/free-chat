@@ -1,10 +1,18 @@
 package com.arch.micro_service.auth_server.user.application.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 
+import com.arch.micro_service.auth_server.log.CustomLogger;
 import com.arch.micro_service.auth_server.message.infrastructure.event.EmailVerificationEvent;
 import com.arch.micro_service.auth_server.message.infrastructure.publisher.EmailEventPublisher;
 import com.arch.micro_service.auth_server.shared.domain.constant.Gender;
@@ -24,7 +32,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-// TODO:
 @ExtendWith(MockitoExtension.class)
 public class UserEmailServiceTest {
 

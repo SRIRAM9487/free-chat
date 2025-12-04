@@ -4,7 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
 
+import com.arch.micro_service.auth_server.log.CustomLogger;
 import com.arch.micro_service.auth_server.shared.domain.constant.Gender;
 import com.arch.micro_service.auth_server.user.application.service.UserCrudService;
 import com.arch.micro_service.auth_server.user.domain.entity.User;
@@ -12,9 +16,11 @@ import com.arch.micro_service.auth_server.user.domain.exception.UserException;
 import com.arch.micro_service.auth_server.user.domain.exception.type.UserExceptionType;
 import com.arch.micro_service.auth_server.user.domain.vo.Email;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
@@ -25,6 +31,15 @@ public class UserFindUseCaseTest {
 
   @Autowired
   private UserCrudService userCrudService;
+
+  @MockitoBean
+  private CustomLogger customLogger;
+
+  @BeforeEach
+  void setup() {
+    doNothing().when(customLogger).success(anyString(), anyString(), any(), any());
+    doNothing().when(customLogger).failure(anyString(), anyString(), any());
+  }
 
   @Test
   @Transactional

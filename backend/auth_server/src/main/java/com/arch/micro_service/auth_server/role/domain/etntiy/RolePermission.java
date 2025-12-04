@@ -28,9 +28,6 @@ public class RolePermission extends IdEntity {
   @Column(name = "active")
   private boolean active;
 
-  @Column(name = "active_status")
-  private boolean activeStatus;
-
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "role_id", referencedColumnName = "id")
   @ToString.Exclude

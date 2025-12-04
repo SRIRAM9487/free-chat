@@ -31,7 +31,7 @@ public class UserCrudController {
   private final UserMapper userMapper;
 
   @GetMapping
-  @PreAuthorize("hasAuthority('USER_VIEW')")
+  @PreAuthorize("hasAuthority('USER_READ')")
   public ResponseEntity<ApiResponse<List<UserDetailResponse>>> getAll() {
     var users = crudService.getAll().stream().map(userMapper::fromUser).toList();
     var response = ApiResponse.create(users);
@@ -39,7 +39,7 @@ public class UserCrudController {
   }
 
   @GetMapping("/{id}")
-  @PreAuthorize("hasAuthority('USER_VIEW')")
+  @PreAuthorize("hasAuthority('USER_READ')")
   public ResponseEntity<ApiResponse<UserDetailResponse>> get(@PathVariable("id") String id) {
     var user = crudService.get(id);
     var response = ApiResponse.create(userMapper.fromUser(user));

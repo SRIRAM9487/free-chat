@@ -1,12 +1,18 @@
 package com.arch.micro_service.auth_server.user.infrastructure.exception;
 
+import static org.hamcrest.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.arch.micro_service.auth_server.log.CustomLogger;
 import com.arch.micro_service.auth_server.user.domain.exception.type.UserExceptionType;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -15,6 +21,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,9 +32,18 @@ public class UserCrudControllerAdvice {
   @Autowired
   private MockMvc mockMvc;
 
+  @MockitoBean
+  private CustomLogger customLogger;
+
+  @BeforeEach
+  void setup() {
+    doNothing().when(customLogger).success(anyString(), anyString(), any(), any());
+    doNothing().when(customLogger).failure(anyString(), anyString(), any());
+  }
+
   @Test
   @Transactional
-  @WithMockUser("USER_VIEW")
+  @WithMockUser(authorities = "USER_READ")
   void getByIdNotFound() throws Exception {
     this.mockMvc.perform(get("/v1/user/9999")
         .accept(MediaType.APPLICATION_JSON))
@@ -84,7 +100,7 @@ public class UserCrudControllerAdvice {
             "name": "tester",
             "userName": "tester",
             "password": "test1",
-            "email": "admin@example.com",
+            "email": "admin@company.com",
             "gender": "FEMALE",
             "accountNonExpired": "true",
             "accountNonLocked": "true",

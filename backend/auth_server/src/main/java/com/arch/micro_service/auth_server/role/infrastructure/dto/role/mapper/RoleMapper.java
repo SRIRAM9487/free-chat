@@ -21,7 +21,7 @@ public class RoleMapper {
         rolePermissions.getPermission().getId().toString(),
         rolePermissions.getPermission().getTitle(),
         rolePermissions.isActive(),
-        rolePermissions.isActiveStatus());
+        rolePermissions.getPermission().isActive());
     return response;
   }
 
