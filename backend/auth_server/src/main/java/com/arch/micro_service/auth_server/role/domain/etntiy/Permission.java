@@ -3,6 +3,7 @@ package com.arch.micro_service.auth_server.role.domain.etntiy;
 import java.util.List;
 
 import com.arch.micro_service.auth_server.shared.domain.entity.IdEntity;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -33,7 +34,7 @@ public class Permission extends IdEntity {
   private boolean active;
 
   @OneToMany(mappedBy = "permission", cascade = CascadeType.ALL, orphanRemoval = true)
-  @ToString.Exclude
+  @JsonManagedReference
   private List<RolePermission> rolePermission;
 
 }

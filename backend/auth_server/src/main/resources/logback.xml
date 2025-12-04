@@ -12,7 +12,8 @@
   <appender name="logfile" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <file>../logs/auth/log-file.json</file>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-      <fileNamePattern>../logs/auth/log-file-.%d.json</fileNamePattern>
+      <fileNamePattern>../logs/auth/log-file-%d{yyyy-MM-dd-HH}.json</fileNamePattern>
+      <maxHistory>30</maxHistory>
     </rollingPolicy>
     <encoder>
       <pattern>%m%n</pattern>
@@ -23,7 +24,8 @@
   <appender name="method" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <file>../logs/auth/method.json</file>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-      <fileNamePattern>../logs/auth/method-.%d.json</fileNamePattern>
+      <fileNamePattern>../logs/auth/method-file-%d{yyyy-MM-dd-HH}.json</fileNamePattern>
+      <maxHistory>30</maxHistory>
     </rollingPolicy>
     <encoder>
       <pattern>%m%n</pattern>

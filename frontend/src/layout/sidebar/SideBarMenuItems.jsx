@@ -11,28 +11,7 @@ import { Link } from "react-router-dom";
 import { FaUserGroup, FaDatabase } from "react-icons/fa6";
 import { FaMap, FaMapMarkerAlt } from "react-icons/fa";
 
-const topMenuItems = [
-  {
-    key: "dashboard",
-    icon: <RxDashboard />,
-    label: <Link to="/dashboard">Dashboard</Link>,
-  },
-  {
-    key: "customer",
-    icon: <FaUserGroup />,
-    label: <Link to="/customer">Customer</Link>,
-  },
-  {
-    key: "daily",
-    icon: <MdEditNote />,
-    label: <Link to="/dailyEntry">Daily Entry</Link>,
-  },
-  {
-    key: "billing",
-    icon: <MdOutlinePayments />,
-    label: <Link to="/billing">Billing</Link>,
-  },
-];
+const topMenuItems = [];
 
 const adminMenuItemsExtras = [
   {

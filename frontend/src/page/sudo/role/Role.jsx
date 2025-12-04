@@ -47,7 +47,11 @@ function Role() {
   const handleToggleBtn = async (record) => {
     //console.log("Toggle btn clicked");
     try {
-      const response = await patchService(`auth/v1/role/toggle/${record.id}`);
+      const response = await patchService(
+        `auth/v1/role/toggle/${record.id}`,
+        null,
+        user.token,
+      );
       //console.log("Toggle btn response ",response);
       showSuccess(response.data, 800);
       fetchRole();
@@ -92,7 +96,10 @@ function Role() {
   const handleDeleteBoxConfirm = async () => {
     //console.log("Delete confirmed")
     try {
-      const response = await deleteService(`auth/v1/role/${editRecord.id}`);
+      const response = await deleteService(
+        `auth/v1/role/${editRecord.id}`,
+        user.token,
+      );
       showSuccess(response.data);
       fetchRole();
       //console.log("Delete successfull response ",response)

@@ -42,7 +42,7 @@ public class JwtFilter extends OncePerRequestFilter {
     String userName = null;
 
     if (authHeader != null && authHeader.startsWith("Bearer ")) {
-      log.error("Authorization Header is present");
+      log.trace("Authorization Header is present");
       token = authHeader.substring(7);
       userName = jwtService.extractUserId(token);
     }

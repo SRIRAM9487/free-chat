@@ -25,22 +25,41 @@ function CreateRole({ isModelOpen, handleModalClose, view, editRecord }) {
   };
 
   const fetchPermissions = async () => {
-    //console.log("Fetching permissions");
     try {
-      const response = await getService("auth/v1/permission", user?.token);
-      //console.log("Permsisions fetched successfully",response);
-      const permissionData = response.data.map((perm) => ({
+      const response = await getService("auth/v1/permission", user.token);
+
+      const allPermissions = response.data.map((perm) => ({
         permissionId: perm.id,
-        active: false,
         title: perm.title,
+        active: false,
       }));
+
+      if (!editRecord) {
+        setFormData((prev) => ({
+          ...prev,
+          rolePermissions: allPermissions,
+        }));
+        return;
+      }
+
+      const roleMap = {};
+      editRecord.rolePermissions.forEach((p) => {
+        roleMap[p.permissionId] = p.active;
+      });
+
+      const mergedPermissions = allPermissions.map((perm) => ({
+        ...perm,
+        active: roleMap[perm.permissionId] ?? false,
+      }));
+      // console.log(mergedPermissions);
 
       setFormData((prev) => ({
         ...prev,
-        rolePermissions: permissionData,
+        title: editRecord.title,
+        active: editRecord.active,
+        rolePermissions: mergedPermissions,
       }));
     } catch (error) {
-      //console.log("Permsisions fetched error",error);
       showError("Network error");
     }
   };
@@ -51,19 +70,7 @@ function CreateRole({ isModelOpen, handleModalClose, view, editRecord }) {
       return;
     }
 
-    const permission = editRecord.rolePermissions.map((perm) => ({
-      permissionId: perm.permissionId,
-      active: perm.active,
-      title: perm.title,
-    }));
-
-    const formData = {
-      title: editRecord.title,
-      active: editRecord.active,
-      rolePermissions: permission,
-    };
-
-    setFormData(formData);
+    fetchPermissions();
   };
 
   useEffect(() => {
@@ -89,7 +96,7 @@ function CreateRole({ isModelOpen, handleModalClose, view, editRecord }) {
         const response = await postService(
           "auth/v1/role/create",
           formData,
-          user?.token,
+          user.token,
         );
         //console.log("Role create successfully  : ", response);
         showSuccess(response.data);
@@ -97,15 +104,15 @@ function CreateRole({ isModelOpen, handleModalClose, view, editRecord }) {
         const response = await patchService(
           `auth/v1/role/update/${editRecord.id}`,
           formData,
-          user?.token,
+          user.token,
         );
-        console.log("Role updated successfully  : ", response);
+        // console.log("Role updated successfully  : ", response);
         showSuccess(response.data);
       }
       clearFormData();
       handleModalClose?.();
     } catch (error) {
-      console.log("Role submint Error", error);
+      // console.log("Role submint Error", error);
       showError(error?.message ? error?.message : "Network error");
     }
   };

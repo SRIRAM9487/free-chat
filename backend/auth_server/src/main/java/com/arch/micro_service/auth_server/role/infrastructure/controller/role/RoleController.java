@@ -36,7 +36,7 @@ public class RoleController {
   }
 
   @GetMapping("/user/meta")
-  @PreAuthorize("hasAuthority('ROLE_META')")
+  @PreAuthorize("hasAuthority('USER_CREATE')")
   public ResponseEntity<ApiResponse<List<RoleUserMetaDataResponse>>> userMeta() {
     var roles = crudService.getAll();
     var dtos = roles.stream().map(roleMapper::toRoleUserMetaData).toList();

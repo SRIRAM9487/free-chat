@@ -7,6 +7,7 @@ import java.util.Set;
 
 import com.arch.micro_service.auth_server.shared.domain.entity.IdEntity;
 import com.arch.micro_service.auth_server.user.domain.entity.User;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -43,7 +44,7 @@ public class Role extends IdEntity {
 
   @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
   @Builder.Default
-  @ToString.Exclude
+  @JsonManagedReference
   private List<RolePermission> rolePermissions = new ArrayList<>();
 
   @ManyToMany

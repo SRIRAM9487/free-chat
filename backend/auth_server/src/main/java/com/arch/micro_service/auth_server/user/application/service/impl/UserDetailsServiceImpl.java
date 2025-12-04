@@ -33,11 +33,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     List<SimpleGrantedAuthority> authorities = new ArrayList<>();
     for (var role : roles) {
+      if (!role.isActive()) {
+        continue;
+      }
       for (var rolePermission : role.getRolePermissions()) {
         var permission = rolePermission.getPermission();
         if (rolePermission.isActive() && permission.isActive()) {
           String title = permission.getTitle();
-          log.trace("Authority applied {}", title);
           authorities.add(new SimpleGrantedAuthority(title));
         }
       }

@@ -6,6 +6,8 @@ import com.arch.micro_service.auth_server.shared.domain.exception.BaseException;
 import com.arch.micro_service.auth_server.user.domain.entity.UserImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,8 +19,14 @@ import org.springframework.stereotype.Component;
 public class CustomLogger {
 
   private final Logger log = LoggerFactory.getLogger("FileLogger");
-  private static final ObjectMapper mapper = new ObjectMapper();
+  private ObjectMapper mapper;
   private final String serviceName = "Auth Service";
+
+  public CustomLogger() {
+    mapper = new ObjectMapper();
+    mapper.registerModule(new JavaTimeModule());
+    mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+  }
 
   private String toJson(Object event) {
     if (event == null) {
@@ -27,6 +35,7 @@ public class CustomLogger {
     try {
       return mapper.writeValueAsString(event);
     } catch (JsonProcessingException e) {
+      System.out.println(e.getMessage());
       return "{\"error\":\"Failed to serialize log event\"}";
     }
   }
@@ -99,8 +108,8 @@ public class CustomLogger {
       String service,
       String invocation,
       String message,
-      String data,
-      String prev) {
+      Object data,
+      Object prev) {
   }
 
   public record LoggerEventFailure(
