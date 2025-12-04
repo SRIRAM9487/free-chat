@@ -9,6 +9,7 @@ services:
       - xpack.security.http.ssl.enabled=false
       - xpack.security.transport.ssl.enabled=false
       - cluster.name=arch-elk
+      - node.name=arch_elk_node_name
     ulimits:
       memlock:
         soft: -1
@@ -45,6 +46,20 @@ services:
       ELASTICSEARCH_SSL_VERIFICATIONMODE: "none"
     ports:
       - "5601:5601"
+    networks:
+      - arch_elk
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:8.14.0
+    container_name: arch_filebeat
+    user: root
+    depends_on:
+      - logstash
+    volumes:
+      - ../backend/logs/auth:/usr/share/backend/logs/auth:ro
+      - ./filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       - arch_elk
 
