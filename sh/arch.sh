@@ -47,6 +47,7 @@ else
     tmux new-window -t "$SESSION:4" -n "gateway" -c "/home/sriram/git/arch-byte/backend/gateway_server/"
     tmux new-window -t "$SESSION:5" -n "notification" -c "/home/sriram/git/arch-byte/backend/notification_server/"
     tmux new-window -t "$SESSION:6" -n "auth" -c "/home/sriram/git/arch-byte/backend/auth_server/"
+    tmux new-window -t "$SESSION:7" -n "chat" -c "/home/sriram/git/arch-byte/backend/chat_server/"
 
     #tmux send-keys -t "$SESSION:1" 'docker-compose -f database.yaml up' C-m
 
@@ -69,6 +70,7 @@ else
     tmux new-window -t "$SESSION:4" -n "gateway" -c "/home/sriram/git/arch-byte/backend/gateway_server/"
     tmux new-window -t "$SESSION:5" -n "notification" -c "/home/sriram/git/arch-byte/backend/notification_server/"
     tmux new-window -t "$SESSION:6" -n "auth" -c "/home/sriram/git/arch-byte/backend/auth_server/"
+    tmux new-window -t "$SESSION:7" -n "chat" -c "/home/sriram/git/arch-byte/backend/chat_server/"
 
     tmux select-window -t "$SESSION:0"
 
@@ -85,9 +87,10 @@ else
 
     tmux rename-window -t "$SESSION:0" 'main'
     tmux new-window -t "$SESSION:1" -n "database" -c "/home/sriram/git/arch-byte/docker/database/"
-    tmux new-window -t "$SESSION:2" -n "elk" -c "/home/sriram/git/arch-byte/docker/elk/"
-    tmux new-window -t "$SESSION:3" -n "prometheus" -c "/home/sriram/git/arch-byte/docker/prometheus/"
-    tmux new-window -t "$SESSION:4" -n "message" -c "/home/sriram/git/arch-byte/docker/message/"
+    tmux new-window -t "$SESSION:2" -n "database" -c "/home/sriram/git/arch-byte/docker/database/"
+    tmux new-window -t "$SESSION:3" -n "elk" -c "/home/sriram/git/arch-byte/docker/elk/"
+    tmux new-window -t "$SESSION:4" -n "prometheus" -c "/home/sriram/git/arch-byte/docker/prometheus/"
+    tmux new-window -t "$SESSION:5" -n "message" -c "/home/sriram/git/arch-byte/docker/message/"
 
     #tmux send-keys -t "$SESSION:1" 'docker-compose -f database.yaml up' C-m
 

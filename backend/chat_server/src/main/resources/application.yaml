@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: CHAT-SERVER
+  profiles:
+    active: actuator,datasource,eureka,eureka,jpa,server,zipkin
