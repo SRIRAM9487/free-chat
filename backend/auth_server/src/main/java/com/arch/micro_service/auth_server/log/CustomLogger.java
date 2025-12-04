@@ -21,6 +21,9 @@ public class CustomLogger {
   private final String serviceName = "Auth Service";
 
   private String toJson(Object event) {
+    if (event == null) {
+      return "{\"error\":\"Failed to serialize log event\"}";
+    }
     try {
       return mapper.writeValueAsString(event);
     } catch (JsonProcessingException e) {
@@ -36,7 +39,7 @@ public class CustomLogger {
     return "anonymous";
   }
 
-  public void success(String invocation, String message, String data, String prev) {
+  public void success(String invocation, String message, Object data, Object prev) {
 
     LoggerContext context = LoggerContextHolder.get();
 
@@ -54,8 +57,8 @@ public class CustomLogger {
         serviceName,
         invocation,
         message,
-        data,
-        prev);
+        toJson(data),
+        toJson(prev));
 
     log.trace(toJson(event));
   }

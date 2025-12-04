@@ -15,8 +15,6 @@ import com.arch.micro_service.auth_server.user.application.service.UserCrudServi
 import com.arch.micro_service.auth_server.user.infrastructure.dto.request.UserCreateRequest;
 import com.arch.micro_service.auth_server.user.infrastructure.persistence.UserRepository;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -34,8 +32,6 @@ public class DataInitializer implements CommandLineRunner {
 
   private final UserRepository userRepository;
   private final UserCrudService userCrudService;
-
-  private final Logger log = LoggerFactory.getLogger("FileLogger");
 
   @Override
   public void run(String... args) throws Exception {
@@ -103,7 +99,6 @@ public class DataInitializer implements CommandLineRunner {
   }
 
   public void createUser() {
-    log.trace("Starting default test user creation...");
 
     var roles = roleRepository.findAll();
     var adminRole = roles.stream().filter(r -> r.getTitle().equalsIgnoreCase("Admin")).findFirst().orElse(null);
@@ -111,7 +106,6 @@ public class DataInitializer implements CommandLineRunner {
     var customerRole = roles.stream().filter(r -> r.getTitle().equalsIgnoreCase("Customer")).findFirst().orElse(null);
 
     if (adminRole == null || managerRole == null || customerRole == null) {
-      log.error("Roles are not properly initialized, cannot create default users.");
       return;
     }
     for (int i = 1; i <= 10; i++) {
@@ -140,9 +134,7 @@ public class DataInitializer implements CommandLineRunner {
           roleIds);
 
       userCrudService.create(userRequest);
-      log.info("Created test user '{}'", username);
     }
 
-    log.info("All default test users created successfully.");
   }
 }

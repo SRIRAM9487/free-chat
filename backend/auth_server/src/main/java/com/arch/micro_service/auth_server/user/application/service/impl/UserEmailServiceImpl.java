@@ -10,12 +10,12 @@ import com.arch.micro_service.auth_server.user.domain.entity.User;
 import com.arch.micro_service.auth_server.user.domain.exception.EmailException;
 import com.arch.micro_service.auth_server.user.infrastructure.persistence.UserRepository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserEmailServiceImpl implements UserEmailService {
@@ -25,6 +25,7 @@ public class UserEmailServiceImpl implements UserEmailService {
   private final UserFindUseCase userFindUseCase;
   private final CacheService cacheService;
   private final UserRepository userRepository;
+  private final Logger log = LoggerFactory.getLogger("MethodLogger");
 
   @Override
   public void sendVerification(String userId) {
@@ -37,13 +38,15 @@ public class UserEmailServiceImpl implements UserEmailService {
 
   @Override
   public void verifyEmail(String email, String token) {
+
     log.trace("Verifing the user email {}", email);
 
     User user = userFindUseCase.findByEmail(email);
 
     if (!cacheService.retrive(email).equals(token)) {
+      EmailException exception = EmailException.tokenVerificationFailed();
       log.trace("Token Invalid");
-      throw EmailException.tokenVerificationFailed(email);
+      throw exception;
     }
 
     user.verifyEmail();

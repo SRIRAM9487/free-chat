@@ -34,7 +34,7 @@ public class EmailException extends BaseException {
     return new EmailException(EmailExceptionType.EMPTY_DOMAIN_PART);
   }
 
-  public static EmailException tokenVerificationFailed(String email) {
+  public static EmailException tokenVerificationFailed() {
     return new EmailException(EmailExceptionType.INVALID_EMAIL_TOKEN);
   }
 

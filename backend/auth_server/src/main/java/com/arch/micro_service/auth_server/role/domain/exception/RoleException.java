@@ -10,7 +10,7 @@ public class RoleException extends BaseException {
     super(type);
   }
 
-  public static RoleException notFound(String id) {
+  public static RoleException notFound() {
     return new RoleException(RoleExceptionType.ROLE_NOT_FOUND);
   }
 

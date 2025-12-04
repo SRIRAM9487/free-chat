@@ -16,12 +16,13 @@ import org.springframework.stereotype.Component;
 public class RoleMapper {
 
   private RolePermissionDetailResponse fromRolePermission(RolePermission rolePermissions) {
-    return new RolePermissionDetailResponse(
+    RolePermissionDetailResponse response = new RolePermissionDetailResponse(
         rolePermissions.getId(),
         rolePermissions.getPermission().getId().toString(),
         rolePermissions.getPermission().getTitle(),
         rolePermissions.isActive(),
         rolePermissions.isActiveStatus());
+    return response;
   }
 
   public RolePermission toRolePermission(RolePermissionCreateRequest requestDto) {

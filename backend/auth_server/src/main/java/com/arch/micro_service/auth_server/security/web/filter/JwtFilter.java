@@ -6,6 +6,8 @@ import com.arch.micro_service.auth_server.user.application.service.impl.JwtServi
 import com.arch.micro_service.auth_server.user.application.service.impl.UserDetailsServiceImpl;
 import com.arch.micro_service.auth_server.user.domain.entity.UserImpl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -17,21 +19,20 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Component
-@Slf4j
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
 
   private final UserDetailsServiceImpl userDetailsServiceImp;
   private final JwtServiceImpl jwtService;
+  private final Logger log = LoggerFactory.getLogger("MethodLogger");
 
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
 
-    log.debug("Invoking custom Jwt Authentication Filter");
+    log.debug("Invoking Jwt Authentication Filter");
 
     String path = request.getRequestURI();
     log.trace("Request Path : {}", path);

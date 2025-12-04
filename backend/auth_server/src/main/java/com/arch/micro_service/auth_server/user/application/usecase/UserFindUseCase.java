@@ -1,5 +1,6 @@
 package com.arch.micro_service.auth_server.user.application.usecase;
 
+import com.arch.micro_service.auth_server.log.CustomLogger;
 import com.arch.micro_service.auth_server.user.domain.entity.User;
 import com.arch.micro_service.auth_server.user.domain.exception.UserException;
 import com.arch.micro_service.auth_server.user.domain.vo.Email;
@@ -14,26 +15,51 @@ import lombok.RequiredArgsConstructor;
 public class UserFindUseCase {
 
   private final UserRepository userRepository;
+  private final CustomLogger customLogger;
 
   public User findById(String id) {
-    User user = userRepository.findById(Long.parseLong(id)).orElseThrow(() -> UserException.notFound(id));
+    User user = userRepository.findById(Long.parseLong(id)).orElseThrow(() -> {
+      var ex = UserException.notFound();
+      customLogger.failure("#findById()", "User not found " + id, ex);
+      return ex;
+    });
     if (user.isDeleted()) {
-      throw UserException.notFound(id);
+      var ex = UserException.notFound();
+      customLogger.failure("#findById()", "User not found " + id, ex);
+      throw ex;
     }
     return user;
   }
 
   public User findByEmail(String email) {
-    User user = userRepository.findByEmail_Value(email).orElseThrow(() -> UserException.notFound(email));
-    if (user.isDeleted())
-      throw UserException.notFound(email);
+
+    User user = userRepository.findByEmail_Value(email).orElseThrow(() -> {
+      var ex = UserException.notFound();
+      customLogger.failure("#findById()", "User not found " + email, ex);
+      return ex;
+    });
+
+    if (user.isDeleted()) {
+      var ex = UserException.notFound();
+      customLogger.failure("#findById()", "User not found " + email, ex);
+      throw ex;
+    }
+
     return user;
   }
 
   public User findByUserName(String userName) {
-    User user = userRepository.findByUserName(userName).orElseThrow(() -> UserException.notFound(userName));
-    if (user.isDeleted())
-      throw UserException.notFound(userName);
+
+    User user = userRepository.findByUserName(userName).orElseThrow(() -> {
+      var ex = UserException.notFound();
+      customLogger.failure("#findById()", "User not found " + userName, ex);
+      return ex;
+    });
+    if (user.isDeleted()) {
+      var ex = UserException.notFound();
+      customLogger.failure("#findById()", "User not found " + userName, ex);
+      throw ex;
+    }
     return user;
   }
 

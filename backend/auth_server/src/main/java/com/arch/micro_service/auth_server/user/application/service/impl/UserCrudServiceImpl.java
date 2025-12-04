@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.arch.micro_service.auth_server.log.CustomLogger;
 import com.arch.micro_service.auth_server.role.application.usecase.role.RoleFindUseCase;
 import com.arch.micro_service.auth_server.role.domain.etntiy.Role;
 import com.arch.micro_service.auth_server.user.application.service.UserCrudService;
@@ -14,6 +15,8 @@ import com.arch.micro_service.auth_server.user.infrastructure.dto.mapper.UserMap
 import com.arch.micro_service.auth_server.user.infrastructure.dto.request.UserCreateRequest;
 import com.arch.micro_service.auth_server.user.infrastructure.persistence.UserRepository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +33,8 @@ public class UserCrudServiceImpl implements UserCrudService {
   private final RoleFindUseCase roleFindUseCase;
   private final UserMapper userMapper;
   private final PasswordEncoder passwordEncoder;
+  private final CustomLogger customLogger;
+  private final Logger log = LoggerFactory.getLogger("MethodLogger");
 
   @Override
   public List<User> getAll() {
@@ -38,7 +43,6 @@ public class UserCrudServiceImpl implements UserCrudService {
         .stream()
         .filter(p -> !p.isDeleted())
         .toList();
-
     return users;
   }
 
@@ -62,25 +66,21 @@ public class UserCrudServiceImpl implements UserCrudService {
     }
 
     User savedUser = userRepository.save(user);
-
+    log.trace("User Created : {}", savedUser);
+    customLogger.success("#create()", "User Updated", savedUser, "new");
     return savedUser;
   }
 
   @Override
   public User update(String id, UserCreateRequest requestDto) {
-
     User user = userFindUseCase.findById(id);
-
     for (var role : user.getRoles()) {
       role.getUsers().remove(user);
     }
-
     userMapper.update(user, requestDto);
-
     if (requestDto.password() != null) {
       user.setPassword(Password.create(passwordEncoder.encode(requestDto.password())));
     }
-
     if (requestDto.roles() != null) {
       List<Role> roles = roleFindUseCase.findAllById(requestDto.roles());
       user.setRoles(new HashSet<>(roles));
@@ -88,28 +88,24 @@ public class UserCrudServiceImpl implements UserCrudService {
         role.getUsers().add(user);
       }
     }
-
     User updatedUser = userRepository.save(user);
-
+    log.trace("User Updated : {}", updatedUser);
+    customLogger.success("#update()", "User Updated", updatedUser, user);
     return updatedUser;
 
   }
 
   @Override
   public User delete(String id) {
-
     User user = userFindUseCase.findById(id);
-
     Set<Role> roles = user.getRoles();
-
     user.softDelete();
-
     for (var role : roles) {
       role.getUsers().remove(user);
     }
-
     User deleteUser = userRepository.save(user);
-
+    log.trace("User Deleted : {}", deleteUser);
+    customLogger.success("#delete()", "User Deleted", deleteUser, user);
     return deleteUser;
   }
 

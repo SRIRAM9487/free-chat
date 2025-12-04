@@ -18,11 +18,11 @@ public class UserException extends BaseException {
     super(type);
   }
 
-  public static UserException notFound(String id) {
+  public static UserException notFound() {
     return new UserException(UserExceptionType.USER_NOT_FOUND);
   }
 
-  public static UserException authenticationFailed(String id) {
+  public static UserException authenticationFailed() {
     return new UserException(UserExceptionType.AUTHENTICATION_FAILED);
   }
 

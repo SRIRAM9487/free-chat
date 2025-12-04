@@ -14,15 +14,15 @@ import com.arch.micro_service.auth_server.role.infrastructure.dto.role.request.R
 import com.arch.micro_service.auth_server.role.infrastructure.dto.role.request.RolePermissionCreateRequest;
 import com.arch.micro_service.auth_server.role.infrastructure.persistence.RoleRepository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 @Transactional
 public class RoleCrudServiceImpl implements RoleCrudService {
 
@@ -30,15 +30,15 @@ public class RoleCrudServiceImpl implements RoleCrudService {
   private final RoleMapper roleMapper;
   private final PermissionFindUseCase permissionFindUseCase;
   private final RoleFindUseCase roleFindUseCase;
+  private final Logger log = LoggerFactory.getLogger("MethodLogger");
 
   @Override
   public List<Role> getAll() {
-    var roles = roleRepository
+    return roleRepository
         .findAll()
         .stream()
         .filter(p -> !p.isDeleted())
         .toList();
-    return roles;
   }
 
   @Override
