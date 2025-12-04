@@ -101,6 +101,9 @@ public class RoleCrudServiceImpl implements RoleCrudService {
     log.trace("Attempting to delete role with id: {}", id);
     var role = roleFindUseCase.findById(id);
     role.softDelete();
+    for (var user : role.getUsers()) {
+      user.getRoles().remove(role);
+    }
     roleRepository.save(role);
     log.info("Successfully deleted role with id: {}", id);
     return role;
