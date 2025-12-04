@@ -24,7 +24,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
   @Override
   public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
       throws IOException, ServletException {
-    log.trace("Authentication Failed for URI: {}", request.getRequestURI());
+    log.trace("Authentication Failed for URI: {}", request);
     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
     response.setContentType("application/json");
     ApiException exception = ApiException.unAuthorized(UnAuthenticatedException.authenticationFailed(), request);

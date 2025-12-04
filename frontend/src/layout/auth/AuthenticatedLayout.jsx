@@ -1,16 +1,18 @@
 import { HiOutlineSun, HiOutlineMoon } from "react-icons/hi";
 import { Button, Layout, theme } from "antd";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, Navigate } from "react-router-dom";
 import SideBarMenus from "../sidebar/SideBarMenu";
-const { Header, Content, Footer, Sider } = Layout;
+import { UserContext } from "../../context/UserContext";
+const { Header, Content, Sider } = Layout;
 
 function AuthenticatedLayout() {
   const location = useLocation();
   const [themeToggle, setthemeToggle] = useState(false);
   const [collapsed, setcollapsed] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+  const { user, loading } = useContext(UserContext);
 
   const routeTitleMap = {
     "/dashboard": "Dashboard",
@@ -40,6 +42,13 @@ function AuthenticatedLayout() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider

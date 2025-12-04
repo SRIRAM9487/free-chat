@@ -6,6 +6,7 @@ import { NotificationContext } from "../../../context/NotificationContext";
 import { getService } from "../../../script/getService";
 import { postService } from "../../../script/postService";
 import { patchService } from "../../../script/patchService";
+import { UserContext } from "../../../context/UserContext";
 
 function CreateRole({ isModelOpen, handleModalClose, view, editRecord }) {
   const DEFAULT_FORM = {
@@ -16,6 +17,7 @@ function CreateRole({ isModelOpen, handleModalClose, view, editRecord }) {
 
   const [formData, setFormData] = useState(DEFAULT_FORM);
   const { showError, showSuccess } = useContext(NotificationContext);
+  const { user } = useContext(UserContext);
 
   const clearFormData = () => {
     //console.log("Form data cleared");
@@ -25,7 +27,7 @@ function CreateRole({ isModelOpen, handleModalClose, view, editRecord }) {
   const fetchPermissions = async () => {
     //console.log("Fetching permissions");
     try {
-      const response = await getService("auth/v1/permission");
+      const response = await getService("auth/v1/permission", user?.token);
       //console.log("Permsisions fetched successfully",response);
       const permissionData = response.data.map((perm) => ({
         permissionId: perm.id,
@@ -84,13 +86,18 @@ function CreateRole({ isModelOpen, handleModalClose, view, editRecord }) {
     e.preventDefault();
     try {
       if (!editRecord) {
-        const response = await postService("auth/v1/role/create", formData);
+        const response = await postService(
+          "auth/v1/role/create",
+          formData,
+          user?.token,
+        );
         //console.log("Role create successfully  : ", response);
         showSuccess(response.data);
       } else {
         const response = await patchService(
           `auth/v1/role/update/${editRecord.id}`,
           formData,
+          user?.token,
         );
         console.log("Role updated successfully  : ", response);
         showSuccess(response.data);

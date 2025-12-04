@@ -2,19 +2,22 @@ import { Button, Modal, Card, Space, Typography } from "antd";
 import { TfiEmail } from "react-icons/tfi";
 import { IoKey } from "react-icons/io5";
 import { LuLock } from "react-icons/lu";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { NotificationContext } from "../../../context/NotificationContext";
 import { getService } from "../../../script/getService";
+import { UserContext } from "../../../context/UserContext";
 
 const { Text } = Typography;
 
 function UserAction({ isModelOpen, handleModalClose, editRecord }) {
   const { showError, showSuccess } = useContext(NotificationContext);
+  const { user } = useContext(UserContext);
 
   const handleEmailVerificationRequest = async () => {
     try {
       const response = await getService(
         `auth/v1/user/email/verify/${editRecord.id}`,
+        user?.token,
       );
       console.log("RESPONSE : ", response);
       showSuccess(response.data);

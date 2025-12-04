@@ -1,11 +1,12 @@
-import { Button, Modal } from "antd";
-import InputField from "../../../component/InputField";
 import { useContext, useEffect, useState } from "react";
+import { Button, Modal } from "antd";
 import { getService } from "../../../script/getService";
-import CustomSelectBox from "../../../component/CustomSelectBox";
 import { postService } from "../../../script/postService";
-import { NotificationContext } from "../../../context/NotificationContext";
 import { patchService } from "../../../script/patchService";
+import { UserContext } from "../../../context/UserContext";
+import { NotificationContext } from "../../../context/NotificationContext";
+import InputField from "../../../component/InputField";
+import CustomSelectBox from "../../../component/CustomSelectBox";
 
 function CreateUser({ isModelOpen, handleModalClose, view, editRecord }) {
   const DEFAULT_FORM = {
@@ -23,6 +24,7 @@ function CreateUser({ isModelOpen, handleModalClose, view, editRecord }) {
 
   const [roleList, setRoleList] = useState([]);
   const { showError, showSuccess } = useContext(NotificationContext);
+  const { user } = useContext(UserContext);
 
   const clearFormData = () => {
     setFormData(() => DEFAULT_FORM);
@@ -30,7 +32,7 @@ function CreateUser({ isModelOpen, handleModalClose, view, editRecord }) {
 
   const fetchRolesList = async () => {
     try {
-      const response = await getService("auth/v1/role/user/meta");
+      const response = await getService("auth/v1/role/user/meta", user.token);
       const role = response.data.map((role) => ({
         value: role.id,
         label: role.title,
@@ -124,12 +126,17 @@ function CreateUser({ isModelOpen, handleModalClose, view, editRecord }) {
     if (!validateForm()) return;
     try {
       if (!editRecord) {
-        const response = await postService("auth/v1/user/create", formData);
+        const response = await postService(
+          "auth/v1/user/create",
+          formData,
+          user?.token,
+        );
         showSuccess(response.data);
       } else {
         const response = await patchService(
           `auth/v1/user/update/${editRecord.id}`,
           formData,
+          user?.token,
         );
         showSuccess(response.data);
       }

@@ -36,7 +36,7 @@ function Login() {
 
     setloading(false);
     try {
-      const response = await postService("auth/v1/user/login", formData);
+      const response = await postService("auth/v1/user/login", formData, "");
       login(response?.data);
       navigate("/dashboard");
       showSuccess("Login successfull", 1000);

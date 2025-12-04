@@ -8,9 +8,11 @@ import { patchService } from "../../../script/patchService";
 import CustomTable from "../../../component/CustomTable";
 import CustomToggleBtn from "../../../component/CustomToggleBtn";
 import InputField from "../../../component/InputField";
+import { UserContext } from "../../../context/UserContext";
 
 function Permission() {
   const { showError, showSuccess } = useContext(NotificationContext);
+  const { user } = useContext(UserContext);
   const [permissionList, setPermissionList] = useState([]);
   const [title, setTitle] = useState("");
   const [error, setError] = useState("");
@@ -18,7 +20,8 @@ function Permission() {
   const fetchPermisison = async () => {
     //console.log("Permission fetch requested.");
     try {
-      const response = await getService("auth/v1/permission");
+      console.log("USER : ", user);
+      const response = await getService("auth/v1/permission", user.token);
       // console.log("Fetch response ",response);
       setPermissionList(response.data);
     } catch (error) {
@@ -44,6 +47,7 @@ function Permission() {
       const response = await patchService(
         `auth/v1/permission/update/${record.id}`,
         payload,
+        user?.token,
       );
       // console.log("Permission update success ", response);
       showSuccess(response.data, 800);
@@ -68,7 +72,11 @@ function Permission() {
         active: true,
       };
       // console.log("Permission update payload ", payload);
-      const response = await postService("auth/v1/permission/create", payload);
+      const response = await postService(
+        "auth/v1/permission/create",
+        payload,
+        user?.token,
+      );
       showSuccess(response.data);
       setTitle("");
       // console.log("Permission create success ", response);

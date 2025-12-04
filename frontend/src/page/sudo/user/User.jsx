@@ -2,29 +2,30 @@ import { useContext, useEffect, useState } from "react";
 import CustomTable from "../../../component/CustomTable";
 import { Button, Space } from "antd";
 import CreateUser from "./CreateUser";
-import { getService } from "../../../script/getService";
 import { NotificationContext } from "../../../context/NotificationContext";
 import Deletebtn from "../../../component/btns/Deletebtn";
 import EditBtn from "../../../component/btns/EditBtn";
 import Viewbtn from "../../../component/btns/Viewbtn";
 import CustomDialogBox from "../../../component/CustomDialogBox";
 import { deleteService } from "../../../script/deleteService";
+import { getService } from "../../../script/getService";
 import UserAction from "./UserAction";
 import UserActionbtn from "../../../component/btns/UserActionbtn";
-import { users } from "../../../../dummy/user/users";
+import { UserContext } from "../../../context/UserContext";
 
 function User() {
   const { showError, showSuccess } = useContext(NotificationContext);
-  const [userList, setUserList] = useState(users);
+  const [userList, setUserList] = useState([]);
   const [editRecord, setEditRecord] = useState(null);
   const [view, setView] = useState(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isDeleteBoxOpen, setIsDeleteBoxOpen] = useState(false);
   const [isActionBoxOpen, setIsActionBoxOpen] = useState(false);
+  const { user } = useContext(UserContext);
 
   const fetchUsers = async () => {
     try {
-      const response = await getService("auth/v1/user");
+      const response = await getService("auth/v1/user", user?.token);
       setUserList(response.data);
     } catch (error) {
       showError("Network error");
@@ -70,7 +71,10 @@ function User() {
 
   const handleDeleteBtnConfirm = async () => {
     try {
-      const response = await deleteService(`auth/v1/user/${editRecord.id}`);
+      const response = await deleteService(
+        `auth/v1/user/${editRecord.id}`,
+        user?.token,
+      );
       showSuccess(response.data);
     } catch (error) {
       showError("Failed");

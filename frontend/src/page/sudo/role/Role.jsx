@@ -11,6 +11,7 @@ import { NotificationContext } from "../../../context/NotificationContext";
 import { getService } from "../../../script/getService";
 import { patchService } from "../../../script/patchService";
 import { deleteService } from "../../../script/deleteService";
+import { UserContext } from "../../../context/UserContext";
 
 function Role() {
   const { showError, showSuccess } = useContext(NotificationContext);
@@ -19,11 +20,12 @@ function Role() {
   const [view, setView] = useState(false);
   const [isModelOpen, setIsModelOpen] = useState(false);
   const [isDeleteBoxOpen, setIsDeleteBoxOpen] = useState(false);
+  const { user } = useContext(UserContext);
 
   const fetchRole = async () => {
     //console.log("Role fetch requested");
     try {
-      const response = await getService("auth/v1/role");
+      const response = await getService("auth/v1/role", user.token);
       //console.log("Role fetched successfully", response);
       setRoleList(response.data);
     } catch (error) {
