@@ -1,3 +1,5 @@
+export const permission_url = "http://localhost:5173/permission";
+
 export const permission_selectors = {
   permission_title: "permission-title-inp",
   create_btn: "permission-create-btn",

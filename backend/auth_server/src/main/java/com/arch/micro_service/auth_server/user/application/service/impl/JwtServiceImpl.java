@@ -58,7 +58,7 @@ public class JwtServiceImpl implements JwtService {
 
     Map<String, Object> claims = new HashMap<>();
     LocalDateTime now = LocalDateTime.now();
-    LocalDateTime limit = now.toLocalDate().plusDays(1).atStartOfDay();
+    LocalDateTime limit = now.toLocalDate().plusDays(100).atStartOfDay();
     Date issuedAt = new Date();
     Date expiration = Date.from(limit.atZone(ZoneId.systemDefault()).toInstant());
 

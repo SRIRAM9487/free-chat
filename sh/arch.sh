@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
  SESSION="E2E"
 
  if tmux has-session -t "$SESSION" 2>/dev/null; then
@@ -86,11 +85,12 @@ else
     tmux new-session -d -s "$SESSION" -c "/home/sriram/git/arch-byte/docker/"
 
     tmux rename-window -t "$SESSION:0" 'main'
-    tmux new-window -t "$SESSION:1" -n "database" -c "/home/sriram/git/arch-byte/docker/database/"
-    tmux new-window -t "$SESSION:2" -n "database" -c "/home/sriram/git/arch-byte/docker/database/"
+    tmux new-window -t "$SESSION:1" -n "psql" -c "/home/sriram/git/arch-byte/docker/database/"
+    tmux new-window -t "$SESSION:2" -n "redis" -c "/home/sriram/git/arch-byte/docker/database/"
     tmux new-window -t "$SESSION:3" -n "elk" -c "/home/sriram/git/arch-byte/docker/elk/"
-    tmux new-window -t "$SESSION:4" -n "prometheus" -c "/home/sriram/git/arch-byte/docker/prometheus/"
+    tmux new-window -t "$SESSION:4" -n "prometheus" -c "/home/sriram/git/arch-byte/docker/observability/"
     tmux new-window -t "$SESSION:5" -n "message" -c "/home/sriram/git/arch-byte/docker/message/"
+    tmux new-window -t "$SESSION:6" -n "zipkin" -c "/home/sriram/git/arch-byte/docker/zipkin/"
 
     #tmux send-keys -t "$SESSION:1" 'docker-compose -f database.yaml up' C-m
 

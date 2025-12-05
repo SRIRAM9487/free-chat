@@ -3,6 +3,7 @@ import {
   permission_error_messages,
   permission_selectors,
   permission_success_messages,
+  permission_url,
 } from "./permissionconstant";
 import {
   mockPermissionUpdated404,
@@ -13,7 +14,7 @@ import {
 } from "./permissionutils";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("http://localhost:5173/permission");
+  await page.goto(permission_url);
 });
 
 test.describe("create", () => {

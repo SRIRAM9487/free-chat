@@ -15,6 +15,7 @@ import {
   toggle_view,
   role_toggle_delete,
 } from "./roleutils";
+import { user_local } from "../../auth/authconstant";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("http://localhost:5173/role");
@@ -22,6 +23,13 @@ test.beforeEach(async ({ page }) => {
 
 test.describe("create", () => {
   test("success", async ({ page }) => {
+    await page.evaluate((num) => {
+      console.log(num);
+      console.log(num);
+      console.log(num);
+      console.log(num);
+      console.log(num);
+    }, 42);
     await page.getByTestId(role_selectors.create_btn).click();
     await page.locator(role_selectors.modal).isVisible();
     const role_name = `TESTER_ROLE_${Date.now()}`;

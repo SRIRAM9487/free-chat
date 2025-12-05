@@ -29,6 +29,7 @@ services:
       - elasticsearch
     volumes:
       - ./logstash/pipeline:/usr/share/logstash/pipeline
+      - ../../backend/logs/auth:/var/logstash/input_logs
     ports:
       - "5000:5000"
       - "5044:5044"
@@ -49,19 +50,19 @@ services:
     networks:
       - arch_elk
 
-  filebeat:
-    image: docker.elastic.co/beats/filebeat:8.14.0
-    container_name: arch_filebeat
-    user: root
-    depends_on:
-      - logstash
-    volumes:
-      - ../backend/logs/auth:/usr/share/backend/logs/auth:ro
-      - ./filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
-      - /var/lib/docker/containers:/var/lib/docker/containers:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    networks:
-      - arch_elk
+  # filebeat:
+  #   image: docker.elastic.co/beats/filebeat:8.14.0
+  #   container_name: arch_filebeat
+  #   user: root
+  #   depends_on:
+  #     - logstash
+  #   volumes:
+  #     - ../backend/logs/auth:/usr/share/backend/logs/auth:ro
+  #     - ./filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+  #     - /var/lib/docker/containers:/var/lib/docker/containers:ro
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
+  #   networks:
+  #     - arch_elk
 
 volumes:
   es_data:
