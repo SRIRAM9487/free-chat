@@ -1,0 +1,49 @@
+<configuration>
+  <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+
+  <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+      <charset>utf8</charset>
+    </encoder>
+  </appender>
+
+
+  <appender name="logfile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>../logs/chat/log-file.json</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>../logs/chat/log-file-%d{yyyy-MM-dd-HH}.json</fileNamePattern>
+      <maxHistory>30</maxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>%m%n</pattern>
+      <charset>utf8</charset>
+    </encoder>
+  </appender>
+
+  <appender name="method" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>../logs/chat/method.json</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>../logs/chat/method-file-%d{yyyy-MM-dd-HH}.json</fileNamePattern>
+      <maxHistory>30</maxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>%m%n</pattern>
+      <charset>utf8</charset>
+    </encoder>
+  </appender>
+
+  <logger name="FileLogger" level="TRACE">
+    <appender-ref ref="logfile" />
+  </logger>
+
+  <logger name="MethodLogger" level="TRACE">
+    <appender-ref ref="method" />
+  </logger>
+
+  <root level="INFO">
+    <appender-ref ref="console" />
+  </root>
+
+</configuration>
+
