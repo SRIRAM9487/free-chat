@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -32,14 +33,15 @@ public class Chatter extends BasedEntity {
   @Column(name = "user_id", unique = true)
   private Long userId;
 
+  @Column(name = "banned")
   private boolean banned;
 
-  @OneToMany(mappedBy = "chatter")
+  @OneToMany(mappedBy = "chatter", fetch = FetchType.EAGER)
   @JsonManagedReference
   @Builder.Default
   private List<GroupMember> groupMembers = new ArrayList<>();
 
-  @OneToMany(mappedBy = "chatter")
+  @OneToMany(mappedBy = "chatter", fetch = FetchType.EAGER)
   @JsonManagedReference
   @Builder.Default
   private List<SimpleChat> simpleChats = new ArrayList<>();

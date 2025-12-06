@@ -11,7 +11,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = ChatServerApplication.class)
 public abstract class AbstractTestContainer {
 
-  public static PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>("postgres:16-alpine")
+  public static PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>("postgres:16")
       .withDatabaseName("chat_server")
       .withUsername("root")
       .withPassword("1234");

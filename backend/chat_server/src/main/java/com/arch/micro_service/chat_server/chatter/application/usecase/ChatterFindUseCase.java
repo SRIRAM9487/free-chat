@@ -20,7 +20,7 @@ public class ChatterFindUseCase {
       return ChatterException.notFound();
     });
 
-    if (!chatter.isDeleted()) {
+    if (chatter.isDeleted()) {
       var ex = ChatterException.notFound();
       throw ex;
     }

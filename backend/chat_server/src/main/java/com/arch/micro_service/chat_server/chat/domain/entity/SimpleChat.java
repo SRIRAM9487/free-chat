@@ -21,7 +21,7 @@ import lombok.ToString;
 public class SimpleChat extends Chat {
 
   @ManyToOne
-  @JoinColumn(name = "chatter", referencedColumnName = "id")
+  @JoinColumn(name = "chatters_id", referencedColumnName = "id")
   private Chatter chatter;
 
   @Column(name = "read")

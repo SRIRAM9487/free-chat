@@ -60,7 +60,6 @@ public abstract class SoftDelete {
   @PrePersist
   public void init() {
     this.createdAt = LocalDateTime.now();
-    this.updatedAt = LocalDateTime.now();
   }
 
   /*

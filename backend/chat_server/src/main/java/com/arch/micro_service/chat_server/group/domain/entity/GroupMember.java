@@ -25,7 +25,7 @@ import lombok.ToString;
 public class GroupMember extends IdEntity {
 
   @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "chatter_id", referencedColumnName = "id")
+  @JoinColumn(name = "chatters_id", referencedColumnName = "id")
   private Chatter chatter;
 
   @ManyToOne(fetch = FetchType.EAGER)
