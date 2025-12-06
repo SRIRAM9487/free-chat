@@ -1,7 +1,8 @@
 package com.arch.micro_service.chat_server.group.infrastructure.dto.response;
 
 public record GroupDetailsResponse(
-    String id,
+    Long id,
     String name,
-    String description) {
+    String description,
+    boolean adminOnly) {
 }
