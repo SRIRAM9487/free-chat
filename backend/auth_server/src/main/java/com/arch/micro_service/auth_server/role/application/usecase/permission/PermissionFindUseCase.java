@@ -21,13 +21,13 @@ public class PermissionFindUseCase {
     Permission permission = permissionRepository.findById(Long.parseLong(id))
         .orElseThrow(() -> {
           PermissionException exception = PermissionException.notFound();
-          customLogger.failure("#findById()", "Permission not found " + id, exception);
+          customLogger.failure("Permission not found " + id, exception);
           return exception;
         });
 
     if (permission.isDeleted()) {
       PermissionException exception = PermissionException.notFound();
-      customLogger.failure("#findById()", "Permission not found " + id, exception);
+      customLogger.failure("Permission not found " + id, exception);
       throw exception;
     }
     return permission;

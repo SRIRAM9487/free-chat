@@ -2,7 +2,6 @@
 INSERT INTO users (name, user_name, password, email, email_verified, gender, account_non_expired, account_non_locked, enabled, created_by, updated_by)
 VALUES ('Sudo Master', 'sudo', '$2a$12$ONjnFEA96ZSc3c8OyYkCyeI5rFnY59A/EIX8.AagTQ3o3TIbkXelW', 'sudo@devops.com', TRUE, 'MALE', TRUE, TRUE, TRUE, 'system', 'system')
 ON CONFLICT (user_name) DO NOTHING;
-
 -- ADMIN Users (System admins; multiple for team simulation)
 INSERT INTO users (name, user_name, password, email, email_verified, gender, account_non_expired, account_non_locked, enabled, created_by, updated_by)
 VALUES ('Admin Lead', 'admin', '$2a$12$ONjnFEA96ZSc3c8OyYkCyeI5rFnY59A/EIX8.AagTQ3o3TIbkXelW', 'admin@company.com', TRUE, 'MALE', TRUE, TRUE, TRUE, 'system', 'system')

@@ -3,6 +3,7 @@ package com.arch.micro_service.auth_server.role.application.service.role.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.arch.micro_service.auth_server.log.CustomLogger;
 import com.arch.micro_service.auth_server.role.application.service.role.RoleCrudService;
 import com.arch.micro_service.auth_server.role.application.usecase.permission.PermissionFindUseCase;
 import com.arch.micro_service.auth_server.role.application.usecase.role.RoleFindUseCase;
@@ -19,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.CustomLog;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -31,6 +33,7 @@ public class RoleCrudServiceImpl implements RoleCrudService {
   private final PermissionFindUseCase permissionFindUseCase;
   private final RoleFindUseCase roleFindUseCase;
   private final Logger log = LoggerFactory.getLogger("MethodLogger");
+  private final CustomLogger customLogger;
 
   @Override
   public List<Role> getAll() {
@@ -66,9 +69,11 @@ public class RoleCrudServiceImpl implements RoleCrudService {
 
     role.setRolePermissions(rolePermissions);
     log.trace("Final role entity before save: {}", role);
-    roleRepository.save(role);
+    var savedRole = roleRepository.save(role);
     log.info("Role created successfully: {}", requestDto.title());
-    return role;
+    customLogger.success("Role created", role, savedRole);
+    return savedRole;
+
   }
 
   @Override
@@ -86,13 +91,13 @@ public class RoleCrudServiceImpl implements RoleCrudService {
 
       rolePermissions.add(newPermission);
     }
-
     role.getRolePermissions().clear();
     role.getRolePermissions().addAll(rolePermissions);
 
-    roleRepository.save(role);
+    var updatedRole = roleRepository.save(role);
     log.info("Updated role {} with {} permissions", id, rolePermissions.size());
-    return role;
+    customLogger.success("Role updated", role, updatedRole);
+    return updatedRole;
 
   }
 
@@ -104,9 +109,10 @@ public class RoleCrudServiceImpl implements RoleCrudService {
     for (var user : role.getUsers()) {
       user.getRoles().remove(role);
     }
-    roleRepository.save(role);
+    var deltedRole = roleRepository.save(role);
     log.info("Successfully deleted role with id: {}", id);
-    return role;
+    customLogger.success("Role delete", role, deltedRole);
+    return deltedRole;
   }
 
 }

@@ -27,8 +27,7 @@ public class MessageAop {
   public void sendEmailVerification(JoinPoint joinPoint) {
     var args = joinPoint.getArgs();
     EmailVerificationEvent event = (EmailVerificationEvent) args[0];
-    String invocation = joinPoint.getSignature().getClass() + joinPoint.getSignature().getName();
-    log.success(invocation, "Email Verification published " + event.email(), event, "");
+    log.success("Email Verification published " + event.email(), event, "");
   }
 
   @Pointcut("execution(* com.arch.micro_service.auth_server.message.infrastructure.publisher.EmailEventPublisher.publishPasswordResetEmail(..))")
@@ -39,7 +38,6 @@ public class MessageAop {
   public void sendPasswordReset(JoinPoint joinPoint) {
     var args = joinPoint.getArgs();
     PasswordResetEvent event = (PasswordResetEvent) args[0];
-    String invocation = joinPoint.getSignature().getClass() + joinPoint.getSignature().getName();
-    log.success(invocation, "Password reset request published " + event.email(), event, "");
+    log.success("Password reset request published " + event.email(), event, "");
   }
 }

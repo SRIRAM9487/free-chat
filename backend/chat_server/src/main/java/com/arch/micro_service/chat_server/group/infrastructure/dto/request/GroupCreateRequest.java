@@ -5,6 +5,6 @@ import java.util.List;
 public record GroupCreateRequest(
     String name,
     String description,
-    List<Long> groupIds,
+    List<GroupMemberCreateRequest> groupMemberIds,
     boolean adminOnly) {
 }

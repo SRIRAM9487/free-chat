@@ -27,7 +27,7 @@ public class RoleServiceImpl implements RoleService {
     role.toggleActive();
     var toggledRole = roleRepository.save(role);
     log.trace("role toggled : {}", toggledRole);
-    customLogger.success("#toggleActive()", "Role active toggled", toggledRole, role);
+    customLogger.success("Role active toggled", toggledRole, role);
     return role;
   }
 

@@ -5,6 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 
 import java.util.List;
 
@@ -13,17 +16,22 @@ import com.arch.micro_service.chat_server.chatter.domain.entity.Chatter;
 import com.arch.micro_service.chat_server.chatter.domain.exception.ChatterException;
 import com.arch.micro_service.chat_server.chatter.domain.exception.type.ChatterExceptionType;
 import com.arch.micro_service.chat_server.chatter.infrastructure.dto.request.ChatterCreateRequest;
+import com.arch.micro_service.chat_server.logger.CustomLogger;
 import com.arch.micro_service.chat_server.testcontainers.AbstractTestContainer;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.transaction.annotation.Transactional;
 
 public class ChatterCrudServiceImplTest extends AbstractTestContainer {
 
   @Autowired
   private ChatterCrudServiceImpl crudServiceImpl;
+
+  @MockitoBean
+  private CustomLogger customLogger;
 
   @Test
   void getAll() {
@@ -43,6 +51,7 @@ public class ChatterCrudServiceImplTest extends AbstractTestContainer {
   @Test
   @Transactional
   void getById_NotFound() {
+    doNothing().when(customLogger).failure(anyString(), any());
     ChatterException chatterException = assertThrowsExactly(ChatterException.class, () -> {
       crudServiceImpl.get("99999999");
     });
@@ -57,6 +66,7 @@ public class ChatterCrudServiceImplTest extends AbstractTestContainer {
   @Test
   @Transactional
   void create_success() {
+    doNothing().when(customLogger).success(anyString(), any(), any());
     var req = new ChatterCreateRequest("TEST_CHATTER", 11L);
     Chatter chatter = crudServiceImpl.create(req);
     assertEquals(req.userId(), chatter.getUserId());
@@ -69,6 +79,7 @@ public class ChatterCrudServiceImplTest extends AbstractTestContainer {
   @Test
   @Transactional
   void create_userIdExists() {
+    doNothing().when(customLogger).failure(anyString(), any());
     var req = new ChatterCreateRequest("TEST_CHATTER", 1L);
     DataIntegrityViolationException exception = assertThrowsExactly(
         DataIntegrityViolationException.class, () -> {
@@ -80,6 +91,7 @@ public class ChatterCrudServiceImplTest extends AbstractTestContainer {
   @Test
   @Transactional
   void update_success() {
+    doNothing().when(customLogger).success(anyString(), any(), any());
     var req = new ChatterCreateRequest("TEST_CHATTER", 2L);
     Chatter chatter = crudServiceImpl.update("1", req);
     assertEquals(req.userId(), chatter.getUserId());
@@ -102,6 +114,7 @@ public class ChatterCrudServiceImplTest extends AbstractTestContainer {
   @Test
   @Transactional
   void delete() {
+    doNothing().when(customLogger).success(anyString(), any(), any());
     int beforeDelete = crudServiceImpl.getAll().size();
     Chatter chat = crudServiceImpl.delete("1");
     assertNotNull(chat.getDeletedAt());
@@ -109,4 +122,13 @@ public class ChatterCrudServiceImplTest extends AbstractTestContainer {
     assertEquals(beforeDelete - 1, aftereDelete);
   }
 
+  @Test
+  @Transactional
+  void delete_notFound() {
+    doNothing().when(customLogger).failure(anyString(), any());
+    ChatterException chatterException = assertThrowsExactly(ChatterException.class, () -> {
+      crudServiceImpl.delete("99999");
+    });
+    assertEquals(ChatterExceptionType.CHATTER_NOT_FOUND.name(), chatterException.getCode(), "Chatter not found");
+  }
 }

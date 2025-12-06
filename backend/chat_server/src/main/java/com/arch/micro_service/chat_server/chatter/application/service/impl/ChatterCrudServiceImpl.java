@@ -8,6 +8,7 @@ import com.arch.micro_service.chat_server.chatter.domain.entity.Chatter;
 import com.arch.micro_service.chat_server.chatter.infrastructure.dto.mapper.ChatterMapper;
 import com.arch.micro_service.chat_server.chatter.infrastructure.dto.request.ChatterCreateRequest;
 import com.arch.micro_service.chat_server.chatter.infrastructure.persistence.ChatterRepository;
+import com.arch.micro_service.chat_server.logger.CustomLogger;
 
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ public class ChatterCrudServiceImpl implements ChatterCrudService {
   private final ChatterRepository chatterRepository;
   private final ChatterFindUseCase chatterFindUseCase;
   private final ChatterMapper chatterMapper;
+  private final CustomLogger customLogger;
 
   @Override
   public List<Chatter> getAll() {
@@ -35,22 +37,25 @@ public class ChatterCrudServiceImpl implements ChatterCrudService {
   public Chatter create(ChatterCreateRequest requestDto) {
     var chatter = chatterMapper.toChatter(requestDto);
     var savedChatter = chatterRepository.save(chatter);
+    customLogger.success("Chatter created", savedChatter, "NEW");
     return savedChatter;
   }
 
   @Override
   public Chatter update(String id, ChatterCreateRequest requestDto) {
-    var existingChatter = chatterFindUseCase.findById(Long.valueOf(id));
-    chatterMapper.update(existingChatter, requestDto);
-    var updatedChatter = chatterRepository.save(existingChatter);
+    var chatter = chatterFindUseCase.findById(Long.valueOf(id));
+    chatterMapper.update(chatter, requestDto);
+    var updatedChatter = chatterRepository.save(chatter);
+    customLogger.success("Chatter updated", updatedChatter, chatter);
     return updatedChatter;
   }
 
   @Override
   public Chatter delete(String id) {
-    var existingChatter = chatterFindUseCase.findById(Long.valueOf(id));
-    existingChatter.softDelete();
-    var deletedChatter = chatterRepository.save(existingChatter);
+    var chatter = chatterFindUseCase.findById(Long.valueOf(id));
+    chatter.softDelete();
+    var deletedChatter = chatterRepository.save(chatter);
+    customLogger.success("Chatter deleted", deletedChatter, chatter);
     return deletedChatter;
   }
 

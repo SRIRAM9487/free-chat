@@ -1,9 +1,7 @@
-package com.arch.micro_service.auth_server.log;
+package com.arch.micro_service.chat_server.logger;
 
 import java.time.Instant;
 
-import com.arch.micro_service.auth_server.shared.domain.exception.BaseException;
-import com.arch.micro_service.auth_server.user.domain.entity.UserImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -13,14 +11,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import com.arch.micro_service.chat_server.shared.domain.exception.BaseException;
 
 @Component
 public class CustomLogger {
 
   private final Logger log = LoggerFactory.getLogger("FileLogger");
   private ObjectMapper mapper;
-  private final String serviceName = "Auth Service";
+  private final String serviceName = "Chat Service";
 
   public CustomLogger() {
     mapper = new ObjectMapper();
@@ -42,8 +42,8 @@ public class CustomLogger {
 
   private String currentUser() {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    if (auth != null && auth.getPrincipal() instanceof UserImpl user) {
-      return user.getId().toString();
+    if (auth != null && auth.getPrincipal() instanceof UserDetails user) {
+      return user.getUsername().toString();
     }
     return "anonymous";
   }

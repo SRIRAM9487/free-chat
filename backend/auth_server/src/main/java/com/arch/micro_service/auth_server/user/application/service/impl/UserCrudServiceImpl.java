@@ -67,7 +67,7 @@ public class UserCrudServiceImpl implements UserCrudService {
 
     User savedUser = userRepository.save(user);
     log.trace("User Created : {}", savedUser);
-    customLogger.success("#create()", "User Updated", savedUser, "new");
+    customLogger.success("User Updated", savedUser, "new");
     return savedUser;
   }
 
@@ -90,7 +90,7 @@ public class UserCrudServiceImpl implements UserCrudService {
     }
     User updatedUser = userRepository.save(user);
     log.trace("User Updated : {}", updatedUser);
-    customLogger.success("#update()", "User Updated", updatedUser, user);
+    customLogger.success("User Updated", updatedUser, user);
     return updatedUser;
 
   }
@@ -105,7 +105,7 @@ public class UserCrudServiceImpl implements UserCrudService {
     }
     User deleteUser = userRepository.save(user);
     log.trace("User Deleted : {}", deleteUser);
-    customLogger.success("#delete()", "User Deleted", deleteUser, user);
+    customLogger.success("User Deleted", deleteUser, user);
     return deleteUser;
   }
 

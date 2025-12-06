@@ -1,0 +1,15 @@
+{
+  "name": "TEST_GROUP_12",
+  "description": "A group for backend devs",
+  "groupMemberIds": [
+    {
+      "chatterId": 1,
+      "accessLevel": "ADMIN"
+    },
+    {
+      "chatterId": 2,
+      "accessLevel": "MEMBER"
+    }
+  ],
+  "adminOnly": false
+}

@@ -36,13 +36,13 @@ public class RoleFindUseCase {
     var role = roleRepository.findById(Long.parseLong(id)).orElseThrow(
         () -> {
           RoleException ex = RoleException.notFound();
-          customLogger.failure("#findById()", "Role not found " + id, ex);
+          customLogger.failure("Role not found " + id, ex);
           return ex;
         });
 
     if (role.isDeleted()) {
       RoleException ex = RoleException.notFound();
-      customLogger.failure("#findById()", "Role not found " + id, ex);
+      customLogger.failure("Role not found " + id, ex);
       throw ex;
     }
 

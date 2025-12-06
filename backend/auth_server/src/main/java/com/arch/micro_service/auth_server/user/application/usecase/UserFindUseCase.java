@@ -20,12 +20,12 @@ public class UserFindUseCase {
   public User findById(String id) {
     User user = userRepository.findById(Long.parseLong(id)).orElseThrow(() -> {
       var ex = UserException.notFound();
-      customLogger.failure("#findById()", "User not found " + id, ex);
+      customLogger.failure("User not found " + id, ex);
       return ex;
     });
     if (user.isDeleted()) {
       var ex = UserException.notFound();
-      customLogger.failure("#findById()", "User not found " + id, ex);
+      customLogger.failure("User not found " + id, ex);
       throw ex;
     }
     return user;
@@ -35,13 +35,13 @@ public class UserFindUseCase {
 
     User user = userRepository.findByEmail_Value(email).orElseThrow(() -> {
       var ex = UserException.notFound();
-      customLogger.failure("#findById()", "User not found " + email, ex);
+      customLogger.failure("User not found " + email, ex);
       return ex;
     });
 
     if (user.isDeleted()) {
       var ex = UserException.notFound();
-      customLogger.failure("#findById()", "User not found " + email, ex);
+      customLogger.failure("User not found " + email, ex);
       throw ex;
     }
 
@@ -52,12 +52,12 @@ public class UserFindUseCase {
 
     User user = userRepository.findByUserName(userName).orElseThrow(() -> {
       var ex = UserException.notFound();
-      customLogger.failure("#findById()", "User not found " + userName, ex);
+      customLogger.failure("User not found " + userName, ex);
       return ex;
     });
     if (user.isDeleted()) {
       var ex = UserException.notFound();
-      customLogger.failure("#findById()", "User not found " + userName, ex);
+      customLogger.failure("User not found " + userName, ex);
       throw ex;
     }
     return user;

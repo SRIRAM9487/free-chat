@@ -1,8 +1,10 @@
 package com.arch.micro_service.chat_server.group.infrastructure.dto.mapper;
 
 import com.arch.micro_service.chat_server.group.domain.entity.Group;
+import com.arch.micro_service.chat_server.group.domain.entity.GroupMember;
 import com.arch.micro_service.chat_server.group.infrastructure.dto.request.GroupCreateRequest;
 import com.arch.micro_service.chat_server.group.infrastructure.dto.response.GroupDetailsResponse;
+import com.arch.micro_service.chat_server.group.infrastructure.dto.response.GroupMemberDetailsResponse;
 
 import org.springframework.stereotype.Component;
 
@@ -26,7 +28,21 @@ public class GroupMapper {
   }
 
   public GroupDetailsResponse fromGroup(Group group) {
-    return new GroupDetailsResponse(group.getId(), group.getName(), group.getDescription(), group.isAdminOnly());
+    var members = group.getGroupMembers().stream().map(this::fromGroupMember).toList();
+    var response = new GroupDetailsResponse(
+        group.getId(),
+        group.getName(),
+        group.getDescription(),
+        members,
+        group.isAdminOnly());
+    return response;
+  }
+
+  private GroupMemberDetailsResponse fromGroupMember(GroupMember groupMember) {
+    return new GroupMemberDetailsResponse(
+        groupMember.getId(),
+        groupMember.getChatter().getId(),
+        groupMember.getAccessLevel().name());
   }
 
 }

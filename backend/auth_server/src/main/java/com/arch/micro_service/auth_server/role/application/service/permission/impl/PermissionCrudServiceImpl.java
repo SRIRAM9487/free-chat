@@ -48,7 +48,7 @@ public class PermissionCrudServiceImpl implements PermissionCrudService {
     Permission permission = permissionMapper.toPermission(requestDto);
     Permission savedPermission = permissionRepository.save(permission);
     log.trace("Permission saved : {}", savedPermission);
-    customLogger.success("#create()", "Permission Created", savedPermission, "new");
+    customLogger.success("Permission Created", savedPermission, "new");
     return savedPermission;
   }
 
@@ -58,7 +58,7 @@ public class PermissionCrudServiceImpl implements PermissionCrudService {
     permissionMapper.update(permission, requestDto);
     Permission updatePermission = permissionRepository.save(permission);
     log.trace("Permission updated");
-    customLogger.success("#update()", "Permission Updated", updatePermission, permission);
+    customLogger.success("Permission Updated", updatePermission, permission);
     return updatePermission;
   }
 
@@ -69,7 +69,7 @@ public class PermissionCrudServiceImpl implements PermissionCrudService {
     Permission deletedPermission = permissionRepository.save(permission);
     deletedPermission.getRolePermission().clear();
     log.trace("Permission RolePermission removed {}", deletedPermission);
-    customLogger.success("#delete()", "Permission Deleted", deletedPermission, permission);
+    customLogger.success("Permission Deleted", deletedPermission, permission);
     return deletedPermission;
   }
 

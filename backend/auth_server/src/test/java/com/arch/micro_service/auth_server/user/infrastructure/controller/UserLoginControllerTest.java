@@ -43,8 +43,8 @@ public class UserLoginControllerTest extends AbstractTestContainer {
 
   @BeforeEach
   void setup() {
-    doNothing().when(customLogger).success(anyString(), anyString(), any(), any());
-    doNothing().when(customLogger).failure(anyString(), anyString(), any());
+    doNothing().when(customLogger).success(anyString(), any(), any());
+    doNothing().when(customLogger).failure(anyString(), any());
   }
 
   @Test

@@ -1,5 +1,6 @@
 package com.arch.micro_service.auth_server.user.application.service.impl;
 
+import com.arch.micro_service.auth_server.log.CustomLogger;
 import com.arch.micro_service.auth_server.message.infrastructure.event.PasswordResetEvent;
 import com.arch.micro_service.auth_server.message.infrastructure.publisher.EmailEventPublisher;
 import com.arch.micro_service.auth_server.user.application.service.CacheService;
@@ -23,6 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.CustomLog;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -39,6 +41,7 @@ public class UserLoginServiceImpl implements UserLoginService {
   private final TokenGeneratorService tokenGeneratorService;
   private final EmailEventPublisher emailEventPublisher;
   private final Logger log = LoggerFactory.getLogger("MethodLogger");
+  private final CustomLogger customLogger;
 
   @Override
   public UserLoginResponse login(UserLoginRequest request) {
@@ -57,6 +60,7 @@ public class UserLoginServiceImpl implements UserLoginService {
     }
     String jwt = jwtService.generate(user);
     log.trace("User {} authentication token generated", user.getUserName());
+    customLogger.success("User login token generated", "", "");
     return userMapper.toUserLoginResponse(user, jwt);
   }
 
