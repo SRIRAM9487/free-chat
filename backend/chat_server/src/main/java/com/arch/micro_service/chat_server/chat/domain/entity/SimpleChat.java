@@ -22,7 +22,11 @@ public class SimpleChat extends Chat {
 
   @ManyToOne
   @JoinColumn(name = "chatters_id", referencedColumnName = "id")
-  private Chatter chatter;
+  private Chatter sender;
+
+  @ManyToOne
+  @JoinColumn(name = "chatters_id", referencedColumnName = "id")
+  private Chatter receiver;
 
   @Column(name = "read")
   private boolean read;

@@ -41,9 +41,14 @@ public class Chatter extends BasedEntity {
   @Builder.Default
   private List<GroupMember> groupMembers = new ArrayList<>();
 
-  @OneToMany(mappedBy = "chatter", fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "receiver", fetch = FetchType.EAGER)
   @JsonManagedReference
   @Builder.Default
-  private List<SimpleChat> simpleChats = new ArrayList<>();
+  private List<SimpleChat> recieved = new ArrayList<>();
+
+  @OneToMany(mappedBy = "sender", fetch = FetchType.EAGER)
+  @JsonManagedReference
+  @Builder.Default
+  private List<SimpleChat> sent = new ArrayList<>();
 
 }
