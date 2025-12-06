@@ -13,17 +13,15 @@ import com.arch.micro_service.auth_server.role.application.usecase.permission.Pe
 import com.arch.micro_service.auth_server.role.domain.etntiy.Permission;
 import com.arch.micro_service.auth_server.role.domain.exception.PermissionException;
 import com.arch.micro_service.auth_server.role.domain.exception.type.PermissionExceptionType;
+import com.arch.micro_service.auth_server.testcontainer.AbstractTestContainer;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
-@Transactional
-public class PermissionFindUseCaseTest {
+public class PermissionFindUseCaseTest extends AbstractTestContainer {
 
   @Autowired
   private PermissionFindUseCase permissionFindUseCase;
@@ -41,6 +39,7 @@ public class PermissionFindUseCaseTest {
   }
 
   @Test
+  @Transactional
   void findById() {
     Permission permission = permissionFindUseCase.findById("1");
     assertEquals("PERMISSION_CREATE", permission.getTitle());
@@ -48,6 +47,7 @@ public class PermissionFindUseCaseTest {
   }
 
   @Test
+  @Transactional
   void getByIdNotFound() {
 
     PermissionException exception = assertThrowsExactly(PermissionException.class,

@@ -19,17 +19,15 @@ import com.arch.micro_service.auth_server.role.domain.exception.RoleException;
 import com.arch.micro_service.auth_server.role.domain.exception.type.RoleExceptionType;
 import com.arch.micro_service.auth_server.role.infrastructure.dto.role.request.RoleCreateRequest;
 import com.arch.micro_service.auth_server.role.infrastructure.dto.role.request.RolePermissionCreateRequest;
+import com.arch.micro_service.auth_server.testcontainer.AbstractTestContainer;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
-@Transactional
-public class RoleCrudServiceTest {
+public class RoleCrudServiceTest extends AbstractTestContainer {
 
   @Autowired
   private RoleCrudService roleCrudService;
@@ -46,12 +44,14 @@ public class RoleCrudServiceTest {
   }
 
   @Test
+  @Transactional
   void getAll() {
     List<Role> roles = roleCrudService.getAll();
     assertEquals(6, roles.size());
   }
 
   @Test
+  @Transactional
   void getById() {
     Role role = roleCrudService.get("1");
     assertEquals("SUDO", role.getTitle());
@@ -59,6 +59,7 @@ public class RoleCrudServiceTest {
   }
 
   @Test
+  @Transactional
   void getByIdNotFound() {
     RoleException exception = assertThrowsExactly(RoleException.class,
         () -> roleCrudService.get("588"));
@@ -66,6 +67,7 @@ public class RoleCrudServiceTest {
   }
 
   @Test
+  @Transactional
   void createRole() {
     List<Permission> permissions = permissionCrudService.getAll();
     List<RolePermissionCreateRequest> rpreq = List.of(
@@ -94,6 +96,7 @@ public class RoleCrudServiceTest {
   }
 
   @Test
+  @Transactional
   void updateRole() {
 
     List<Permission> permissions = permissionCrudService.getAll();
@@ -130,6 +133,7 @@ public class RoleCrudServiceTest {
   }
 
   @Test
+  @Transactional
   void deleteRole() {
 
     List<Role> roles = roleCrudService.getAll();

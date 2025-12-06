@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.arch.micro_service.auth_server.log.CustomLogger;
 import com.arch.micro_service.auth_server.shared.domain.constant.Gender;
+import com.arch.micro_service.auth_server.testcontainer.AbstractTestContainer;
 import com.arch.micro_service.auth_server.user.domain.entity.User;
 import com.arch.micro_service.auth_server.user.domain.vo.Email;
 import com.arch.micro_service.auth_server.user.infrastructure.dto.request.UserCreateRequest;
@@ -17,12 +18,10 @@ import com.arch.micro_service.auth_server.user.infrastructure.dto.request.UserCr
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
-public class UserCrudServiceTest {
+public class UserCrudServiceTest extends AbstractTestContainer {
 
   @Autowired
   private UserCrudService userCrudService;

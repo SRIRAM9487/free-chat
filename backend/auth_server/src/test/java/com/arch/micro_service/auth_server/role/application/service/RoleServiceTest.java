@@ -9,17 +9,15 @@ import static org.mockito.Mockito.doNothing;
 import com.arch.micro_service.auth_server.log.CustomLogger;
 import com.arch.micro_service.auth_server.role.application.service.role.RoleService;
 import com.arch.micro_service.auth_server.role.domain.etntiy.Role;
+import com.arch.micro_service.auth_server.testcontainer.AbstractTestContainer;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
-@Transactional
-public class RoleServiceTest {
+public class RoleServiceTest extends AbstractTestContainer {
 
   @Autowired
   private RoleService roleService;
@@ -34,6 +32,7 @@ public class RoleServiceTest {
   }
 
   @Test
+  @Transactional
   void toggleActive() {
     Role role = roleService.toggleActive("1");
     assertFalse(role.isActive(), "Toggle is not active");

@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.List;
 
 import com.arch.micro_service.auth_server.log.CustomLogger;
+import com.arch.micro_service.auth_server.testcontainer.AbstractTestContainer;
 import com.arch.micro_service.auth_server.user.application.service.UserLoginService;
 import com.arch.micro_service.auth_server.user.infrastructure.dto.request.UserLoginRequest;
 import com.arch.micro_service.auth_server.user.infrastructure.dto.response.UserLoginResponse;
@@ -20,7 +21,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -29,9 +29,8 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
 @AutoConfigureMockMvc
-public class UserLoginControllerTest {
+public class UserLoginControllerTest extends AbstractTestContainer {
 
   @Autowired
   private MockMvc mockMvc;

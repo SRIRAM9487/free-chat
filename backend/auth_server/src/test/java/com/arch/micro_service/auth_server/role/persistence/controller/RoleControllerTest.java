@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.arch.micro_service.auth_server.log.CustomLogger;
+import com.arch.micro_service.auth_server.testcontainer.AbstractTestContainer;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,10 +22,8 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
-public class RoleControllerTest {
+public class RoleControllerTest extends AbstractTestContainer {
 
   @Autowired
   private MockMvc mockMvc;
@@ -40,6 +39,7 @@ public class RoleControllerTest {
 
   @Test
   @WithMockUser(authorities = "ROLE_TOGGLE")
+  @Transactional
   void toggleStatus() throws Exception {
     this.mockMvc
         .perform(patch("/v1/role/toggle/1")
@@ -59,7 +59,8 @@ public class RoleControllerTest {
   }
 
   @Test
-  @WithMockUser(authorities = "ROLE_META")
+  @WithMockUser(authorities = "USER_CREATE")
+  @Transactional
   void roleMetaForUsers() throws Exception {
     this.mockMvc
         .perform(get("/v1/role/user/meta")

@@ -17,17 +17,15 @@ import com.arch.micro_service.auth_server.role.application.usecase.role.RoleFind
 import com.arch.micro_service.auth_server.role.domain.etntiy.Role;
 import com.arch.micro_service.auth_server.role.domain.exception.RoleException;
 import com.arch.micro_service.auth_server.role.domain.exception.type.RoleExceptionType;
+import com.arch.micro_service.auth_server.testcontainer.AbstractTestContainer;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
-@Transactional
-public class RoleFindUseCaseTest {
+public class RoleFindUseCaseTest extends AbstractTestContainer {
 
   @Autowired
   private RoleFindUseCase roleFindUseCase;
@@ -38,6 +36,7 @@ public class RoleFindUseCaseTest {
   @MockitoBean
   private CustomLogger customLogger;
 
+  @Transactional
   @BeforeEach
   void setup() {
     doNothing().when(customLogger).success(anyString(), anyString(), any(), any());
@@ -51,6 +50,7 @@ public class RoleFindUseCaseTest {
   }
 
   @Test
+  @Transactional
   void getAllSoftDelete() {
     roleCrudService.delete("1");
     List<Role> roles = roleFindUseCase.findAll();
@@ -58,6 +58,7 @@ public class RoleFindUseCaseTest {
   }
 
   @Test
+  @Transactional
   void findById() {
     Role role = roleFindUseCase.findById("1");
     assertEquals("SUDO", role.getTitle());
@@ -65,6 +66,7 @@ public class RoleFindUseCaseTest {
   }
 
   @Test
+  @Transactional
   void findByIdException() {
 
     RoleException exception = assertThrowsExactly(RoleException.class, () -> roleFindUseCase.findById("9999"));
@@ -76,6 +78,7 @@ public class RoleFindUseCaseTest {
   }
 
   @Test
+  @Transactional
   void findAllById() {
 
     List<Long> ids = List.of(1L, 2L, 3L);
@@ -90,6 +93,7 @@ public class RoleFindUseCaseTest {
   }
 
   @Test
+  @Transactional
   void findAllByIdSoftDelete() {
 
     roleCrudService.delete("1");

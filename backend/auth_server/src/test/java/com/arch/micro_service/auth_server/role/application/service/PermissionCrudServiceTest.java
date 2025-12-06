@@ -19,18 +19,16 @@ import com.arch.micro_service.auth_server.role.domain.etntiy.Permission;
 import com.arch.micro_service.auth_server.role.domain.exception.PermissionException;
 import com.arch.micro_service.auth_server.role.domain.exception.type.PermissionExceptionType;
 import com.arch.micro_service.auth_server.role.infrastructure.dto.permission.request.PermissionCreateRequest;
+import com.arch.micro_service.auth_server.testcontainer.AbstractTestContainer;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
-@Transactional
-public class PermissionCrudServiceTest {
+public class PermissionCrudServiceTest extends AbstractTestContainer {
 
   @Autowired
   private PermissionCrudService permissionCrudService;
@@ -45,12 +43,14 @@ public class PermissionCrudServiceTest {
   }
 
   @Test
+  @Transactional
   void getAll() {
     List<Permission> permissions = permissionCrudService.getAll();
     assertEquals(19, permissions.size());
   }
 
   @Test
+  @Transactional
   void getById() {
     Permission permission = permissionCrudService.get("1");
     assertEquals("PERMISSION_CREATE", permission.getTitle());
@@ -58,6 +58,7 @@ public class PermissionCrudServiceTest {
   }
 
   @Test
+  @Transactional
   void getByIdNotFound() {
     PermissionException exception = assertThrowsExactly(PermissionException.class,
         () -> permissionCrudService.get("588"));
@@ -65,6 +66,7 @@ public class PermissionCrudServiceTest {
   }
 
   @Test
+  @Transactional
   void createNewPermission() {
     PermissionCreateRequest testCreate = new PermissionCreateRequest("TEST_CREATE", true);
     Permission createdTestPermission = permissionCrudService.create(testCreate);
@@ -76,6 +78,7 @@ public class PermissionCrudServiceTest {
   }
 
   @Test
+  @Transactional
   void createNewPermissionUniqueTitleException() {
     PermissionCreateRequest testCreate = new PermissionCreateRequest("TEST_CREATE", true);
     permissionCrudService.create(testCreate);
@@ -84,6 +87,7 @@ public class PermissionCrudServiceTest {
   }
 
   @Test
+  @Transactional
   void updatePermission() {
     PermissionCreateRequest testCreate = new PermissionCreateRequest("TEST_CREATE", true);
     PermissionCreateRequest updateCreate = new PermissionCreateRequest("UPDATE_TEST_CREATE", false);
@@ -95,6 +99,7 @@ public class PermissionCrudServiceTest {
   }
 
   @Test
+  @Transactional
   void deletePermission() {
     Collection<Permission> permissions = permissionCrudService.getAll();
     Permission permission = permissionCrudService.delete("1");

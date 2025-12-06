@@ -2,19 +2,15 @@ package com.arch.micro_service.auth_server.role.domain;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doNothing;
 
-import com.arch.micro_service.auth_server.log.CustomLogger;
 import com.arch.micro_service.auth_server.role.domain.etntiy.Role;
+import com.arch.micro_service.auth_server.testcontainer.AbstractTestContainer;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.transaction.annotation.Transactional;
 
-public class RoleTest {
+public class RoleTest extends AbstractTestContainer {
 
   private Role role;
 

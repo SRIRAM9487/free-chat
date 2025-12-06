@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.arch.micro_service.auth_server.log.CustomLogger;
 import com.arch.micro_service.auth_server.role.application.constant.RoleConstant;
+import com.arch.micro_service.auth_server.testcontainer.AbstractTestContainer;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,10 +25,8 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
-public class RoleCrudController {
+public class RoleCrudController extends AbstractTestContainer {
 
   @Autowired
   private MockMvc mockMvc;
@@ -43,6 +42,7 @@ public class RoleCrudController {
 
   @Test
   @WithMockUser(authorities = "ROLE_READ")
+  @Transactional
   void getAll() throws Exception {
     this.mockMvc
         .perform(get("/v1/role").accept(MediaType.APPLICATION_JSON))
@@ -54,6 +54,7 @@ public class RoleCrudController {
 
   @Test
   @WithMockUser(authorities = "ROLE_READ")
+  @Transactional
   void getById() throws Exception {
     this.mockMvc
         .perform(get("/v1/role/1").accept(MediaType.APPLICATION_JSON))
@@ -68,6 +69,7 @@ public class RoleCrudController {
 
   @Test
   @WithMockUser(authorities = "ROLE_CREATE")
+  @Transactional
   void createRole() throws Exception {
     String body = """
         {
@@ -93,6 +95,7 @@ public class RoleCrudController {
 
   @Test
   @WithMockUser(authorities = "ROLE_UPDATE")
+  @Transactional
   void updateRole() throws Exception {
     String body = """
         {
@@ -118,6 +121,7 @@ public class RoleCrudController {
 
   @Test
   @WithMockUser(authorities = "ROLE_DELETE")
+  @Transactional
   void deleteRole() throws Exception {
     this.mockMvc.perform(delete("/v1/role/1")
         .accept(MediaType.APPLICATION_JSON))

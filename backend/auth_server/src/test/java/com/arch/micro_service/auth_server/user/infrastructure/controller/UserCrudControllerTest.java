@@ -17,6 +17,7 @@ import java.util.List;
 
 import com.arch.micro_service.auth_server.log.CustomLogger;
 import com.arch.micro_service.auth_server.shared.domain.constant.Gender;
+import com.arch.micro_service.auth_server.testcontainer.AbstractTestContainer;
 import com.arch.micro_service.auth_server.user.application.constant.UserCrudConstant;
 import com.arch.micro_service.auth_server.user.application.service.UserCrudService;
 import com.arch.micro_service.auth_server.user.domain.entity.User;
@@ -28,16 +29,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
 @AutoConfigureMockMvc
-public class UserCrudControllerTest {
+public class UserCrudControllerTest extends AbstractTestContainer {
 
   @Autowired
   private MockMvc mockMvc;

@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.arch.micro_service.auth_server.log.CustomLogger;
 import com.arch.micro_service.auth_server.role.domain.exception.type.PermissionExceptionType;
+import com.arch.micro_service.auth_server.testcontainer.AbstractTestContainer;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,10 +27,8 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
-public class PermissionControllerAdviceTest {
+public class PermissionControllerAdviceTest extends AbstractTestContainer {
 
   @Autowired
   private MockMvc mockMvc;
@@ -45,6 +44,7 @@ public class PermissionControllerAdviceTest {
 
   @Test
   @WithMockUser(authorities = "PERMISSION_READ")
+  @Transactional
   void getByIdNotFound() throws Exception {
     mockMvc.perform(get("/v1/permission/9999")
         .accept(MediaType.APPLICATION_JSON))
@@ -59,6 +59,7 @@ public class PermissionControllerAdviceTest {
 
   @Test
   @WithMockUser(authorities = "PERMISSION_CREATE")
+  @Transactional
   void createPermission() throws Exception {
 
     String body = """
@@ -83,6 +84,7 @@ public class PermissionControllerAdviceTest {
 
   @Test
   @WithMockUser(authorities = "PERMISSION_UPDATE")
+  @Transactional
   void updatePermissionNotFound() throws Exception {
 
     String body = """
@@ -107,6 +109,7 @@ public class PermissionControllerAdviceTest {
 
   @Test
   @WithMockUser(authorities = "PERMISSION_DELETE")
+  @Transactional
   void deletePermissionNotFound() throws Exception {
 
     mockMvc.perform(delete("/v1/permission/9999")

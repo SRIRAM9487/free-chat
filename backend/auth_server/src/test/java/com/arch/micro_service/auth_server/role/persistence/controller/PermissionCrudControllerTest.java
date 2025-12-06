@@ -13,6 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.arch.micro_service.auth_server.log.CustomLogger;
 import com.arch.micro_service.auth_server.role.application.constant.PermissionConstant;
+import com.arch.micro_service.auth_server.testcontainer.AbstractTestContainer;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,10 +26,8 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
-class PermissionCrudControllerTest {
+class PermissionCrudControllerTest extends AbstractTestContainer {
 
   @Autowired
   private MockMvc mockMvc;
@@ -44,6 +43,7 @@ class PermissionCrudControllerTest {
 
   @Test
   @WithMockUser(authorities = "PERMISSION_READ")
+  @Transactional
   void getAll() throws Exception {
     mockMvc.perform(get("/v1/permission")
         .accept(MediaType.APPLICATION_JSON))
@@ -56,6 +56,7 @@ class PermissionCrudControllerTest {
 
   @Test
   @WithMockUser(authorities = "PERMISSION_READ")
+  @Transactional
   void getById() throws Exception {
     mockMvc.perform(get("/v1/permission/1")
         .accept(MediaType.APPLICATION_JSON))
@@ -70,6 +71,7 @@ class PermissionCrudControllerTest {
 
   @Test
   @WithMockUser(authorities = "PERMISSION_CREATE")
+  @Transactional
   void create() throws Exception {
     String body = """
         {
@@ -90,6 +92,7 @@ class PermissionCrudControllerTest {
 
   @Test
   @WithMockUser(authorities = "PERMISSION_UPDATE")
+  @Transactional
   void update() throws Exception {
     String body = """
         {
@@ -110,6 +113,7 @@ class PermissionCrudControllerTest {
 
   @Test
   @WithMockUser(authorities = "PERMISSION_DELETE")
+  @Transactional
   void deletePermission() throws Exception {
     mockMvc.perform(delete("/v1/permission/1")
         .accept(MediaType.APPLICATION_JSON))
