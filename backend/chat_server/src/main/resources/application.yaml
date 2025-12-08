@@ -2,4 +2,4 @@ spring:
   application:
     name: CHAT-SERVER
   profiles:
-    active: actuator,datasource,eureka,eureka,jpa,server,zipkin
+    active: actuator,datasource,eureka,eureka,server,zipkin
