@@ -1,4 +1,4 @@
-package com.arch.micro_service.chat_server.group.domain.exception.type;
+package com.arch.micro_service.chat_server.chatgroup.domain.exception.type;
 
 import com.arch.micro_service.chat_server.shared.domain.exception.BaseExceptionType;
 
@@ -9,12 +9,11 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum GroupExceptionType implements BaseExceptionType {
+public enum GroupMemberExceptionType implements BaseExceptionType {
 
-  GROUP_NOT_FOUND("Group not found", HttpStatus.NOT_FOUND);
+  GROUP_MEMEBER_NOT_FOUND("Group member not found", HttpStatus.NOT_FOUND);
 
   private final String message;
 
   private final HttpStatus httpStatus;
-
 }

@@ -1,6 +1,6 @@
-package com.arch.micro_service.chat_server.group.domain.exception;
+package com.arch.micro_service.chat_server.chatgroup.domain.exception;
 
-import com.arch.micro_service.chat_server.group.domain.exception.type.GroupMemberExceptionType;
+import com.arch.micro_service.chat_server.chatgroup.domain.exception.type.GroupMemberExceptionType;
 import com.arch.micro_service.chat_server.shared.domain.exception.BaseException;
 import com.arch.micro_service.chat_server.shared.domain.exception.BaseExceptionType;
 

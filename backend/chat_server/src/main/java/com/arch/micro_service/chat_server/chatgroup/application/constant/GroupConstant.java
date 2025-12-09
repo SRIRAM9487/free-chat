@@ -1,4 +1,4 @@
-package com.arch.micro_service.chat_server.group.application.constant;
+package com.arch.micro_service.chat_server.chatgroup.application.constant;
 
 public class GroupConstant {
 

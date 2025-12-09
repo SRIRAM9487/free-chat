@@ -1,4 +1,4 @@
-package com.arch.micro_service.chat_server.logger;
+package com.arch.micro_service.chat_server.logger.context;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
@@ -10,7 +10,8 @@ import lombok.Getter;
 @Component
 @RequestScope
 @AllArgsConstructor
-public class LoggerContext {
+public class MetaContext {
+  private final String userId;
   private final String path;
   private final String method;
   private final long startMills;

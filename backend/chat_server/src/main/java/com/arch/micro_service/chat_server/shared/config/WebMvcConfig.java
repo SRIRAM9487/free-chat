@@ -1,6 +1,6 @@
 package com.arch.micro_service.chat_server.shared.config;
 
-import com.arch.micro_service.chat_server.logger.LogHandler;
+import com.arch.micro_service.chat_server.logger.handler.MetaHandler;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -11,7 +11,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
-    registry.addInterceptor(new LogHandler());
+    registry.addInterceptor(new MetaHandler());
   }
 
 }
