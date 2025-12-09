@@ -7,7 +7,6 @@ import com.arch.micro_service.chat_server.chatter.domain.exception.ChatterExcept
 import com.arch.micro_service.chat_server.chatter.infrastructure.persistence.ChatterRepository;
 import com.arch.micro_service.chat_server.logger.context.MetaContextHolder;
 
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;

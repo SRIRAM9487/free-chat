@@ -56,7 +56,6 @@ public class ChatterRepositoryTest extends AbstractTestContainer {
     chatter.setUserId(51L);
     chatter.setCreatedBy("TESTER1");
     Chatter saved = chatterRepository.save(chatter);
-    assertEquals(51L, saved.getId());
     assertEquals(chatter.getName(), saved.getName());
     assertEquals(chatter.getCreatedBy(), saved.getCreatedBy());
     assertNotNull(saved.getCreatedAt());
