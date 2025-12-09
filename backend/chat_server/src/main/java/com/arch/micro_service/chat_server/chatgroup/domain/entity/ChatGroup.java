@@ -1,14 +1,16 @@
 package com.arch.micro_service.chat_server.chatgroup.domain.entity;
 
 import com.arch.micro_service.chat_server.chatgroup.infrastructure.dto.response.ChatGroupResponse;
-import com.arch.micro_service.chat_server.shared.domain.BasedEntity;
+import com.arch.micro_service.chat_server.shared.domain.BaseEntity;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
-public class ChatGroup extends BasedEntity {
+@ToString
+public class ChatGroup extends BaseEntity {
 
   private String description;
 

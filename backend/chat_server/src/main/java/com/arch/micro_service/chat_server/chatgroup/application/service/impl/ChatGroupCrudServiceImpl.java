@@ -48,7 +48,7 @@ public class ChatGroupCrudServiceImpl implements ChatGroupCrudService {
     cg.setId(id);
     cg.setName(request.name());
     cg.setDescription(request.description());
-    cg.setCreatedBy(MetaContextHolder.get().getUserId());
+    cg.setUpdatedBy(MetaContextHolder.get().getUserId());
     var updatedChatGroup = chatGroupRepository.update(cg);
     applicationEventPublisher
         .publishEvent(new LogSuccessEvent("Chat Group Updated", cg, updatedChatGroup, this));

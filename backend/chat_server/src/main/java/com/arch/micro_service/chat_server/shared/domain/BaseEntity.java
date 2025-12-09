@@ -8,7 +8,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public abstract class BasedEntity extends IdEntity {
+public abstract class BaseEntity extends IdEntity {
 
   /**
    * Name field

@@ -11,7 +11,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ChatterExceptionType implements BaseExceptionType {
 
-  CHATTER_NOT_FOUND("Chatter not found", HttpStatus.NOT_FOUND);
+  CHATTER_NOT_FOUND("Chatter not found", HttpStatus.NOT_FOUND),
+  UNIQUE_USER_ID("User id already exists", HttpStatus.CONFLICT);
 
   private final String message;
 

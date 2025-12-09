@@ -14,4 +14,8 @@ public class ChatterException extends BaseException {
     return new ChatterException(ChatterExceptionType.CHATTER_NOT_FOUND);
   }
 
+  public static ChatterException uniqueUserId() {
+    return new ChatterException(ChatterExceptionType.UNIQUE_USER_ID);
+  }
+
 }
