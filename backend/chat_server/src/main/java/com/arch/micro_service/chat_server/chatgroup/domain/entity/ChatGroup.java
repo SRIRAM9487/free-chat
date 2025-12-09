@@ -9,6 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ChatGroup extends BasedEntity {
+
   private String description;
 
   public ChatGroupResponse toResponse() {

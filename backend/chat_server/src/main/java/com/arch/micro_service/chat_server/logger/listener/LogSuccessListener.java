@@ -6,8 +6,8 @@ import com.arch.micro_service.chat_server.logger.context.MetaContext;
 import com.arch.micro_service.chat_server.logger.context.MetaContextHolder;
 import com.arch.micro_service.chat_server.logger.dto.AuditLogSuccess;
 import com.arch.micro_service.chat_server.logger.event.LogSuccessEvent;
-import com.arch.micro_service.chat_server.logger.utils.LogUtils;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class LogSuccessListener {
 
-  private final LogUtils logUtils;
+  @Value("${spring.application.name}")
+  private String service;
 
   public void logSuccess(LogSuccessEvent event) {
     final MetaContext context = MetaContextHolder.get();
@@ -29,7 +30,7 @@ public class LogSuccessListener {
         context.getIp(),
         context.getUserAgent(),
         context.getStartMills() - System.currentTimeMillis(),
-        logUtils.service,
+        service,
         event.getMessage(),
         event.getBefore(),
         event.getAfter());

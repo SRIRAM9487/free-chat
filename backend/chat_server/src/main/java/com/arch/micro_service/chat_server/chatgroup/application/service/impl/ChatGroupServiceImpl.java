@@ -44,14 +44,21 @@ public class ChatGroupServiceImpl implements ChatGroupService {
 
   @Override
   public ChatGroup update(String id, ChatGroupCreateRequest request) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'update'");
+    var cg = new ChatGroup();
+    cg.setId(Long.valueOf(id));
+    cg.setName(request.name());
+    cg.setDescription(request.description());
+    cg.setCreatedBy(MetaContextHolder.get().getUserId());
+    var updatedChatGroup = chatGroupRepository.save(cg);
+    applicationEventPublisher
+        .publishEvent(new LogSuccessEvent("Chat Group Updated", "Updated", updatedChatGroup, this));
+    return updatedChatGroup;
   }
 
   @Override
   public ChatGroup delete(String id) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'delete'");
+
+    return null;
   }
 
 }

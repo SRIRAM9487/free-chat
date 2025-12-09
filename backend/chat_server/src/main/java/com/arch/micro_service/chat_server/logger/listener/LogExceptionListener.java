@@ -6,9 +6,9 @@ import com.arch.micro_service.chat_server.logger.context.MetaContext;
 import com.arch.micro_service.chat_server.logger.context.MetaContextHolder;
 import com.arch.micro_service.chat_server.logger.dto.AuditLogException;
 import com.arch.micro_service.chat_server.logger.event.LogExceptionEvent;
-import com.arch.micro_service.chat_server.logger.utils.LogUtils;
 import com.arch.micro_service.chat_server.shared.domain.exception.BaseException;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class LogExceptionListener {
 
-  private final LogUtils logUtils;
+  @Value("${spring.application.name}")
+  private String service;
 
   public void logException(LogExceptionEvent event) {
     final MetaContext context = MetaContextHolder.get();
@@ -32,7 +33,7 @@ public class LogExceptionListener {
         context.getIp(),
         context.getUserAgent(),
         context.getStartMills() - System.currentTimeMillis(),
-        logUtils.service,
+        service,
         ex.getHttpStatus().name(),
         ex.getCode(),
         ex.getMessage());
