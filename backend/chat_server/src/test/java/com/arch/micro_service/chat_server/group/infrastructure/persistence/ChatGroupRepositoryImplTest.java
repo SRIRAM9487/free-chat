@@ -3,8 +3,6 @@ package com.arch.micro_service.chat_server.group.infrastructure.persistence;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
 
 import java.util.List;
 
@@ -12,10 +10,10 @@ import com.arch.micro_service.chat_server.chatgroup.domain.entity.ChatGroup;
 import com.arch.micro_service.chat_server.chatgroup.domain.exception.ChatGroupException;
 import com.arch.micro_service.chat_server.chatgroup.domain.exception.type.ChatGroupExceptionType;
 import com.arch.micro_service.chat_server.chatgroup.infrastructure.persistence.impl.ChatGroupRepositoryImpl;
+import com.arch.micro_service.chat_server.logger.context.MetaContext;
 import com.arch.micro_service.chat_server.logger.context.MetaContextHolder;
 import com.arch.micro_service.chat_server.testcontainers.AbstractTestContainer;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -35,11 +33,6 @@ public class ChatGroupRepositoryImplTest extends AbstractTestContainer {
   @Autowired
   public ChatGroupRepositoryImplTest(ChatGroupRepositoryImpl chatGroupRepositoryImpl) {
     this.chatGroupRepositoryImpl = chatGroupRepositoryImpl;
-  }
-
-  @BeforeEach
-  void setup() {
-    doNothing().when(publisher).publishEvent(any());
   }
 
   @Test
@@ -118,9 +111,21 @@ public class ChatGroupRepositoryImplTest extends AbstractTestContainer {
   @Test
   @Transactional
   void delete() {
+    MetaContextHolder.set(new MetaContext("Test user", "/test/path", "TEST PAT", 1000, "1.2.3.1", "FIRE FOX"));
     ChatGroup chat = chatGroupRepositoryImpl.delete(1L);
     assertNotNull(chat.getDeletedAt());
     assertNotNull(chat.getDeletedBy());
+    MetaContextHolder.clear();
+  }
 
+  @Test
+  @Transactional
+  void delete_notFound() {
+    MetaContextHolder.set(new MetaContext("Test user", "/test/path", "TEST PAT", 1000, "1.2.3.1", "FIRE FOX"));
+    var ex = assertThrowsExactly(ChatGroupException.class, () -> {
+      chatGroupRepositoryImpl.delete(999L);
+    });
+    assertEquals(ChatGroupExceptionType.GROUP_NOT_FOUND.name(), ex.getCode());
+    MetaContextHolder.clear();
   }
 }

@@ -5,15 +5,15 @@ import java.util.List;
 import com.arch.micro_service.chat_server.chatgroup.domain.entity.ChatGroup;
 import com.arch.micro_service.chat_server.chatgroup.infrastructure.dto.request.ChatGroupCreateRequest;
 
-public interface ChatGroupService {
+public interface ChatGroupCrudService {
 
   List<ChatGroup> findAll();
 
-  ChatGroup findById(String id);
+  ChatGroup findById(Long id);
 
-  ChatGroup save(ChatGroupCreateRequest request);
+  ChatGroup create(ChatGroupCreateRequest request);
 
-  ChatGroup update(String id, ChatGroupCreateRequest request);
+  ChatGroup update(Long id, ChatGroupCreateRequest request);
 
-  ChatGroup delete(String id);
+  ChatGroup delete(Long id);
 }
