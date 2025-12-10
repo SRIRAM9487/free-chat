@@ -64,7 +64,7 @@ public class GroupMemberRepositoryImpl implements GroupMemberRepository {
 
     try {
       return jdbcTemplate.queryForObject(sql, mapper, groupMember.getChatterId(), groupMember.getGroupId(),
-          groupMember.getAccessLevel().name(), groupMember.isRestricted(), groupMember.getCreatedBy());
+          groupMember.getAccessLevel().name(), groupMember.isRestricted(), MetaContextHolder.get().getUserId());
     } catch (DataIntegrityViolationException ex) {
       if (ex.getMessage().contains("Key (chatter_id)")) {
         throw GroupMemberException.chatterIdNotFound();
