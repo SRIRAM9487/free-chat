@@ -2,7 +2,6 @@ package com.arch.micro_service.chat_server.chatgroup.infrastructure.controller;
 
 import java.util.List;
 
-import com.arch.micro_service.chat_server.chatgroup.application.constant.ChatGroupConstant;
 import com.arch.micro_service.chat_server.chatgroup.application.constant.GroupMemberConstant;
 import com.arch.micro_service.chat_server.chatgroup.application.service.GroupMemberService;
 import com.arch.micro_service.chat_server.chatgroup.infrastructure.dto.request.GroupMemberCreateRequest;
