@@ -15,13 +15,7 @@ public class ChatGroup extends BaseEntity {
   private String description;
 
   public ChatGroupResponse toResponse() {
-    return new ChatGroupResponse(
-        this.getId(),
-        this.getName(),
-        this.getDescription(),
-        this.getCreatedAt(),
-        this.getCreatedBy(),
-        this.getUpdatedAt(),
-        this.getCreatedBy());
+    return new ChatGroupResponse(this.getId(), this.getName(), this.getDescription(),
+        this.getCreatedAt(), this.getCreatedBy(), this.getUpdatedAt(), this.getCreatedBy());
   }
 }

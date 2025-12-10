@@ -1,13 +1,11 @@
 package com.arch.micro_service.chat_server.chatgroup.infrastructure.controller;
 
 import java.util.List;
-
 import com.arch.micro_service.chat_server.chatgroup.application.constant.ChatGroupConstant;
 import com.arch.micro_service.chat_server.chatgroup.application.service.ChatGroupCrudService;
 import com.arch.micro_service.chat_server.chatgroup.infrastructure.dto.request.ChatGroupCreateRequest;
 import com.arch.micro_service.chat_server.chatgroup.infrastructure.dto.response.ChatGroupResponse;
 import com.arch.micro_service.chat_server.shared.infrastructure.dto.api.ApiResponse;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import lombok.RequiredArgsConstructor;
 
 @RestController

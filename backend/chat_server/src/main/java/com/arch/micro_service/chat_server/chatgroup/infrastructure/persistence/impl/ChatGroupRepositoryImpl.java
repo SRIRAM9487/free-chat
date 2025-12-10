@@ -6,7 +6,6 @@ import com.arch.micro_service.chat_server.chatgroup.domain.entity.ChatGroup;
 import com.arch.micro_service.chat_server.chatgroup.domain.exception.ChatGroupException;
 import com.arch.micro_service.chat_server.chatgroup.infrastructure.persistence.ChatGroupRepository;
 import com.arch.micro_service.chat_server.logger.context.MetaContextHolder;
-
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
