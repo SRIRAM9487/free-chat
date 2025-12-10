@@ -14,4 +14,12 @@ public class GroupMemberException extends BaseException {
     return new GroupMemberException(GroupMemberExceptionType.GROUP_MEMEBER_NOT_FOUND);
   }
 
+  public static GroupMemberException chatterIdNotFound() {
+    return new GroupMemberException(GroupMemberExceptionType.CHATTER_ID_NOT_FOUND);
+  }
+
+  public static GroupMemberException groupIdNotFound() {
+    return new GroupMemberException(GroupMemberExceptionType.GROUP_ID_NOT_FOUND);
+  }
+
 }

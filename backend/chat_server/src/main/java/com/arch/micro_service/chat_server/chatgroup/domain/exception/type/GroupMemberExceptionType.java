@@ -11,6 +11,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum GroupMemberExceptionType implements BaseExceptionType {
 
+  CHATTER_ID_NOT_FOUND("Chatter id not found", HttpStatus.NOT_FOUND),
+  GROUP_ID_NOT_FOUND("Group id not found", HttpStatus.NOT_FOUND),
   GROUP_MEMEBER_NOT_FOUND("Group member not found", HttpStatus.NOT_FOUND);
 
   private final String message;
