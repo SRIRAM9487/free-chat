@@ -2,4 +2,4 @@ spring:
   application:
     name: AUTH-SERVER
   profiles:
-    active: dev,jpa,redis,eureka,rabbit,server,zipkin,datasource
+    active: dev,jpa,redis,eureka,rabbit,server,zipkin,datasource,actuator
