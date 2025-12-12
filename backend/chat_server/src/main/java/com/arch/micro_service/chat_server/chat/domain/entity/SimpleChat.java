@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class SimpleChat extends Chat {
   private Long senderId;
-  private Long recieverId;
+  private Long receiverId;
   private boolean read;
 }

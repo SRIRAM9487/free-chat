@@ -1,12 +1,29 @@
 global:
-  scrape_interval: 15s
+  scrape_interval: 5s
 
 scrape_configs:
 
-  - job_name: 'spring-auth-server'
+  - job_name: 'GATEWAY SERVER'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 2s
+    static_configs:
+      - targets: ["host.docker.internal:8500"]
+        labels:
+          application: 'Spring boot gateway server'
+
+
+  - job_name: 'AUTH SERVER'
     metrics_path: '/actuator/prometheus'
     scrape_interval: 2s
     static_configs:
       - targets: ["host.docker.internal:8510"]
         labels:
-          application: 'My Spring Boot Auth Server'
+          application: 'Spring Boot Auth Server'
+
+  - job_name: 'CHAT SERVER'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 2s
+    static_configs:
+      - targets: ["host.docker.internal:8500"]
+        labels:
+          application: 'Spring Boot Auth Server'

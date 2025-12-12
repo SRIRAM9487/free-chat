@@ -43,7 +43,7 @@ CREATE TABLE group_member(
 CREATE TABLE simple_chat(
   id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   sender_id BIGINT NOT NULL,
-  reciever_id BIGINT NOT NULL,
+  receiver_id BIGINT NOT NULL,
   read BOOLEAN DEFAULT FALSE,
   message VARCHAR(255) NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -53,7 +53,7 @@ CREATE TABLE simple_chat(
   deleted_at TIMESTAMP,
   deleted_by VARCHAR(255),
   CONSTRAINT fk_sender FOREIGN KEY (sender_id) REFERENCES chatter(id),
-  CONSTRAINT fk_receiver FOREIGN KEY (reciever_id) REFERENCES chatter(id)
+  CONSTRAINT fk_receiver FOREIGN KEY (receiver_id) REFERENCES chatter(id)
 );
 
 CREATE TABLE group_chat(

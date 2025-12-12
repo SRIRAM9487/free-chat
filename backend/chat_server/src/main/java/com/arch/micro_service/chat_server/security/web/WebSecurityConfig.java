@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @EnableWebSecurity
-@EnableMethodSecurity
+// @EnableMethodSecurity
 public class WebSecurityConfig {
 
   @Bean
