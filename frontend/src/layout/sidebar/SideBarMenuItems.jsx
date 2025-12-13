@@ -1,4 +1,5 @@
 import { RxDashboard } from "react-icons/rx";
+import { FaMessage } from "react-icons/fa6";
 import {
   MdOutlinePayments,
   MdEditNote,
@@ -18,6 +19,11 @@ const adminMenuItemsExtras = [
     key: "user",
     icon: <MdOutlineSecurity />,
     label: <Link to="/user">User Management</Link>,
+  },
+  {
+    key: "chat",
+    icon: <FaMessage />,
+    label: <Link to="/chat">Chat App</Link>,
   },
 ];
 
