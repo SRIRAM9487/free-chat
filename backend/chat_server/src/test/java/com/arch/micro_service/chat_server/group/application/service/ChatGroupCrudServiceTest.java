@@ -48,8 +48,8 @@ public class ChatGroupCrudServiceTest extends AbstractTestContainer {
   void findById() {
     ChatGroup group = chatGroupCrudService.findById(1L);
     assertEquals(1L, group.getId());
-    assertNotNull( group.getName());
-      assertNotNull( group.getDescription());
+    assertNotNull(group.getName());
+    assertNotNull(group.getDescription());
   }
 
   @Test
@@ -57,7 +57,7 @@ public class ChatGroupCrudServiceTest extends AbstractTestContainer {
   void save() {
     ChatGroupCreateRequest req = new ChatGroupCreateRequest("TEST GROUP", "THIS IS AN TEST GROUP");
     ChatGroup group = chatGroupCrudService.create(req);
-    assertNotNull( group.getId());
+    assertNotNull(group.getId());
     assertEquals(req.name(), group.getName());
     assertEquals(req.description(), group.getDescription());
     assertNotNull(group.getCreatedBy());

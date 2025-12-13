@@ -22,14 +22,9 @@ function App() {
           <Route path="/role" element={<Role />} />
           <Route path="/permission" element={<Permission />} />
           <Route path="/user" element={<User />} />
+          <Route path="/chat" element={<ChatLayout />} />
         </Route>
 
-        {/* Chat app */}
-        <Route element={<ChatLayout />}>
-          <Route path="/chat" element={<User />} />
-        </Route>
-
-        {/* COMMON */}
         <Route path="/*" element={<NotFound />} />
       </Routes>
     </Router>
