@@ -2,9 +2,11 @@ package com.arch.micro_service.chat_server.chatgroup.application.service.impl;
 
 import java.util.List;
 
+import com.arch.micro_service.chat_server.chat.domain.entity.Chat;
 import com.arch.micro_service.chat_server.chatgroup.application.service.ChatGroupCrudService;
 import com.arch.micro_service.chat_server.chatgroup.domain.entity.ChatGroup;
 import com.arch.micro_service.chat_server.chatgroup.infrastructure.dto.request.ChatGroupCreateRequest;
+import com.arch.micro_service.chat_server.chatgroup.infrastructure.dto.response.ChatMessage;
 import com.arch.micro_service.chat_server.chatgroup.infrastructure.persistence.ChatGroupRepository;
 import com.arch.micro_service.chat_server.logger.context.MetaContextHolder;
 import com.arch.micro_service.chat_server.logger.event.LogSuccessEvent;
@@ -61,6 +63,11 @@ public class ChatGroupCrudServiceImpl implements ChatGroupCrudService {
     applicationEventPublisher
         .publishEvent(new LogSuccessEvent("Chat Group Deleted", "Deleted", chatGroup, this));
     return chatGroup;
+  }
+
+  @Override
+  public List<ChatMessage> findMessageByGroupId(Long id) {
+    return chatGroupRepository.findMessageByGroupId(id);
   }
 
 }

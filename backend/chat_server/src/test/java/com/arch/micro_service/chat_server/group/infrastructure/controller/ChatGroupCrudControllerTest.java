@@ -52,7 +52,7 @@ public class ChatGroupCrudControllerTest extends AbstractTestContainer {
         .andExpect(jsonPath("$.success").value(true))
         .andExpect(jsonPath("$.data.id").value(1L))
         .andExpect(jsonPath("$.data.name").exists())
-            .andExpect(jsonPath("$.data.description").exists())
+        .andExpect(jsonPath("$.data.description").exists())
         .andExpect(jsonPath("$.data.createdAt").exists())
         .andExpect(jsonPath("$.data.createdBy").exists())
         .andExpect(jsonPath("$.timeStamp").exists());
@@ -152,4 +152,16 @@ public class ChatGroupCrudControllerTest extends AbstractTestContainer {
         .andExpect(jsonPath("$.timeStamp").exists());
   }
 
+  @Test
+  @Transactional
+  @WithMockUser(authorities = "CHAT_GROUP_READ")
+  void getMessageByGroupId() throws Exception {
+    this.mockMvc.perform(get("/v1/chat-group/1/message")
+        .accept(MediaType.APPLICATION_JSON)
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.success").value(true))
+        .andExpect(jsonPath("$.data").isArray())
+        .andExpect(jsonPath("$.timeStamp").exists());
+  }
 }

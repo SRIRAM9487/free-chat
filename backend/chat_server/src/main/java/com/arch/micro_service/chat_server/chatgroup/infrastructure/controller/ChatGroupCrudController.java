@@ -1,10 +1,13 @@
 package com.arch.micro_service.chat_server.chatgroup.infrastructure.controller;
 
 import java.util.List;
+
+import com.arch.micro_service.chat_server.chat.domain.entity.Chat;
 import com.arch.micro_service.chat_server.chatgroup.application.constant.ChatGroupConstant;
 import com.arch.micro_service.chat_server.chatgroup.application.service.ChatGroupCrudService;
 import com.arch.micro_service.chat_server.chatgroup.infrastructure.dto.request.ChatGroupCreateRequest;
 import com.arch.micro_service.chat_server.chatgroup.infrastructure.dto.response.ChatGroupResponse;
+import com.arch.micro_service.chat_server.chatgroup.infrastructure.dto.response.ChatMessage;
 import com.arch.micro_service.chat_server.shared.infrastructure.dto.api.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -62,6 +65,14 @@ public class ChatGroupCrudController {
   public ResponseEntity<ApiResponse<String>> delete(@PathVariable("id") Long id) {
     crudService.delete(id);
     var response = ApiResponse.create(ChatGroupConstant.DELETE);
+    return ResponseEntity.ok(response);
+  }
+
+  @GetMapping("/{id}/message")
+  @PreAuthorize("hasAuthority('CHAT_GROUP_READ')")
+  public ResponseEntity<ApiResponse<List<ChatMessage>>> getMessageByChatGroupId(@PathVariable("id") Long id) {
+    List<ChatMessage> chats = crudService.findMessageByGroupId(id);
+    var response = ApiResponse.create(chats);
     return ResponseEntity.ok(response);
   }
 

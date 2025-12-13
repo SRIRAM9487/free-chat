@@ -3,6 +3,7 @@ package com.arch.micro_service.chat_server.chatgroup.infrastructure.persistence;
 import java.util.List;
 
 import com.arch.micro_service.chat_server.chatgroup.domain.entity.ChatGroup;
+import com.arch.micro_service.chat_server.chatgroup.infrastructure.dto.response.ChatMessage;
 
 public interface ChatGroupRepository {
 
@@ -15,5 +16,7 @@ public interface ChatGroupRepository {
   ChatGroup update(ChatGroup chatGroup);
 
   ChatGroup delete(Long id);
+
+  List<ChatMessage> findMessageByGroupId(Long id);
 
 }

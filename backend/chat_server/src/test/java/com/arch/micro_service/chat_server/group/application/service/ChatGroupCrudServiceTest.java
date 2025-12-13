@@ -1,17 +1,20 @@
 package com.arch.micro_service.chat_server.group.application.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
+
+import java.util.List;
 
 import com.arch.micro_service.chat_server.chatgroup.application.service.ChatGroupCrudService;
 import com.arch.micro_service.chat_server.chatgroup.domain.entity.ChatGroup;
 import com.arch.micro_service.chat_server.chatgroup.domain.exception.ChatGroupException;
 import com.arch.micro_service.chat_server.chatgroup.domain.exception.type.ChatGroupExceptionType;
 import com.arch.micro_service.chat_server.chatgroup.infrastructure.dto.request.ChatGroupCreateRequest;
+import com.arch.micro_service.chat_server.chatgroup.infrastructure.dto.response.ChatMessage;
 import com.arch.micro_service.chat_server.logger.context.MetaContext;
 import com.arch.micro_service.chat_server.logger.context.MetaContextHolder;
 import com.arch.micro_service.chat_server.testcontainers.AbstractTestContainer;
@@ -104,6 +107,13 @@ public class ChatGroupCrudServiceTest extends AbstractTestContainer {
       chatGroupCrudService.delete(9999L);
     });
     assertEquals(ChatGroupExceptionType.GROUP_NOT_FOUND.name(), ex.getCode());
+  }
+
+  @Test
+  @Transactional
+  void findMessageByGroupId() {
+    List<ChatMessage> messages = chatGroupCrudService.findMessageByGroupId(1L);
+    assertFalse(messages.isEmpty());
   }
 
 }

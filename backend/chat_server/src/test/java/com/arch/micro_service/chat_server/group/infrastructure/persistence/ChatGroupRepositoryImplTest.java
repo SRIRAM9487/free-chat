@@ -5,6 +5,7 @@ import java.util.List;
 import com.arch.micro_service.chat_server.chatgroup.domain.entity.ChatGroup;
 import com.arch.micro_service.chat_server.chatgroup.domain.exception.ChatGroupException;
 import com.arch.micro_service.chat_server.chatgroup.domain.exception.type.ChatGroupExceptionType;
+import com.arch.micro_service.chat_server.chatgroup.infrastructure.dto.response.ChatMessage;
 import com.arch.micro_service.chat_server.chatgroup.infrastructure.persistence.impl.ChatGroupRepositoryImpl;
 import com.arch.micro_service.chat_server.logger.context.MetaContext;
 import com.arch.micro_service.chat_server.logger.context.MetaContextHolder;
@@ -128,4 +129,12 @@ public class ChatGroupRepositoryImplTest extends AbstractTestContainer {
     assertEquals(ChatGroupExceptionType.GROUP_NOT_FOUND.name(), ex.getCode());
     MetaContextHolder.clear();
   }
+
+  @Test
+  @Transactional
+  void findMessageByGroupId() {
+    List<ChatMessage> messages = chatGroupRepositoryImpl.findMessageByGroupId(1L);
+    assertFalse(messages.isEmpty());
+  }
+
 }

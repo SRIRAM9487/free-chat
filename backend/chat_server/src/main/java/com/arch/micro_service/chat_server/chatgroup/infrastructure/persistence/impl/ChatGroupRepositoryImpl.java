@@ -1,9 +1,12 @@
 package com.arch.micro_service.chat_server.chatgroup.infrastructure.persistence.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+import com.arch.micro_service.chat_server.chat.domain.entity.Chat;
 import com.arch.micro_service.chat_server.chatgroup.domain.entity.ChatGroup;
 import com.arch.micro_service.chat_server.chatgroup.domain.exception.ChatGroupException;
+import com.arch.micro_service.chat_server.chatgroup.infrastructure.dto.response.ChatMessage;
 import com.arch.micro_service.chat_server.chatgroup.infrastructure.persistence.ChatGroupRepository;
 import com.arch.micro_service.chat_server.logger.context.MetaContextHolder;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -116,6 +119,30 @@ public class ChatGroupRepositoryImpl implements ChatGroupRepository {
     } catch (EmptyResultDataAccessException e) {
       throw ChatGroupException.notFound();
     }
+  }
+
+  @Override
+  public List<ChatMessage> findMessageByGroupId(Long id) {
+    String sql = """
+        SELECT
+        c.message AS message,
+        c.created_at AS created_at,
+        ch.id AS chatter_id,
+        ch.name AS chatter_name
+        FROM chat c
+        JOIN chatter ch ON ch.id = c.chatter_id
+        WHERE c.group_id = ?
+        ORDER BY c.created_at ASC
+        LIMIT 50
+        """;
+    List<ChatMessage> chats = jdbcTemplate.query(sql, (res, row) -> {
+      Long chatId = res.getLong("chatter_id");
+      String message = res.getString("message");
+      String chatter = res.getString("chatter_name");
+      LocalDateTime createdAt = res.getTimestamp("created_at").toLocalDateTime();
+      return new ChatMessage(chatId, message, chatter, createdAt);
+    }, id);
+    return chats;
   }
 
 }
