@@ -2,6 +2,7 @@ package com.arch.micro_service.chat_server.conversation.infrastructure.persisten
 
 import com.arch.micro_service.chat_server.testcontainers.AbstractTestContainer;
 
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class ConversationSummaryRepositoryTest extends AbstractTestContainer {
