@@ -136,11 +136,10 @@ public class ChatGroupRepositoryImpl implements ChatGroupRepository {
         LIMIT 50
         """;
     List<ChatMessage> chats = jdbcTemplate.query(sql, (res, row) -> {
-      Long chatId = res.getLong("chatter_id");
       String message = res.getString("message");
       String chatter = res.getString("chatter_name");
       LocalDateTime createdAt = res.getTimestamp("created_at").toLocalDateTime();
-      return new ChatMessage(chatId, message, chatter, createdAt);
+      return new ChatMessage(message, chatter, createdAt);
     }, id);
     return chats;
   }

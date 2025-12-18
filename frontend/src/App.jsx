@@ -8,7 +8,7 @@ import Role from "./page/sudo/role/Role";
 import User from "./page/sudo/user/User";
 import Logout from "./page/auth/Logout";
 import NotFound from "./page/common/NotFound.jsx";
-import ChatLayout from "./page/chat/layout/ChatLayout.jsx";
+import ChatLayout from "./layout/chat/ChatLayout.jsx";
 
 function App() {
   return (
