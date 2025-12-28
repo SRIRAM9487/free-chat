@@ -1,9 +1,11 @@
 package com.arch.micro_service.auth_server.user.domain.exception.type;
 
 import com.arch.micro_service.auth_server.shared.domain.exception.BaseExceptionType;
+
+import org.springframework.http.HttpStatus;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
 
 /**
  * Email exception types
